@@ -8,11 +8,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        //Jag testar att skapa en egen branch
-
-        //Aksel
-        //Lägger till en kommentar
+        //Aksels Branch
         
 
     }
