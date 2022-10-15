@@ -8,13 +8,16 @@ import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+
+    val db = Firebase.firestore
+    val restaurantName = "McDonalds"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //Aksels Branch
-        val db = Firebase.firestore
-        val restaurantName = "McDonalds"
+      getMenu(restaurantName)
 
 
 
@@ -55,34 +58,39 @@ class MainActivity : AppCompatActivity() {
     //           Log.d("!!!", "get failed with" , exception)
 
     //       }
-        db.collection(restaurantName)
+       // db.collection(restaurantName)
+//
+       //     .get()
+       //     .addOnSuccessListener { documents ->
+       //         for (document in documents) {
+       //             Log.d("!!!", "${document.id} => ${document.data}")
+       //         }
+       //     }
+       //     .addOnFailureListener { exception ->
+       //         Log.w("!!!", "Error getting documents: ", exception)
+       //     }
 
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Log.d("!!!", "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("!!!", "Error getting documents: ", exception)
-            }
-
-       //val menu = mutableMapOf<String, Int>()
-       //fun getMenu(){
+       val menu = mutableMapOf<String, Int>()
 
 
-       //    var menuItem = db.collection(restaurantName)
-       //    .get()
-       //        .addOnSuccessListener { result ->
-       //            for (documents in result){
-       //                val name  = documents.get("name") as String
-       //                val price = documents.get("price") as Int
-       //                menu.put(name,price)
-       //            }
-
-       //        }
-       //}
 
     }
+    fun getMenu(name : String) {
 
+
+
+        db.collection(name)
+
+            .get()
+            .addOnSuccessListener { result ->
+                for (documents in result){
+                    Log.d("!!!","${documents.id} => ${documents.data}")
+
+                }
+
+            }
+            .addOnFailureListener{ exception->
+                Log.d("!!!","ERRor", exception)
+            }
+    }
 }
