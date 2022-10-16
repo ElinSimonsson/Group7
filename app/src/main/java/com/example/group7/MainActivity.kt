@@ -1,23 +1,44 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.widget.Button
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+    lateinit var testButton: Button
+
 
     val db = Firebase.firestore
-    val restaurantName = "McDonalds"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        testButton = findViewById(R.id.testButton)
+
+        testButton.setOnClickListener{
+            val intent = Intent(this,orderActivity::class.java)
+            startActivity(intent)
+        }
+
+        var name = "McDonalds"
         //Aksels Branch
-      getMenu(restaurantName)
+
+        var menu = initializeMenu(name)
+
+
+
+
+
+        for (items in menu){
+            Log.d("!!!","${items.price}")
+        }
+
 
 
 
@@ -70,27 +91,30 @@ class MainActivity : AppCompatActivity() {
        //         Log.w("!!!", "Error getting documents: ", exception)
        //     }
 
-       val menu = mutableMapOf<String, Int>()
 
 
 
     }
-    fun getMenu(name : String) {
-
-
-
+    fun initializeMenu(name:String) : MutableList<MenuItem>{
+        val menu = mutableListOf<MenuItem>()
         db.collection(name)
 
             .get()
             .addOnSuccessListener { result ->
                 for (documents in result){
-                    Log.d("!!!","${documents.id} => ${documents.data}")
+                    val name = documents.data.get("name").toString()
+                    val price = documents.data.get("price").toString().toInt()
+                    menu.add(MenuItem(name,price))
 
                 }
 
             }
-            .addOnFailureListener{ exception->
-                Log.d("!!!","ERRor", exception)
+            .addOnFailureListener{
+                menu.add(MenuItem("This restaurant has no menu",0))
             }
+        return menu
     }
+
+
+    
 }
