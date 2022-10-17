@@ -1,8 +1,10 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
@@ -11,15 +13,23 @@ import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
 
+    lateinit var backBtn : Button
+
     lateinit var recyclerView : RecyclerView
 
     val db = Firebase.firestore
-//    val name = intent.getStringExtra("restaurant").toString()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+        backBtn = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener{
+            intent = Intent(this, MainActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
 
 
 

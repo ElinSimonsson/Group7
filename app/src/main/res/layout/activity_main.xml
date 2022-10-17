@@ -8,23 +8,49 @@
 
     <Button
         android:id="@+id/orderBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="240dp"
         android:text="Start Order Activity"
-        app:layout_constraintBottom_toTopOf="@+id/menuBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/menuBtn"
-        android:layout_width="wrap_content"
+        android:id="@+id/asianKitchenBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="204dp"
-        android:text="Start menu activity"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Asian Kitchen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rootsSoilBtn" />
+
+    <Button
+        android:id="@+id/rootsSoilBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Roots Soil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/primoCiaoCiaoBtn" />
+
+    <Button
+        android:id="@+id/primoCiaoCiaoBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Primo Ciao Ciao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mcdonaldsBtn" />
+
+    <Button
+        android:id="@+id/mcdonaldsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="McDonalds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

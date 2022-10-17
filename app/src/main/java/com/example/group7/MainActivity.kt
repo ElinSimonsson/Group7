@@ -4,35 +4,61 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
+//Aksel Branch
 class MainActivity : AppCompatActivity() {
     lateinit var testButton: Button
-    lateinit var menuButton: Button
+    lateinit var mcdonaldsBtn: Button
+    lateinit var asianKitchenBtn : Button
+    lateinit var rootsSoilBtn : Button
+    lateinit var primoCiaoCiaoBtn : Button
+
+    val db = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val restaurantName = "McDonalds"
+
+
 
         testButton = findViewById(R.id.orderBtn)
-        menuButton = findViewById(R.id.menuBtn)
+        mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
+        asianKitchenBtn = findViewById(R.id.asianKitchenBtn)
+        rootsSoilBtn = findViewById(R.id.rootsSoilBtn)
+        primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
+
+
+
 
         testButton.setOnClickListener{
             val intent = Intent(this,orderActivity::class.java)
+            finish()
             startActivity(intent)
         }
 
-        menuButton.setOnClickListener{
+        mcdonaldsBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-           intent.putExtra("restaurant",restaurantName)
+           intent.putExtra("restaurant","Mcdonalds")
             startActivity(intent)
         }
-
-
-        //Aksels Branch
-
-
+        asianKitchenBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+            intent.putExtra("restaurant","Asian Kitchen menu")
+            startActivity(intent)
+        }
+        rootsSoilBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+            intent.putExtra("restaurant","Roots & Soil menu")
+            startActivity(intent)
+        }
+        primoCiaoCiaoBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+            intent.putExtra("restaurant","Primo Ciao Ciao menu")
+            startActivity(intent)
+        }
 
 
     }
