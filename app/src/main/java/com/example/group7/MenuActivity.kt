@@ -14,7 +14,7 @@ import com.google.firebase.ktx.Firebase
 class MenuActivity : AppCompatActivity() {
 
     lateinit var backBtn : Button
-
+    lateinit var cartBrn : Button
     lateinit var recyclerView : RecyclerView
 
     val db = Firebase.firestore
@@ -38,8 +38,16 @@ class MenuActivity : AppCompatActivity() {
             recyclerView.layoutManager = LinearLayoutManager(this)
             recyclerView.adapter = MenuAdapter(it)
         }
+        
+        cartBrn = findViewById(R.id.cartBtn)
+        cartBrn.setOnClickListener{
+            intent = Intent(this, orderActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
+
 
 
 

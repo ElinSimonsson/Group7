@@ -9,7 +9,6 @@ import com.google.firebase.ktx.Firebase
 
 //Aksel Branch
 class MainActivity : AppCompatActivity() {
-    lateinit var testButton: Button
     lateinit var mcdonaldsBtn: Button
     lateinit var asianKitchenBtn : Button
     lateinit var rootsSoilBtn : Button
@@ -24,20 +23,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        testButton = findViewById(R.id.orderBtn)
         mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
         asianKitchenBtn = findViewById(R.id.asianKitchenBtn)
         rootsSoilBtn = findViewById(R.id.rootsSoilBtn)
         primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
 
 
-
-
-        testButton.setOnClickListener{
-            val intent = Intent(this,orderActivity::class.java)
-            finish()
-            startActivity(intent)
-        }
 
         mcdonaldsBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)

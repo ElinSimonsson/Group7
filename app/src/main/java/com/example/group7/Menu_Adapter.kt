@@ -18,6 +18,7 @@ class MenuAdapter(val menu : MutableList<MenuItem>) : RecyclerView.Adapter<MenuA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.nameView.text = menu[position].name
         holder.priceView.text = menu[position].price.toString()
+
     }
 
     override fun getItemCount(): Int {
@@ -26,5 +27,12 @@ class MenuAdapter(val menu : MutableList<MenuItem>) : RecyclerView.Adapter<MenuA
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
         val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
+
+
+        init {
+            itemView.setOnClickListener{
+
+            }
+        }
     }
 }
