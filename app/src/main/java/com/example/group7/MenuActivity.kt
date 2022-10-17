@@ -14,81 +14,44 @@ import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var recyclerView : RecyclerView
-    //var meals = mutableListOf<Meal>()
-    lateinit var meals : ArrayList<Meal>
+    lateinit var meals : MutableList<Meal>
     var db = Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-      //  createMeals()
+
         getMenuTest()
 
-
-//      //  val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-//        recyclerView.layoutManager = GridLayoutManager(this, 2)
-////        recyclerView.layoutManager = LinearLayoutManager(this)
-//        val adapter = MenuRecycleAdapter(this, meals)
-//        recyclerView.adapter = adapter
-
-    }
-
-    fun getMenuData () {
-        val restaurant = getRestaurant()
-        if (restaurant != null) {
-            db.collection(restaurant)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (documents in result) {
-                        val name = documents.data.get("name").toString()
-                        val price = documents.data.get("price").toString()
-                        Log.d("!!!", "$name $price")
-                        meals.add(Meal(name, price))
-                    }
-                }
-                .addOnFailureListener{
-                    Log.d("!!!", "Fail")
-                    meals.add(Meal("This restaurant has no menu","0"))
-                }
-        }
     }
 
     fun getMenuTest () {
-        db = FirebaseFirestore.getInstance()
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        meals = arrayListOf()
-        db.collection("rootmenu").get()
-            .addOnSuccessListener {
-                if (!it.isEmpty) {
-                    for (data in it.documents) {
-                        val meal : Meal? = data.toObject<Meal>(Meal::class.java)
-                        meals.add(meal!!)
+        val restaurant = getRestaurant()
+            if (restaurant != null) {
+                db.collection(restaurant)
+                db = FirebaseFirestore.getInstance()
+                recyclerView = findViewById(R.id.recyclerView)
+                recyclerView.layoutManager = GridLayoutManager(this, 2)
+                meals = mutableListOf()
+                db.collection(restaurant).get()
+                    .addOnSuccessListener {
+                        if (!it.isEmpty) {
+                            for (data in it.documents) {
+                                val meal: Meal? = data.toObject<Meal>(Meal::class.java)
+                                meals.add(meal!!)
+                            }
+                            recyclerView.adapter = MenuRecycleAdapter(meals)
+                        }
                     }
-                    recyclerView.adapter = MenuRecycleAdapter( meals)
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-            }
+                    .addOnFailureListener {
+                        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                    }
 
+            }
     }
 
     fun getRestaurant(): String? {
         val restaurant = intent.getStringExtra("restaurant")
         return restaurant
     }
-
-//    fun createMeals () {
-//        meals.add(Meal("cheeseburger", 80))
-//        meals.add(Meal("Big mac", 80))
-//        meals.add(Meal("McFeast", 80))
-//        meals.add(Meal("Big Tasty", 80))
-//        meals.add(Meal("Halloumi burger", 80))
-//        meals.add(Meal("Halloumi burger", 80))
-//        meals.add(Meal("Halloumi burger", 80))
-//        meals.add(Meal("Halloumi burger", 80))
-//        meals.add(Meal("Halloumi burger", 80))
-//        meals.add(Meal("Halloumi burger", 80))
-
-//    }
 }

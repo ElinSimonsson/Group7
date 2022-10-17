@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MenuRecycleAdapter (val meals : ArrayList<Meal>) :
+class MenuRecycleAdapter (val meals : MutableList<Meal>) :
         RecyclerView.Adapter<MenuRecycleAdapter.ViewHolder>() {
 
    // val layoutInflater = LayoutInflater.from(context)
@@ -20,10 +20,10 @@ class MenuRecycleAdapter (val meals : ArrayList<Meal>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //val meal = meals[position]
+        val meal = meals[position]
 
-        holder.nameView.text = meals[position].name
-        holder.priceView.text = meals [position].price
+        holder.nameView.text = meal.name
+        holder.priceView.text = "${meal.price} kr"
     }
 
     override fun getItemCount(): Int = meals.size
