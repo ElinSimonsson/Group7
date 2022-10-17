@@ -1,4 +1,4 @@
 package com.example.group7
 
-class Meal (var name: String, var price: Int) {
+data class Meal (var name: String? = null, var price: String? = null) {
 }
