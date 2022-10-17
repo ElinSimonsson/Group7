@@ -2,18 +2,28 @@ package com.example.group7
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        //Jag testar att skapa en egen branch
+        val db = Firebase.firestore
 
-        //Aksel
-        //Lägger till en kommentar
-        
+        val roots = Restaurant("Roots", 160)
+        val primo = Restaurant("Primo Ciao Ciao", 400)
+        val asian = Restaurant("Asian Kitchen", 550)
+
+
+        db.collection("Roots").add(roots)
+        db.collection("Primo Ciao Ciao").add(primo)
+        db.collection("Asian Kitchen").add(asian)
+
 
     }
 }
