@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val restaurantName = "McDonalds"
 
         testButton = findViewById(R.id.orderBtn)
         menuButton = findViewById(R.id.menuBtn)
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         menuButton.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
+           intent.putExtra("restaurant",restaurantName)
             startActivity(intent)
         }
 
