@@ -34,9 +34,10 @@ class orderActivity : AppCompatActivity() {
 
     fun addOrderFirestore(name : String, price : Int ){
         val db = FirebaseFirestore.getInstance()
-        val order : MutableMap<String , Any> = HashMap()
-        order["name"] = name
-        order["price"] = price
+        val order = hashMapOf(
+            "name" to name,
+            "price" to price
+        )
 
         db.collection("Orders")
             .add(order)

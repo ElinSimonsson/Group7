@@ -8,6 +8,7 @@ import android.view.Menu
 import android.widget.Button
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
 
         for (items in menu){
-            Log.d("!!!","${items.price}")
+            Log.d("!!!","${items.name}")
         }
 
 
@@ -96,15 +97,15 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun initializeMenu(name:String) : MutableList<MenuItem>{
-        val menu = mutableListOf<MenuItem>()
+        val menu = mutableListOf<Map>()
         db.collection(name)
 
             .get()
-            .addOnSuccessListener { result ->
-                for (documents in result){
-                    val name = documents.data.get("name").toString()
-                    val price = documents.data.get("price").toString().toInt()
-                    menu.add(MenuItem(name,price))
+            .addOnSuccessListener { documentSnapshot ->
+                for (documents in documentSnapshot){
+                    val menuItem = documents.data
+
+                    menu.add(menuItem)
 
                 }
 
