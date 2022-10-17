@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MenuRecycleAdapter (val meals : MutableList<Meal>) :
         RecyclerView.Adapter<MenuRecycleAdapter.ViewHolder>() {
 
-   // val layoutInflater = LayoutInflater.from(context)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.menu_list_item, parent, false)
-           // layoutInflater.inflate(R.layout.menu_list_item, parent, false)
+
         return ViewHolder(itemView)
     }
 
@@ -29,10 +28,9 @@ class MenuRecycleAdapter (val meals : MutableList<Meal>) :
     override fun getItemCount(): Int = meals.size
 
 
-
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
         val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
+        val floatingActionButton = itemView.findViewById<FloatingActionButton>(R.id.floatingActionButton)
     }
 }

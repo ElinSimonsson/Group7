@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +29,6 @@ class MenuActivity : AppCompatActivity() {
     fun getMenuTest () {
         val restaurant = getRestaurant()
             if (restaurant != null) {
-                db.collection(restaurant)
                 db = FirebaseFirestore.getInstance()
                 recyclerView = findViewById(R.id.recyclerView)
                 recyclerView.layoutManager = GridLayoutManager(this, 2)
@@ -55,3 +55,4 @@ class MenuActivity : AppCompatActivity() {
         return restaurant
     }
 }
+
