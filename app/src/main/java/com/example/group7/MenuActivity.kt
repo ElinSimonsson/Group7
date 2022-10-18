@@ -21,9 +21,11 @@ class MenuActivity : AppCompatActivity() {
     val db = Firebase.firestore
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
 
         backBtn = findViewById(R.id.backBtn)
         backBtn.setOnClickListener{
@@ -70,7 +72,10 @@ class MenuActivity : AppCompatActivity() {
 
                 }
 
+
+            }
     }
+
     fun getRestaurantName():String{
         val restaurantName = intent.getStringExtra("restaurant").toString()
         return restaurantName
@@ -79,3 +84,4 @@ class MenuActivity : AppCompatActivity() {
 
 
 }
+
