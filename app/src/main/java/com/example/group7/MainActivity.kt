@@ -9,35 +9,59 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
+
+//Aksel Branch
 class MainActivity : AppCompatActivity() {
-    var restaurant = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    lateinit var mcdonaldsBtn: Button
+    lateinit var asianKitchenBtn : Button
+    lateinit var rootsSoilBtn : Button
+    lateinit var primoCiaoCiaoBtn : Button
+
+    val db = Firebase.firestore
 
 
-        val mcdonaldsButton = findViewById<Button>(R.id.mcDonaldsbutton)
-        mcdonaldsButton.setOnClickListener {
-            val intent = Intent(this, MenuActivity::class.java)
-            restaurant = "Asian Kitchen menu"
-            intent.putExtra("restaurant", restaurant)
+
+
+
+
+        mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
+        asianKitchenBtn = findViewById(R.id.asianKitchenBtn)
+        rootsSoilBtn = findViewById(R.id.rootsSoilBtn)
+        primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
+
+
+
+        mcdonaldsBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+           intent.putExtra("restaurant","Mcdonalds")
             startActivity(intent)
         }
-        val rootsButton = findViewById<Button>(R.id.rootButton)
-        rootsButton.setOnClickListener {
-            restaurant = "Roots & Soil menu"
-            val intent = Intent(this, MenuActivity::class.java)
-            intent.putExtra("restaurant", restaurant)
+        asianKitchenBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+            intent.putExtra("restaurant","Asian Kitchen menu")
             startActivity(intent)
         }
-        val primoButton = findViewById<Button>(R.id.primoButton).setOnClickListener {
-            restaurant = "Primo Ciao Ciao menu"
-            val intent = Intent(this, MenuActivity::class.java)
-            intent.putExtra("restaurant", restaurant)
+        rootsSoilBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+            intent.putExtra("restaurant","Roots & Soil menu")
             startActivity(intent)
         }
-        
+        primoCiaoCiaoBtn.setOnClickListener{
+            val intent = Intent(this,MenuActivity::class.java)
+            intent.putExtra("restaurant","Primo Ciao Ciao menu")
+            startActivity(intent)
+        }
+
+
 
     }
+
+
+
+
+
 }

@@ -1,58 +1,87 @@
 package com.example.group7
 
-import android.app.ProgressDialog
+
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
-    private lateinit var recyclerView : RecyclerView
-    lateinit var meals : MutableList<Meal>
-    var db = Firebase.firestore
+
+    lateinit var backBtn : Button
+    lateinit var cartBrn : Button
+    lateinit var recyclerView : RecyclerView
+
+    val db = Firebase.firestore
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        getMenuTest()
+
+        backBtn = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener{
+            intent = Intent(this, MainActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+
+
+
+        readData() {
+            recyclerView = findViewById(R.id.menuRecyclerView)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView.adapter = MenuAdapter(it)
+        }
+        
+        cartBrn = findViewById(R.id.cartBtn)
+        cartBrn.setOnClickListener{
+            intent = Intent(this, orderActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 
-    fun getMenuTest () {
-        val restaurant = getRestaurant()
-            if (restaurant != null) {
-                db = FirebaseFirestore.getInstance( )
-                recyclerView = findViewById(R.id.recyclerView)
-                recyclerView.layoutManager = GridLayoutManager(this, 2)
-                meals = mutableListOf()
-                db.collection(restaurant).get()
-                    .addOnSuccessListener {
-                        if (!it.isEmpty) {
-                            for (data in it.documents) {
-                                val meal: Meal? = data.toObject(Meal::class.java)
-                                meals.add(meal!!)
-                            }
-                            recyclerView.adapter = MenuRecycleAdapter(meals)
+
+
+
+
+    fun readData(myCallback : (MutableList<MenuItem>) -> Unit){
+            db.collection(getRestaurantName())
+                .get().addOnCompleteListener{ task ->
+                    if(task.isSuccessful){
+                        val list = mutableListOf<MenuItem>()
+                        for (document in task.result){
+                            val name = document.data["name"].toString()
+                            val price = document.data["price"].toString().toInt()
+                            val menuItem = MenuItem(name,price)
+                            list.add(menuItem)
                         }
+                        myCallback(list)
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-                    }
+
+
+                }
+
 
             }
     }
 
-    fun getRestaurant(): String? {
-        val restaurant = intent.getStringExtra("restaurant")
-        return restaurant
+    fun getRestaurantName():String{
+        val restaurantName = intent.getStringExtra("restaurant").toString()
+        return restaurantName
     }
+
+
+
 }
 
