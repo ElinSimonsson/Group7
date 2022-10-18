@@ -1,5 +1,6 @@
 package com.example.group7
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -74,5 +75,7 @@ class MenuActivity : AppCompatActivity() {
         val restaurantName = intent.getStringExtra("restaurant").toString()
         return restaurantName
     }
+
+
 
 }
