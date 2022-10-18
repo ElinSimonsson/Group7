@@ -48,12 +48,7 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
     }
-
-
-
-
 
     fun readData(myCallback : (MutableList<MenuItem>) -> Unit){
             db.collection(getRestaurantName())
@@ -68,20 +63,13 @@ class MenuActivity : AppCompatActivity() {
                         }
                         myCallback(list)
                     }
-
-
                 }
-
-
             }
-    }
 
-    fun getRestaurantName():String{
+    fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra("restaurant").toString()
         return restaurantName
     }
-
-
 
 }
 
