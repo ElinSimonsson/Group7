@@ -31,6 +31,5 @@ class MenuRecycleAdapter (val meals : MutableList<Meal>) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
         val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
-        val floatingActionButton = itemView.findViewById<FloatingActionButton>(R.id.floatingActionButton)
     }
 }

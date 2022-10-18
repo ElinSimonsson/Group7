@@ -29,7 +29,7 @@ class MenuActivity : AppCompatActivity() {
     fun getMenuTest () {
         val restaurant = getRestaurant()
             if (restaurant != null) {
-                db = FirebaseFirestore.getInstance()
+                db = FirebaseFirestore.getInstance( )
                 recyclerView = findViewById(R.id.recyclerView)
                 recyclerView.layoutManager = GridLayoutManager(this, 2)
                 meals = mutableListOf()
@@ -37,7 +37,7 @@ class MenuActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         if (!it.isEmpty) {
                             for (data in it.documents) {
-                                val meal: Meal? = data.toObject<Meal>(Meal::class.java)
+                                val meal: Meal? = data.toObject(Meal::class.java)
                                 meals.add(meal!!)
                             }
                             recyclerView.adapter = MenuRecycleAdapter(meals)
