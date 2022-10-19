@@ -39,7 +39,6 @@ class UserActivity : AppCompatActivity() {
         ableSaveAdressBtn (false)
 
 
-
         val signInBtn = findViewById<Button>(R.id.signInBtn)
         signInBtn.setOnClickListener{
 
@@ -49,10 +48,12 @@ class UserActivity : AppCompatActivity() {
         signUpBtn.setOnClickListener{
 
             signUp()
+
         }
 
         saveAdressBtn.setOnClickListener {
             saveUserData()
+            finish()
     }
 
 
