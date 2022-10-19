@@ -9,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class MenuAdapter(val context : Context, val menu : MutableList<MenuItem>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>(){
-
+class MenuAdapter(private val context : Context, val menu : MutableList<MenuItem>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_menu_item,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.menu_list_item,parent,false)
         return ViewHolder(itemView)
     }
 
@@ -21,9 +20,10 @@ class MenuAdapter(val context : Context, val menu : MutableList<MenuItem>) : Rec
 
         holder.nameView.text = currentItem.name
         holder.priceView.text = currentItem.price.toString()
+        var imageURL = currentItem.imageURL
 
         Glide.with(context)
-            .load(currentItem.imageURL)
+            .load(imageURL)
             .into(holder.menuImage)
 
     }
@@ -31,16 +31,10 @@ class MenuAdapter(val context : Context, val menu : MutableList<MenuItem>) : Rec
     override fun getItemCount(): Int {
        return menu.size
     }
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
-        val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
-        var menuImage: ImageView = itemView.findViewById(R.id.menuItemImageView)
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nameView = itemView.findViewById<TextView>(R.id.nameTextView1)
+        val priceView = itemView.findViewById<TextView>(R.id.priceTextView1)
+        var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView)
 
-
-        init {
-            itemView.setOnClickListener{
-
-            }
-        }
     }
 }
