@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -12,6 +15,8 @@ import com.google.firebase.ktx.Firebase
 
 //Aksel Branch
 class MainActivity : AppCompatActivity() {
+    lateinit var auth: FirebaseAuth
+
     lateinit var mcdonaldsBtn: Button
     lateinit var asianKitchenBtn : Button
     lateinit var rootsSoilBtn : Button
@@ -24,11 +29,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        auth = Firebase.auth
+
+        if(auth.currentUser != null){
+            Log.d("!!!","${auth.currentUser?.email}")
+        }
+
+
         var userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
+
+
 
 
         mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
