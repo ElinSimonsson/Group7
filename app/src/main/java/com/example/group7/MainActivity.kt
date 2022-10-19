@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,20 +17,18 @@ class MainActivity : AppCompatActivity() {
     lateinit var rootsSoilBtn : Button
     lateinit var primoCiaoCiaoBtn : Button
 
-    val db = Firebase.firestore
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button>(R.id.button)
-        button.setOnClickListener {
-            val intent = Intent(this, MenuActivity::class.java)
+        var userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn.setOnClickListener{
+            val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
-
-
 
 
         mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
@@ -39,9 +38,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
         mcdonaldsBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-           intent.putExtra("restaurant","Mcdonalds")
+            intent.putExtra("restaurant","Mcdonalds")
             startActivity(intent)
         }
         asianKitchenBtn.setOnClickListener{
