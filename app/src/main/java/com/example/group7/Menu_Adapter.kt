@@ -2,12 +2,14 @@ package com.example.group7
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class MenuAdapter(private val context : Context, val menu : MutableList<MenuItem>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -19,11 +21,16 @@ class MenuAdapter(private val context : Context, val menu : MutableList<MenuItem
         val currentItem = menu[position]
 
         holder.nameView.text = currentItem.name
-        holder.priceView.text = currentItem.price.toString()
+        holder.priceView.text = "${currentItem.price} kr"
         var imageURL = currentItem.imageURL
 
+        val radius = 30
+        val margin = 10
         Glide.with(context)
             .load(imageURL)
+            .error(R.drawable.ic_launcher_background)
+            .centerCrop()
+            .transform(RoundedCorners(radius))
             .into(holder.menuImage)
 
     }
