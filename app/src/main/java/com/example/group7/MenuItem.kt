@@ -1,6 +1,15 @@
 package com.example.group7
 
-class MenuItem(var name : String, var price : Int) {
+class MenuItem(var name : String? = null,
+               var price : Int? = 0,
+               var imageURL: String? = null) {
+
+
+//    constructor() : this (
+//        "",
+//        0,
+//        ""
+//            )
 
 
 
