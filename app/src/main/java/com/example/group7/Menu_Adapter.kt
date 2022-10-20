@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class MenuAdapter(private val context : Context, val menu : MutableList<MenuItem>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -18,6 +20,7 @@ class MenuAdapter(private val context : Context, val menu : MutableList<MenuItem
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val currentItem = menu[position]
 
         holder.nameView.text = currentItem.name
