@@ -9,7 +9,6 @@ import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -24,12 +23,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var rootsSoilBtn : Button
     lateinit var primoCiaoCiaoBtn : Button
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         auth = Firebase.auth
 
@@ -45,9 +41,6 @@ class MainActivity : AppCompatActivity() {
         asianKitchenBtn = findViewById(R.id.asianKitchenBtn)
         rootsSoilBtn = findViewById(R.id.rootsSoilBtn)
         primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
-
-
-
 
 
         mcdonaldsBtn.setOnClickListener{
