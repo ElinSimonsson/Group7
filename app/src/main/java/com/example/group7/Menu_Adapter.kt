@@ -1,6 +1,7 @@
 package com.example.group7
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.RoundedCorner
 import android.view.View
@@ -26,6 +27,7 @@ class MenuAdapter(private val context : Context, val menu : MutableList<MenuItem
         holder.nameView.text = currentItem.name
         holder.priceView.text = "${currentItem.price} kr"
         var imageURL = currentItem.imageURL
+        Log.d("!!!", "länk: $imageURL")
 
         val radius = 30
         val margin = 10
