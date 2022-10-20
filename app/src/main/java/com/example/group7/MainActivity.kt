@@ -13,9 +13,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
+
 //Aksel Branch
 class MainActivity : AppCompatActivity() {
+
     lateinit var auth: FirebaseAuth
+
 
     lateinit var mcdonaldsBtn: Button
     lateinit var asianKitchenBtn : Button
@@ -24,10 +27,10 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         auth = Firebase.auth
 
@@ -41,8 +44,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
-
-
 
 
         mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("restaurant","Primo Ciao Ciao menu")
             startActivity(intent)
         }
+
 
 
     }
