@@ -1,6 +1,6 @@
 package com.example.group7
 
-import android.annotation.SuppressLint
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,7 +14,6 @@ import com.google.firebase.ktx.Firebase
 
 
 
-//Aksel Branch
 class MainActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
@@ -33,10 +32,6 @@ class MainActivity : AppCompatActivity() {
 
 
         auth = Firebase.auth
-
-        if(auth.currentUser != null){
-            Log.d("!!!","${auth.currentUser?.email}")
-        }
 
 
         var userBtn = findViewById<Button>(R.id.userBtn)
@@ -76,6 +71,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(auth.currentUser != null){
+            Log.d("!!!","user :${auth.currentUser?.email}")
+            if(auth.currentUser?.email == "Admin@Admin.se"){
+
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        auth.signOut()
 
 
     }
