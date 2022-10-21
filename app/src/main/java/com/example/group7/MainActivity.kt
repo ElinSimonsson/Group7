@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 
 import com.google.firebase.ktx.Firebase
 
@@ -16,31 +19,34 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-
-
-    lateinit var mcdonaldsBtn: Button
-    lateinit var asianKitchenBtn : Button
-    lateinit var rootsSoilBtn : Button
-    lateinit var primoCiaoCiaoBtn : Button
+    lateinit var db : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
+        db = Firebase.firestore
 
 
-        var userBtn = findViewById<Button>(R.id.userBtn)
+
+        var adressView = findViewById<TextView>(R.id.adressView)
+
+        getUserAdress {
+            adressView.text = it.toString()
+        }
+
+        val userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
 
 
-        mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
-        asianKitchenBtn = findViewById(R.id.asianKitchenBtn)
-        rootsSoilBtn = findViewById(R.id.rootsSoilBtn)
-        primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
+       val mcdonaldsBtn = findViewById<Button>(R.id.mcdonaldsBtn)
+       val asianKitchenBtn = findViewById<Button>(R.id.asianKitchenBtn)
+       val rootsSoilBtn = findViewById<Button>(R.id.rootsSoilBtn)
+       val primoCiaoCiaoBtn = findViewById<Button>(R.id.primoCiaoCiaoBtn)
 
 
         mcdonaldsBtn.setOnClickListener{
@@ -70,20 +76,35 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(auth.currentUser != null){
             Log.d("!!!","user :${auth.currentUser?.email}")
-            if(auth.currentUser?.email == "Admin@Admin.se"){
-
-            }
+            if(auth.currentUser?.email == "Admin@Admin.se" || auth.currentUser?.email == "admin@admin.se"){
+                val intent = Intent(this, AdminActivity::class.java)
+                startActivity(intent)
+            } // Admin activity ska vara likadan(ungefär) som menuactivity
+        // fast alla varor är editerbara och man ska kunna lägga till ny
         }
-    }
+
 
     override fun onStart() {
         super.onStart()
-        auth.signOut()
-
 
     }
+
+    fun getUserAdress(myCallback : (String) -> Unit){
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener{ task ->
+
+                var userAdress = ""
+                if(task.isSuccessful){
+                    for (document in task.result){
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
+    }
+
 
 
 
