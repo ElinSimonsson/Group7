@@ -16,8 +16,6 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-
-
     lateinit var mcdonaldsBtn: Button
     lateinit var asianKitchenBtn : Button
     lateinit var rootsSoilBtn : Button

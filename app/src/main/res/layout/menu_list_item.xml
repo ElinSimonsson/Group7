@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:backgroundTintMode="src_in">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/nameTextView1"
@@ -24,27 +23,99 @@
         android:id="@+id/priceTextView1"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
         android:text="TextView"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView1" />
+
+
+    <TextView
+        android:id="@+id/addToCartButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="518dp"
+        android:background="@drawable/rounded_corners"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Lägg till varukorg"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceTextView1" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addMoreLayout"
+        android:layout_width="212dp"
+        android:layout_height="32dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceTextView1"
+        app:layout_constraintVertical_bias="0.448">
+
+        <ImageView
+            android:id="@+id/removeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:tint="#D50000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/amountTextView"
+            app:layout_constraintHorizontal_bias="0.798"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/remove_circle" />
+
+        <TextView
+            android:id="@+id/amountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addImageView"
+            app:layout_constraintStart_toEndOf="@id/removeImageView" />
+
+        <ImageView
+            android:id="@+id/addImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:tint="#D50000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/amountTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/add_circle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/menuItemImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
+        android:src="@drawable/ic_launcher_background"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
