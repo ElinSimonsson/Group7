@@ -20,21 +20,26 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
     lateinit var db : FirebaseFirestore
+    lateinit var adressView : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
+        auth.signOut()
+
         db = Firebase.firestore
 
-
-
-        var adressView = findViewById<TextView>(R.id.adressView)
+        adressView = findViewById<TextView>(R.id.adressView)
 
         getUserAdress {
             adressView.text = it.toString()
+
         }
+
+
+
 
         val userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
@@ -76,6 +81,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        getUserAdress {
+            adressView.text = it.toString()
+        }
             Log.d("!!!","user :${auth.currentUser?.email}")
             if(auth.currentUser?.email == "Admin@Admin.se" || auth.currentUser?.email == "admin@admin.se"){
                 val intent = Intent(this, AdminActivity::class.java)
@@ -84,11 +93,6 @@ class MainActivity : AppCompatActivity() {
         // fast alla varor är editerbara och man ska kunna lägga till ny
         }
 
-
-    override fun onStart() {
-        super.onStart()
-
-    }
 
     fun getUserAdress(myCallback : (String) -> Unit){
         db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")

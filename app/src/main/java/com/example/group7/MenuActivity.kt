@@ -5,8 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -14,15 +17,20 @@ class MenuActivity : AppCompatActivity() {
 
     lateinit var backBtn : Button
     lateinit var cartBrn : Button
+    lateinit var menuAdressTextView: TextView
     lateinit var recyclerView : RecyclerView
+
+    lateinit var auth: FirebaseAuth
 
     var db = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_menu)
+
+        auth = Firebase.auth
+
 
         backBtn = findViewById(R.id.backBtn)
         backBtn.setOnClickListener{
@@ -30,7 +38,12 @@ class MenuActivity : AppCompatActivity() {
         }
 
 
-        readData() {
+        menuAdressTextView = findViewById(R.id.menuAdressView)
+            getUserAdress {
+                menuAdressTextView.text = it.toString()
+            }
+
+        readMenuData() {
             recyclerView = findViewById(R.id.menuRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(this@MenuActivity, 2)
             recyclerView.adapter = MenuAdapter(this, it)
@@ -44,7 +57,7 @@ class MenuActivity : AppCompatActivity() {
 
     }
 
-    fun readData(myCallback : (MutableList<MenuItem>) -> Unit){
+    fun readMenuData(myCallback : (MutableList<MenuItem>) -> Unit){
             db.collection(getRestaurantName())
                 .get().addOnCompleteListener{ task ->
                     if(task.isSuccessful){
@@ -60,6 +73,20 @@ class MenuActivity : AppCompatActivity() {
                     }
                 }
             }
+    fun getUserAdress(myCallback : (String) -> Unit){
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener{ task ->
+
+                var userAdress = ""
+                if(task.isSuccessful){
+                    for (document in task.result){
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
+    }
 
     fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra("restaurant").toString()
