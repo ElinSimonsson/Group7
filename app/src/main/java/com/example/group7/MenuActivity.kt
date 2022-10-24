@@ -4,6 +4,7 @@ package com.example.group7
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,16 +33,16 @@ class MenuActivity : AppCompatActivity() {
         auth = Firebase.auth
 
 
+        menuAdressTextView = findViewById(R.id.menuAdressView)
+        getUserAdress {
+            menuAdressTextView.text = it.toString()
+        }
+
         backBtn = findViewById(R.id.backBtn)
         backBtn.setOnClickListener{
             finish()
         }
 
-
-        menuAdressTextView = findViewById(R.id.menuAdressView)
-            getUserAdress {
-                menuAdressTextView.text = it.toString()
-            }
 
         readMenuData() {
             recyclerView = findViewById(R.id.menuRecyclerView)
@@ -59,11 +60,13 @@ class MenuActivity : AppCompatActivity() {
 
     fun readMenuData(myCallback : (MutableList<MenuItem>) -> Unit){
             db.collection(getRestaurantName())
-                .get().addOnCompleteListener{ task ->
+                .get()
+                .addOnCompleteListener{ task ->
                     if(task.isSuccessful){
                         val list = mutableListOf<MenuItem>()
                         for (document in task.result){
                             val name = document.data["name"].toString()
+                            Log.d("!!!","$name")
                             val price = document.data["price"].toString().toInt()
                             val imageURL = document.data["imageURL"].toString()
                             val menuItem = MenuItem(name,price, imageURL)
@@ -89,7 +92,8 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun getRestaurantName():String {
-        val restaurantName = intent.getStringExtra("restaurant").toString()
+        val restaurantName = intent.getStringExtra(RESTAURANT).toString()
+        Log.d("!!!","R name main : $restaurantName")
         return restaurantName
     }
 

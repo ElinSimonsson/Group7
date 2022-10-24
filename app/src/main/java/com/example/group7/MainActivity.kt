@@ -15,12 +15,15 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
+const val RESTAURANT = "restaurant"
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
     lateinit var db : FirebaseFirestore
     lateinit var adressView : TextView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +36,15 @@ class MainActivity : AppCompatActivity() {
 
         adressView = findViewById<TextView>(R.id.adressView)
 
+       val mcdonaldsBtn = findViewById<Button>(R.id.mcdonaldsBtn)
+       val asianKitchenBtn = findViewById<Button>(R.id.asianKitchenBtn)
+       val rootsSoilBtn = findViewById<Button>(R.id.rootsSoilBtn)
+       val primoCiaoCiaoBtn = findViewById<Button>(R.id.primoCiaoCiaoBtn)
+
         getUserAdress {
             adressView.text = it.toString()
 
         }
-
-
-
 
         val userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
@@ -47,31 +52,24 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-       val mcdonaldsBtn = findViewById<Button>(R.id.mcdonaldsBtn)
-       val asianKitchenBtn = findViewById<Button>(R.id.asianKitchenBtn)
-       val rootsSoilBtn = findViewById<Button>(R.id.rootsSoilBtn)
-       val primoCiaoCiaoBtn = findViewById<Button>(R.id.primoCiaoCiaoBtn)
-
-
         mcdonaldsBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Mcdonalds")
+            intent.putExtra(RESTAURANT,"Mcdonalds")
             startActivity(intent)
         }
         asianKitchenBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Asian Kitchen menu")
+            intent.putExtra(RESTAURANT,"Asian Kitchen menu")
             startActivity(intent)
         }
         rootsSoilBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Roots & Soil menu")
+            intent.putExtra(RESTAURANT,"Roots & Soil menu")
             startActivity(intent)
         }
         primoCiaoCiaoBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Primo Ciao Ciao menu")
+            intent.putExtra(RESTAURANT,"Primo Ciao Ciao menu")
             startActivity(intent)
         }
 
@@ -85,13 +83,19 @@ class MainActivity : AppCompatActivity() {
         getUserAdress {
             adressView.text = it.toString()
         }
+
             Log.d("!!!","user :${auth.currentUser?.email}")
-            if(auth.currentUser?.email == "Admin@Admin.se" || auth.currentUser?.email == "admin@admin.se"){
-                val intent = Intent(this, AdminActivity::class.java)
-                startActivity(intent)
-            } // Admin activity ska vara likadan(ungefär) som menuactivity
-        // fast alla varor är editerbara och man ska kunna lägga till ny
-        }
+            if(auth.currentUser?.email == "mcdonalds@admin.se"){
+                val intentAdmin = Intent(this, AdminActivity::class.java)
+                intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+                startActivity(intentAdmin)
+            }
+
+
+    }
+
+
+
 
 
     fun getUserAdress(myCallback : (String) -> Unit){
