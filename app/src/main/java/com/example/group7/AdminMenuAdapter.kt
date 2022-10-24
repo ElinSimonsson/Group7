@@ -53,7 +53,7 @@ class AdminMenuAdapter(private val context : Context, val adminMenu : MutableLis
             itemView.setOnClickListener{
                 val adminAdapterIntent = Intent(context, AdminDisplayItem_Activity::class.java)
                 adminAdapterIntent.putExtra(ITEM_POSITION_NAME,nameView.text)
-                adminAdapterIntent.putExtra("RestaurantName",restaurantName)
+                adminAdapterIntent.putExtra(RESTAURANT_NAME,restaurantName)
                 context.startActivity(adminAdapterIntent)
             }
         }
