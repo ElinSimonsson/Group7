@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Group7</string>
+<string name="cart_textview">%1$d varor\t\t\t\t\t\t\t\t\t Se ditt varukorg  \t\t\t\t\t\t\t\t %2$d kr</string>
 </resources>

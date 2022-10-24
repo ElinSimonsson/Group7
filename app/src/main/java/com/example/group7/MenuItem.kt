@@ -6,6 +6,8 @@ data class MenuItem(
     var imageURL: String? = null,
     var totalCart: Int
 ) {
+}
 
+data class Restaurants(var name: String?) {
 
 }

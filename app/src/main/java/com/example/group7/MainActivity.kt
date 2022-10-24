@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         auth = Firebase.auth
 
 
-        var userBtn = findViewById<Button>(R.id.userBtn)
+        val userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
 
 
+
         mcdonaldsBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
             intent.putExtra("restaurant","Mcdonalds")
@@ -48,17 +49,17 @@ class MainActivity : AppCompatActivity() {
         }
         asianKitchenBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Asian Kitchen menu")
+            intent.putExtra("restaurant","Asian Kitchen")
             startActivity(intent)
         }
         rootsSoilBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Roots & Soil menu")
+            intent.putExtra("restaurant","Roots & Soil")
             startActivity(intent)
         }
         primoCiaoCiaoBtn.setOnClickListener{
             val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Primo Ciao Ciao menu")
+            intent.putExtra("restaurant","Primo Ciao Ciao")
             startActivity(intent)
         }
 
@@ -68,11 +69,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        DataManager.itemInCartList.clear()
         if(auth.currentUser != null){
             Log.d("!!!","user :${auth.currentUser?.email}")
             if(auth.currentUser?.email == "Admin@Admin.se"){
 
             }
+
         }
     }
 
