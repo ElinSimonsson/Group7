@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlin.math.log
 
+
 class AdminActivity : AppCompatActivity() {
 
 
@@ -28,7 +29,7 @@ class AdminActivity : AppCompatActivity() {
         readMenuData {
             recyclerView = findViewById(R.id.AdminMenuRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(this@AdminActivity,2)
-            val adapter = AdminMenuAdapter(this,it)
+            val adapter = AdminMenuAdapter(this,it,getRestaurantName())
             recyclerView.adapter = adapter
         }
 
@@ -56,6 +57,7 @@ class AdminActivity : AppCompatActivity() {
 
     fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra(RESTAURANT).toString()
+
         return restaurantName
     }
 }
