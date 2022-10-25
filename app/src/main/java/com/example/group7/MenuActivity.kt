@@ -44,10 +44,10 @@ class MenuActivity : AppCompatActivity() {
         }
 
 
-        readMenuData() {
+        readMenuData() { menulist->
             recyclerView = findViewById(R.id.menuRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(this@MenuActivity, 2)
-            recyclerView.adapter = MenuAdapter(this, it)
+            recyclerView.adapter = MenuAdapter(this, menulist)
         }
 
         cartBrn = findViewById(R.id.cartBtn)
@@ -91,7 +91,7 @@ class MenuActivity : AppCompatActivity() {
             }
     }
 
-    fun getRestaurantName():String {
+    private fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra(RESTAURANT).toString()
         Log.d("!!!","R name main : $restaurantName")
         return restaurantName

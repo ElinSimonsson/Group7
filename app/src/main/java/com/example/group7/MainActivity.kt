@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
-        auth.signOut()
+        //auth.signOut()
 
         db = Firebase.firestore
 

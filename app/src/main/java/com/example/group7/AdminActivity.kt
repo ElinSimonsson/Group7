@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,12 @@ class AdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin)
 
         db = Firebase.firestore
+
+        val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        fab.setOnClickListener {
+            val intentFab = Intent(this,AdminDisplayItem_Activity::class.java)
+            startActivity(intentFab)
+        }
 
         readMenuData {
             recyclerView = findViewById(R.id.AdminMenuRecyclerView)
