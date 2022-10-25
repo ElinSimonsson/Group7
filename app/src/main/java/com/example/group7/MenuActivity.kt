@@ -24,10 +24,7 @@ import com.google.firebase.ktx.Firebase
 class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 
 
-
     lateinit var auth: FirebaseAuth
-
-
 
     lateinit var cartBrn: Button
     lateinit var recyclerView: RecyclerView
@@ -40,17 +37,14 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-
         auth = Firebase.auth
-
-
-        menuAdressTextView = findViewById(R.id.menuAdressView)
+       // menuAdressTextView = findViewById(R.id.menuAdressView)
         getUserAdress {
-            menuAdressTextView.text = it.toString()
+       //     menuAdressTextView.text = it.toString()
         }
 
         backBtn = findViewById(R.id.backBtn)
-        backBtn.setOnClickListener{
+        backBtn.setOnClickListener {
             finish()
         }
 
@@ -59,6 +53,7 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
 
         readMenuData() { menulist->
@@ -69,19 +64,13 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 
         }
 
-//        cartBrn = findViewById(R.id.cartBtn)
-//        cartBrn.setOnClickListener {
-//
-//            getTotalPrice()
-//
-// }
 
         cartTextView = findViewById(R.id.cartTextView)
         cartTextView.setOnClickListener {
             val intent = Intent(this, OrderActivity::class.java)
             startActivity(intent)
         }
-    }
+
 
 
     fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
@@ -101,6 +90,9 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
                     myCallback(list)
                 }
             }
+    }
+
+
 
     fun getUserAdress(myCallback : (String) -> Unit){
         db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
