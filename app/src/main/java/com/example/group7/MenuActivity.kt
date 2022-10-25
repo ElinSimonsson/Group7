@@ -10,8 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
+
+
 import androidx.appcompat.app.ActionBar
 
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,15 +44,15 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         auth = Firebase.auth
 
 
-        menuAdressTextView = findViewById(R.id.menuAdressView)
-        getUserAdress {
-            menuAdressTextView.text = it.toString()
-        }
+      //  menuAdressTextView = findViewById(R.id.menuAdressView)
+      //  getUserAdress {
+      //      menuAdressTextView.text = it.toString()
+      //  }
 
-        backBtn = findViewById(R.id.backBtn)
-        backBtn.setOnClickListener{
-            finish()
-        }
+      // backBtn = findViewById(R.id.backBtn)
+      // backBtn.setOnClickListener{
+      //     finish()
+      // }
 
 
         val restaurant = getRestaurantName()
@@ -61,7 +61,7 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        readMenuData() { menulist->
+        readData() {
             recyclerView = findViewById(R.id.menuRecyclerView)
 
             recyclerView.layoutManager = GridLayoutManager(this, 2)
@@ -101,21 +101,22 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
                     myCallback(list)
                 }
             }
-
-    fun getUserAdress(myCallback : (String) -> Unit){
-        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener{ task ->
-
-                var userAdress = ""
-                if(task.isSuccessful){
-                    for (document in task.result){
-                        val adress = document.data["adress"].toString()
-                        userAdress = adress
-                    }
-                    myCallback(userAdress)
-                }
-            }
     }
+
+   //fun getUserAdress(myCallback : (String) -> Unit){
+   //    db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+   //        .get().addOnCompleteListener{ task ->
+
+   //            var userAdress = ""
+   //            if(task.isSuccessful){
+   //                for (document in task.result){
+   //                    val adress = document.data["adress"].toString()
+   //                    userAdress = adress
+   //                }
+   //                myCallback(userAdress)
+   //            }
+   //        }
+   //}
 
     fun getTotalPrice () : Int {
         var totalPrice = 0
@@ -144,7 +145,7 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         return restaurantName
     }
 
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
 
         when (item.itemId) {
             android.R.id.home -> finish()
@@ -152,12 +153,13 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+
+
     override fun addItemToCart(menu: MenuItem) {
         cartTextView.visibility = View.VISIBLE
         val totalItems = getTotalItems()
         val price = getTotalPrice()
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-
     }
 
     override fun upgradeItemInCart(menu: MenuItem) {
@@ -175,6 +177,7 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         }
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
     }
-
 }
+
+
 
