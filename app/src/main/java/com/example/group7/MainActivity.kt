@@ -6,7 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+
 import android.widget.TextView
+
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,6 +23,16 @@ import com.google.firebase.ktx.Firebase
 const val RESTAURANT = "restaurant"
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var newRecyclerView: RecyclerView
+    private lateinit var newArrayList: ArrayList<RestaurantsData>
+    lateinit var imageId: Array<Int>
+    lateinit var heading: Array<String>
+    lateinit var distance: Array<String>
+
+    lateinit var roots : Button
+    lateinit var asian : Button
+    lateinit var primo : Button
+
 
     lateinit var auth: FirebaseAuth
     lateinit var db : FirebaseFirestore
@@ -25,21 +40,49 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
+
+        imageId = arrayOf(
+            R.drawable.roots,
+            R.drawable.primo,
+            R.drawable.asian,
+
+        )
+        heading = arrayOf(
+            "Roots and Soil",
+            "Primo Ciao Ciao",
+            "Asian Kitchen",
+
+        )
+        distance = arrayOf(
+            "Distans 120m",
+            "Distans 400m",
+            "Distans 520m",
+
+        )
+
+
+
+        newRecyclerView = findViewById(R.id.restaurantRecyclerView)
+        newRecyclerView.layoutManager = LinearLayoutManager(this)
+        newRecyclerView.setHasFixedSize(true)
+
+        newArrayList = arrayListOf<RestaurantsData>()
+        getUserdata()
 
         auth = Firebase.auth
         //auth.signOut()
 
         db = Firebase.firestore
 
-        adressView = findViewById<TextView>(R.id.adressView)
 
-       val mcdonaldsBtn = findViewById<Button>(R.id.mcdonaldsBtn)
-       val asianKitchenBtn = findViewById<Button>(R.id.asianKitchenBtn)
-       val rootsSoilBtn = findViewById<Button>(R.id.rootsSoilBtn)
-       val primoCiaoCiaoBtn = findViewById<Button>(R.id.primoCiaoCiaoBtn)
+        adressView = findViewById<TextView>(R.id.adressView)
 
         getUserAdress {
             adressView.text = it.toString()
@@ -48,40 +91,65 @@ class MainActivity : AppCompatActivity() {
 
         val userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
+
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
 
-        mcdonaldsBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra(RESTAURANT,"Mcdonalds")
-            startActivity(intent)
-        }
-        asianKitchenBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra(RESTAURANT,"Asian Kitchen menu")
-            startActivity(intent)
-        }
-        rootsSoilBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra(RESTAURANT,"Roots & Soil menu")
-            startActivity(intent)
-        }
-        primoCiaoCiaoBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra(RESTAURANT,"Primo Ciao Ciao menu")
-            startActivity(intent)
+        roots = findViewById(R.id.rootsBtn)
+        primo = findViewById(R.id.primoBtn)
+        asian = findViewById(R.id.asianBtn)
+
+
+        asian.setOnClickListener{
+             val intent = Intent(this,MenuActivity::class.java)
+             intent.putExtra("restaurant","Asian Kitchen")
+             startActivity(intent)
+         }
+         roots.setOnClickListener{
+             val intent = Intent(this,MenuActivity::class.java)
+             intent.putExtra("restaurant","Roots & Soil")
+             startActivity(intent)
+         }
+         primo.setOnClickListener{
+             val intent = Intent(this,MenuActivity::class.java)
+             intent.putExtra("restaurant","Primo Ciao Ciao")
+             startActivity(intent)
+         }
+
+
+
         }
 
 
+
+
+
+
+
+
+
+
+    private fun getUserdata() {
+        for (i in imageId.indices) {
+            val restaurant = RestaurantsData(imageId[i], heading[i], distance[i])
+            newArrayList.add(restaurant)
+        }
+        newRecyclerView.adapter = RestaurantAdapter(newArrayList)
 
     }
 
+
+    //user
     override fun onResume() {
         super.onResume()
 
+
         getUserAdress {
             adressView.text = it.toString()
+
+        DataManager.itemInCartList.clear()
+
         }
 
             Log.d("!!!","user :${auth.currentUser?.email}")
@@ -112,10 +180,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+}
 
+private operator fun Button.get(i: Int) {
+
+}
 
 
 
 
 
 }
+
