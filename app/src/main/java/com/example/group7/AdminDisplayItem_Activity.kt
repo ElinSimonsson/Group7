@@ -46,18 +46,18 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         displayItem(restaurantName,itemPositionName)
 
 
-        if(itemPositionName == null){
-            saveBtn.setOnClickListener {
-                newItem(restaurantName)
-            }
-            deleteBtn.setOnClickListener {
+       //if(itemPositionName == null){
+       //    saveBtn.setOnClickListener {
+       //        newItem(restaurantName)
+       //    }
+       //    deleteBtn.setOnClickListener {
 
-            }
+       //    }
 
-        }
-        else{
-            updateItem(restaurantName,itemPositionName)
-        }
+       //}
+       //else{
+       //    updateItem(restaurantName,itemPositionName)
+       //}
 
 
 
@@ -71,6 +71,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             .addOnSuccessListener {
                 for (document in it){
                     editItemName.setText(document.data["name"].toString())
+                    Log.d("!!!","name : ${editItemName.text}")
                     editItemPrice.setText(document.data["price"].toString())
                     Glide.with(this).load(document.data["imageURL"]).into(editItemImage)
 
