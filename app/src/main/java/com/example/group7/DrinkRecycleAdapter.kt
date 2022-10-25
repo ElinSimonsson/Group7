@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListClickListener) :
-    RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: DrinkListClickListener) :
+    RecyclerView.Adapter<DrinkRecycleAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
 
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.menu_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.drink_list_item, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -29,27 +29,18 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
-        val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
-        var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView)
-        var countTextView = itemView.findViewById<TextView>(R.id.amountTextView)
-        var addImageView = itemView.findViewById<ImageView>(R.id.addImageView)
-        var removeImageView = itemView.findViewById<ImageView>(R.id.removeImageView)
-        var addToCart = itemView.findViewById<TextView>(R.id.addToCartButton)
+        val nameView = itemView.findViewById<TextView>(R.id.nameTextView1)
+        val priceView = itemView.findViewById<TextView>(R.id.priceTextView1)
+        var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView1)
+        var countTextView = itemView.findViewById<TextView>(R.id.amountTextView1)
+        var addImageView = itemView.findViewById<ImageView>(R.id.addImageView1)
+        var removeImageView = itemView.findViewById<ImageView>(R.id.removeImageView1)
+        var addToCart = itemView.findViewById<TextView>(R.id.addToCartButton1)
 
 
         fun bind(currentMenu: MenuItem) {
-            for(item in DataManager.itemInCartList) {
-                if (item != null) {
-                    Log.d("!!!", "${item.name}")
-
-                }
-                Log.d("!!!", "nuvarande menu = $currentMenu")
-            }
-
             nameView.text = currentMenu.name
             priceView.text = "${currentMenu.price} kr"
-
 
             for(item in DataManager.itemInCartList) {
                 if (item != null) {
@@ -65,17 +56,12 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                 }
             }
 
-//              if(DataManager.itemInCartList.contains(currentMenu)) {
-//                  Log.d("!!!", "$currentMenu finns i listan")
+//            if(DataManager.itemInCartList.contains(currentMenu)) {
 //                addToCart.visibility = View.GONE
 //                addImageView.visibility = View.VISIBLE
 //                removeImageView.visibility = View.VISIBLE
 //                countTextView.visibility = View.VISIBLE
-//
-//                  countTextView.text = currentMenu.totalCart.toString()
 //            }
-
-
 
             addToCart.setOnClickListener {
                 addToCart.visibility = View.GONE
@@ -117,9 +103,9 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                         //total--
                     }
                 }
-              //  total1--
+                //  total1--
                 Log.d("!!!", "test total $total1")
-               // countTextView.text = total1.toString()
+                // countTextView.text = total1.toString()
 
                 if (total1 > 0) {
                     //total1--
@@ -133,7 +119,7 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                     clickListener.upgradeItemInCart(currentMenu)
 
                 } else {
-                  //  total1--
+                    //  total1--
                     Log.d("!!!", "else körs")
                     //currentMenu.totalCart = total1
                     addImageView.visibility = View.GONE
@@ -147,6 +133,7 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                     }
                 }
             }
+
 
             addImageView.setOnClickListener {
                 var total: Int = currentMenu.totalCart
@@ -170,17 +157,9 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                 .transform(RoundedCorners(radius))
                 .into(menuImage)
         }
-
-        fun getTotalItems () : Int {
-            var totalItems = 0
-            for (item in DataManager.itemInCartList) {
-                totalItems = totalItems + item!!.totalCart
-            }
-            return totalItems
-        }
     }
 
-    interface MenuListClickListener {
+    interface DrinkListClickListener {
         fun addItemToCart (menu: MenuItem)
         fun upgradeItemInCart (menu: MenuItem)
         fun removeItemFromCart(menu: MenuItem)

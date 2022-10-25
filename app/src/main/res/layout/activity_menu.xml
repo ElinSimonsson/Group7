@@ -8,50 +8,42 @@
     tools:context=".MenuActivity"
     tools:viewBindingIgnore="false">
 
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/menuRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/cartTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cartBtn"
-        tools:listitem="@layout/menu_list_item" />
-
-    <Button
-        android:id="@+id/cartBtn"
+    <TextView
+        android:id="@+id/menuTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="Cart"
-        app:layout_constraintBottom_toTopOf="@+id/menuRecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="Mat"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/drinkTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/drinkTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Dryck"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/menuTextView"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        android:id="@+id/cartTextView"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/rounded_corners"
-        android:gravity="center"
-        android:text="@string/cart_textview"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuTextView">
+
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

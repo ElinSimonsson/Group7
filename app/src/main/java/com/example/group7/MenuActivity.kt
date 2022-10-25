@@ -1,34 +1,33 @@
 package com.example.group7
 
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.util.Log
+
 import android.widget.Button
 import android.widget.TextView
 
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
+
+
 import androidx.appcompat.app.ActionBar
 
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
-
+class MenuActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-
-    lateinit var cartBrn: Button
+    lateinit var menuTextView: TextView
+    lateinit var drinkTextView : TextView
     lateinit var recyclerView: RecyclerView
-    lateinit var cartTextView: TextView
+
+    var mainMenuFragment = MenuFragment()
+    var mainDrinkFragment = DrinkFragment()
 
 
     var db = Firebase.firestore
@@ -38,14 +37,15 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         setContentView(R.layout.activity_menu)
 
         auth = Firebase.auth
-       // menuAdressTextView = findViewById(R.id.menuAdressView)
-        getUserAdress {
-       //     menuAdressTextView.text = it.toString()
-        }
+        menuTextView = findViewById(R.id.menuTextView)
+        drinkTextView = findViewById(R.id.drinkTextView)
 
-        backBtn = findViewById(R.id.backBtn)
-        backBtn.setOnClickListener {
-            finish()
+        menuTextView.setOnClickListener {
+            replaceWithMenuFragment()
+            Log.d("!!!", "menuTextView körs")
+        }
+        drinkTextView.setOnClickListener {
+            replaceWtihDrinkFragment()
         }
 
 
@@ -53,24 +53,49 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+
+
+
+
+//        readData() {
+//            recyclerView = findViewById(R.id.menuRecyclerView)
+//
+//            recyclerView.layoutManager = GridLayoutManager(this, 2)
+//            recyclerView.adapter = MenuAdapter(it, this)
+//
+//        }
+
+//        cartBrn = findViewById(R.id.cartBtn)
+//        cartBrn.setOnClickListener {
+//
+//            getTotalPrice()
+//
+// }
+
+//        cartTextView = findViewById(R.id.cartTextView)
+//        cartTextView.setOnClickListener {
+//            val intent = Intent(this, OrderActivity::class.java)
+//            startActivity(intent)
+//        }
+
+        replaceWithMenuFragment()
     }
 
+    private fun replaceWtihDrinkFragment() {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, mainDrinkFragment)
+        fragmentTransaction.commit()
+    }
 
-        readMenuData() { menulist->
-            recyclerView = findViewById(R.id.menuRecyclerView)
-
-            recyclerView.layoutManager = GridLayoutManager(this, 2)
-            recyclerView.adapter = MenuAdapter(it, this)
-
-        }
-
-
-        cartTextView = findViewById(R.id.cartTextView)
-        cartTextView.setOnClickListener {
-            val intent = Intent(this, OrderActivity::class.java)
-            startActivity(intent)
-        }
-
+    fun replaceWithMenuFragment() {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, mainMenuFragment)
+        fragmentTransaction.commit()
+    }
 
 
     fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
@@ -88,23 +113,6 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 
                     }
                     myCallback(list)
-                }
-            }
-    }
-
-
-
-    fun getUserAdress(myCallback : (String) -> Unit){
-        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener{ task ->
-
-                var userAdress = ""
-                if(task.isSuccessful){
-                    for (document in task.result){
-                        val adress = document.data["adress"].toString()
-                        userAdress = adress
-                    }
-                    myCallback(userAdress)
                 }
             }
     }
@@ -144,29 +152,31 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun addItemToCart(menu: MenuItem) {
-        cartTextView.visibility = View.VISIBLE
-        val totalItems = getTotalItems()
-        val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
 
-    }
 
-    override fun upgradeItemInCart(menu: MenuItem) {
-        val totalItems = getTotalItems()
-        val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-
-    }
-
-    override fun removeItemFromCart(menu: MenuItem) {
-        val totalItems = getTotalItems()
-        val price = getTotalPrice()
-        if(totalItems == 0) {
-            cartTextView.visibility = View.GONE
-        }
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-    }
-
+//    override fun addItemToCart(menu: MenuItem) {
+//        cartTextView.visibility = View.VISIBLE
+//        val totalItems = getTotalItems()
+//        val price = getTotalPrice()
+//        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+//    }
+//
+//    override fun upgradeItemInCart(menu: MenuItem) {
+//        val totalItems = getTotalItems()
+//        val price = getTotalPrice()
+//        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+//
+//    }
+//
+//    override fun removeItemFromCart(menu: MenuItem) {
+//        val totalItems = getTotalItems()
+//        val price = getTotalPrice()
+//        if(totalItems == 0) {
+//            cartTextView.visibility = View.GONE
+//        }
+//        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+//    }
 }
+
+
 
