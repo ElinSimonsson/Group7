@@ -4,21 +4,35 @@ package com.example.group7
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
+import android.util.Log
+import android.widget.Button
+import android.widget.TextView
+
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 
 
+
+    lateinit var auth: FirebaseAuth
+
+
+
     lateinit var cartBrn: Button
     lateinit var recyclerView: RecyclerView
     lateinit var cartTextView: TextView
+
 
     var db = Firebase.firestore
 
@@ -26,15 +40,33 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+
+        auth = Firebase.auth
+
+
+        menuAdressTextView = findViewById(R.id.menuAdressView)
+        getUserAdress {
+            menuAdressTextView.text = it.toString()
+        }
+
+        backBtn = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener{
+            finish()
+        }
+
+
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        readData() {
+
+        readMenuData() { menulist->
             recyclerView = findViewById(R.id.menuRecyclerView)
+
             recyclerView.layoutManager = GridLayoutManager(this, 2)
             recyclerView.adapter = MenuAdapter(it, this)
+
         }
 
 //        cartBrn = findViewById(R.id.cartBtn)
@@ -64,11 +96,27 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
                         val imageURL = document.data["imageURL"].toString()
                         val menuItem = MenuItem(name, price, imageURL, 0)
                         list.add(menuItem)
+
                     }
                     myCallback(list)
                 }
             }
+
+    fun getUserAdress(myCallback : (String) -> Unit){
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener{ task ->
+
+                var userAdress = ""
+                if(task.isSuccessful){
+                    for (document in task.result){
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
     }
+
     fun getTotalPrice () : Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
@@ -92,6 +140,7 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 
     fun getRestaurantName(): String {
         val restaurantName = intent.getStringExtra("restaurant").toString()
+
         return restaurantName
     }
 

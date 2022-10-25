@@ -6,14 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+
+import android.widget.TextView
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 
 import com.google.firebase.ktx.Firebase
 
 
+const val RESTAURANT = "restaurant"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var newRecyclerView: RecyclerView
@@ -27,8 +34,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var primo : Button
 
 
-
     lateinit var auth: FirebaseAuth
+    lateinit var db : FirebaseFirestore
+    lateinit var adressView : TextView
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,10 +77,20 @@ class MainActivity : AppCompatActivity() {
         getUserdata()
 
         auth = Firebase.auth
+        //auth.signOut()
+
+        db = Firebase.firestore
 
 
-        var userBtn = findViewById<Button>(R.id.userBtn)
-        userBtn.setOnClickListener {
+        adressView = findViewById<TextView>(R.id.adressView)
+
+        getUserAdress {
+            adressView.text = it.toString()
+
+        }
+
+        val userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn.setOnClickListener{
 
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
@@ -81,25 +101,22 @@ class MainActivity : AppCompatActivity() {
         asian = findViewById(R.id.asianBtn)
 
 
-
-
-
-
         asian.setOnClickListener{
              val intent = Intent(this,MenuActivity::class.java)
-             intent.putExtra("restaurant","Asian Kitchen menu")
+             intent.putExtra("restaurant","Asian Kitchen")
              startActivity(intent)
          }
          roots.setOnClickListener{
              val intent = Intent(this,MenuActivity::class.java)
-             intent.putExtra("restaurant","Roots & Soil menu")
+             intent.putExtra("restaurant","Roots & Soil")
              startActivity(intent)
          }
          primo.setOnClickListener{
              val intent = Intent(this,MenuActivity::class.java)
-             intent.putExtra("restaurant","Primo Ciao Ciao menu")
+             intent.putExtra("restaurant","Primo Ciao Ciao")
              startActivity(intent)
          }
+
 
 
         }
@@ -126,21 +143,42 @@ class MainActivity : AppCompatActivity() {
     //user
     override fun onResume() {
         super.onResume()
-        DataManager.itemInCartList.clear()
-        if(auth.currentUser != null){
-            Log.d("!!!","user :${auth.currentUser?.email}")
-            if(auth.currentUser?.email == "Admin@Admin.se"){
 
-            }
+
+        getUserAdress {
+            adressView.text = it.toString()
+
+        DataManager.itemInCartList.clear()
 
         }
+
+            Log.d("!!!","user :${auth.currentUser?.email}")
+            if(auth.currentUser?.email == "mcdonalds@admin.se"){
+                val intentAdmin = Intent(this, AdminActivity::class.java)
+                intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+                startActivity(intentAdmin)
+            }
+
+
     }
 
-    override fun onStart() {
-        super.onStart()
-        auth.signOut()
 
 
+
+
+    fun getUserAdress(myCallback : (String) -> Unit){
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener{ task ->
+
+                var userAdress = ""
+                if(task.isSuccessful){
+                    for (document in task.result){
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
     }
 }
 
@@ -149,4 +187,8 @@ private operator fun Button.get(i: Int) {
 }
 
 
+
+
+
+}
 
