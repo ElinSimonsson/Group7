@@ -26,10 +26,6 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 
 
     lateinit var auth: FirebaseAuth
-
-
-
-    lateinit var cartBrn: Button
     lateinit var recyclerView: RecyclerView
     lateinit var cartTextView: TextView
 
@@ -44,10 +40,11 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         auth = Firebase.auth
 
 
-      //  menuAdressTextView = findViewById(R.id.menuAdressView)
-      //  getUserAdress {
-      //      menuAdressTextView.text = it.toString()
-      //  }
+
+      val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
+       getUserAdress {
+           menuAdressTextView.text = it.toString()
+       }
 
       // backBtn = findViewById(R.id.backBtn)
       // backBtn.setOnClickListener{
@@ -103,20 +100,20 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
             }
     }
 
-   //fun getUserAdress(myCallback : (String) -> Unit){
-   //    db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-   //        .get().addOnCompleteListener{ task ->
+   fun getUserAdress(myCallback : (String) -> Unit){
+       db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+           .get().addOnCompleteListener{ task ->
 
-   //            var userAdress = ""
-   //            if(task.isSuccessful){
-   //                for (document in task.result){
-   //                    val adress = document.data["adress"].toString()
-   //                    userAdress = adress
-   //                }
-   //                myCallback(userAdress)
-   //            }
-   //        }
-   //}
+               var userAdress = ""
+               if(task.isSuccessful){
+                   for (document in task.result){
+                       val adress = document.data["adress"].toString()
+                       userAdress = adress
+                   }
+                   myCallback(userAdress)
+               }
+           }
+   }
 
     fun getTotalPrice () : Int {
         var totalPrice = 0

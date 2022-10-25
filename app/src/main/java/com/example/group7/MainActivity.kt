@@ -45,9 +45,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-
         imageId = arrayOf(
             R.drawable.roots,
             R.drawable.primo,
@@ -67,8 +64,6 @@ class MainActivity : AppCompatActivity() {
 
         )
 
-
-
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
@@ -77,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         getUserdata()
 
         auth = Firebase.auth
-        //auth.signOut()
+        auth.signOut()
 
         db = Firebase.firestore
 
@@ -132,7 +127,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //user
     override fun onResume() {
         super.onResume()
 
