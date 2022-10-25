@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
@@ -14,59 +16,114 @@ import com.google.firebase.ktx.Firebase
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var newRecyclerView: RecyclerView
+    private lateinit var newArrayList: ArrayList<RestaurantsData>
+    lateinit var imageId: Array<Int>
+    lateinit var heading: Array<String>
+    lateinit var distance: Array<String>
+
+    lateinit var roots : Button
+    lateinit var asian : Button
+    lateinit var primo : Button
+
+
 
     lateinit var auth: FirebaseAuth
-    lateinit var mcdonaldsBtn: Button
-    lateinit var asianKitchenBtn : Button
-    lateinit var rootsSoilBtn : Button
-    lateinit var primoCiaoCiaoBtn : Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
+
+        imageId = arrayOf(
+            R.drawable.roots,
+            R.drawable.primo,
+            R.drawable.asian,
+
+        )
+        heading = arrayOf(
+            "Roots and Soil",
+            "Primo Ciao Ciao",
+            "Asian Kitchen",
+
+        )
+        distance = arrayOf(
+            "Distans 120m",
+            "Distans 400m",
+            "Distans 520m",
+
+        )
+
+
+
+        newRecyclerView = findViewById(R.id.restaurantRecyclerView)
+        newRecyclerView.layoutManager = LinearLayoutManager(this)
+        newRecyclerView.setHasFixedSize(true)
+
+        newArrayList = arrayListOf<RestaurantsData>()
+        getUserdata()
+
         auth = Firebase.auth
 
 
-        val userBtn = findViewById<Button>(R.id.userBtn)
-        userBtn.setOnClickListener{
+        var userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn.setOnClickListener {
+
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
 
-
-        mcdonaldsBtn = findViewById(R.id.mcdonaldsBtn)
-        asianKitchenBtn = findViewById(R.id.asianKitchenBtn)
-        rootsSoilBtn = findViewById(R.id.rootsSoilBtn)
-        primoCiaoCiaoBtn = findViewById(R.id.primoCiaoCiaoBtn)
+        roots = findViewById(R.id.rootsBtn)
+        primo = findViewById(R.id.primoBtn)
+        asian = findViewById(R.id.asianBtn)
 
 
 
-        mcdonaldsBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Mcdonalds")
-            startActivity(intent)
+
+
+
+        asian.setOnClickListener{
+             val intent = Intent(this,MenuActivity::class.java)
+             intent.putExtra("restaurant","Asian Kitchen menu")
+             startActivity(intent)
+         }
+         roots.setOnClickListener{
+             val intent = Intent(this,MenuActivity::class.java)
+             intent.putExtra("restaurant","Roots & Soil menu")
+             startActivity(intent)
+         }
+         primo.setOnClickListener{
+             val intent = Intent(this,MenuActivity::class.java)
+             intent.putExtra("restaurant","Primo Ciao Ciao menu")
+             startActivity(intent)
+         }
+
+
         }
-        asianKitchenBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Asian Kitchen")
-            startActivity(intent)
-        }
-        rootsSoilBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Roots & Soil")
-            startActivity(intent)
-        }
-        primoCiaoCiaoBtn.setOnClickListener{
-            val intent = Intent(this,MenuActivity::class.java)
-            intent.putExtra("restaurant","Primo Ciao Ciao")
-            startActivity(intent)
-        }
 
 
+
+
+
+
+
+
+
+
+    private fun getUserdata() {
+        for (i in imageId.indices) {
+            val restaurant = RestaurantsData(imageId[i], heading[i], distance[i])
+            newArrayList.add(restaurant)
+        }
+        newRecyclerView.adapter = RestaurantAdapter(newArrayList)
 
     }
 
+
+    //user
     override fun onResume() {
         super.onResume()
         DataManager.itemInCartList.clear()
@@ -85,9 +142,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+}
 
-
-
-
+private operator fun Button.get(i: Int) {
 
 }
+
+
+
