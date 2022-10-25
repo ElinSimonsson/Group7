@@ -54,6 +54,7 @@ class AdminMenuAdapter(private val context : Context, val adminMenu : MutableLis
                 val adminAdapterIntent = Intent(context, AdminDisplayItem_Activity::class.java)
                 adminAdapterIntent.putExtra(ITEM_POSITION_NAME,nameView.text)
                 adminAdapterIntent.putExtra(RESTAURANT_NAME,restaurantName)
+                Log.d("!!!","adapter rn : $restaurantName")
                 context.startActivity(adminAdapterIntent)
             }
         }

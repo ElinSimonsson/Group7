@@ -17,7 +17,6 @@ class AdminActivity : AppCompatActivity() {
 
 
     lateinit var recyclerView: RecyclerView
-    lateinit var addMenuItemFAB : FloatingActionButton
     lateinit var db : FirebaseFirestore
 
 
@@ -26,17 +25,20 @@ class AdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin)
 
         db = Firebase.firestore
+        val restaurantName = getRestaurantName()
 
         val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fab.setOnClickListener {
             val intentFab = Intent(this,AdminDisplayItem_Activity::class.java)
+            intentFab.putExtra("newUser" , 1)
+            intentFab.putExtra("restaurantNameFAB",restaurantName)
             startActivity(intentFab)
         }
 
         readMenuData {
             recyclerView = findViewById(R.id.AdminMenuRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(this@AdminActivity,2)
-            val adapter = AdminMenuAdapter(this,it,getRestaurantName())
+            val adapter = AdminMenuAdapter(this,it,restaurantName)
             recyclerView.adapter = adapter
         }
 
@@ -45,7 +47,9 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        db.collection(getRestaurantName())
+        db.collection("restaurants")
+            .document(getRestaurantName())
+            .collection("menu")
             .get()
             .addOnCompleteListener{ task ->
                 if(task.isSuccessful){
@@ -64,7 +68,7 @@ class AdminActivity : AppCompatActivity() {
 
     fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra(RESTAURANT).toString()
-
+        Log.d("!!!","rname fun admin : $restaurantName")
         return restaurantName
     }
 }

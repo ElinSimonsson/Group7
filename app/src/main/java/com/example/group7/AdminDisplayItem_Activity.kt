@@ -40,11 +40,29 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
         val restaurantName = getRestaurant().toString()
         val itemPositionName = getItemPosition().toString()
-        Log.d("!!!","$restaurantName")
+        val fabNumber = intent.getIntExtra("newUser" ,0)
+        Log.d("!!!","fabNr :$fabNumber ")
+        val fabRestaurant = intent.getStringExtra("restaurantNameFAB")
+        Log.d("!!!","fabRn : $fabRestaurant")
 
 
         displayItem(restaurantName,itemPositionName)
 
+        if(fabNumber == 1){
+            saveBtn.setOnClickListener {
+                if (fabRestaurant != null) {
+                    newItem(fabRestaurant)
+                }
+                else{
+                    Log.d("!!!","No restaurant name")
+                }
+            }
+        }
+        else{
+            saveBtn.setOnClickListener {
+                finish()
+            }
+        }
 
        //if(itemPositionName == null){
        //    saveBtn.setOnClickListener {
@@ -65,7 +83,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     }
     fun displayItem (restaurantName : String,itemName : String){
         Log.d("!!!","DN : $restaurantName")
-        db.collection(restaurantName)
+        db.collection("restaurants")
+            .document(restaurantName)
+            .collection("menu")
             .whereEqualTo("name",itemName)
             .get()
             .addOnSuccessListener {
@@ -89,8 +109,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             "price" to price,
             "imageURL" to defaultImage
         )
-        Log.d("!!!","RN : $restaurantName")
-        db.collection(restaurantName)
+        db.collection("restaurants")
+            .document(restaurantName)
+            .collection("menu")
             .add(newItem)
             .addOnSuccessListener {
                 Toast.makeText(this,"Added item successfully", Toast.LENGTH_SHORT).show()
@@ -116,6 +137,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
 
     }
+    //from adapter
     fun getRestaurant() : String?{
         val name = intent.getStringExtra(RESTAURANT_NAME)
         return name

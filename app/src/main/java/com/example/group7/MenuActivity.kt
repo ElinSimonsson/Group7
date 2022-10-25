@@ -40,7 +40,6 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         auth = Firebase.auth
 
 
-
       val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
        getUserAdress {
            menuAdressTextView.text = it.toString()
@@ -115,6 +114,12 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
            }
    }
 
+    fun getRestaurantName(): String {
+        val restaurantName = intent.getStringExtra("restaurant").toString()
+
+        return restaurantName
+    }
+
     fun getTotalPrice () : Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
@@ -134,12 +139,6 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
             totalItems = totalItems + item!!.totalCart
         }
         return totalItems
-    }
-
-    fun getRestaurantName(): String {
-        val restaurantName = intent.getStringExtra("restaurant").toString()
-
-        return restaurantName
     }
 
      override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
