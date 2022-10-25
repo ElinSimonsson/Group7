@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 
-class orderActivity : AppCompatActivity() {
+class OrderActivity : AppCompatActivity() {
 
     lateinit var saveButton: Button
     lateinit var nameEditText: EditText

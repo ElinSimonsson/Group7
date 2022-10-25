@@ -1,16 +1,13 @@
 package com.example.group7
 
 
-import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -47,10 +44,9 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
 //
 // }
 
-
-        cartTextView = findViewById<TextView?>(R.id.cartTextView)
+        cartTextView = findViewById(R.id.cartTextView)
         cartTextView.setOnClickListener {
-            val intent = Intent(this, orderActivity::class.java)
+            val intent = Intent(this, OrderActivity::class.java)
             startActivity(intent)
         }
     }

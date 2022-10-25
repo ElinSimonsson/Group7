@@ -8,6 +8,6 @@ data class MenuItem(
 ) {
 }
 
-data class Restaurants(var name: String?) {
+data class Restaurants(var name: String?, var menu: MutableList<MenuItem?>?) {
 
 }

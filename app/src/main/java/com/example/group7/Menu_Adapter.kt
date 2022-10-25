@@ -42,12 +42,19 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
             nameView.text = currentMenu.name
             priceView.text = "${currentMenu.price} kr"
 
+            if(DataManager.itemInCartList.contains(currentMenu)) {
+                addToCart.visibility = View.GONE
+                addImageView.visibility = View.VISIBLE
+                removeImageView.visibility = View.VISIBLE
+                countTextView.visibility = View.VISIBLE
+            }
+
             addToCart.setOnClickListener {
                 addToCart.visibility = View.GONE
                 addImageView.visibility = View.VISIBLE
                 removeImageView.visibility = View.VISIBLE
                 countTextView.visibility = View.VISIBLE
-                currentMenu.totalCart = 1
+                currentMenu.totalCart++
                 countTextView.text = currentMenu.totalCart.toString()
                 //clickListener.addItemToCart(currentMenu)
 
@@ -110,5 +117,6 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
         fun addItemToCart (menu: MenuItem)
         fun upgradeItemInCart (menu: MenuItem)
         fun removeItemFromCart(menu: MenuItem)
+
     }
 }

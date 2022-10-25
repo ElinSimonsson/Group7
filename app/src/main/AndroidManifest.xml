@@ -32,7 +32,7 @@
             android:name=".MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".orderActivity"
+            android:name=".OrderActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
