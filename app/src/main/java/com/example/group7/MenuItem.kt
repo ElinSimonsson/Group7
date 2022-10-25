@@ -1,16 +1,13 @@
 package com.example.group7
 
-class MenuItem(var name : String? = null,
-               var price : Int? = 0,
-               var imageURL: String? = null) {
+data class MenuItem(
+    var name: String? = null,
+    var price: Int? = 0,
+    var imageURL: String? = null,
+    var totalCart: Int
+) {
+}
 
-
-//    constructor() : this (
-//        "",
-//        0,
-//        ""
-//            )
-
-
+data class Restaurants(var name: String?, var menu: MutableList<MenuItem?>?) {
 
 }

@@ -31,9 +31,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -74,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         var userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener {
+
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
@@ -103,6 +101,7 @@ class MainActivity : AppCompatActivity() {
              startActivity(intent)
          }
 
+
         }
 
 
@@ -127,11 +126,13 @@ class MainActivity : AppCompatActivity() {
     //user
     override fun onResume() {
         super.onResume()
+        DataManager.itemInCartList.clear()
         if(auth.currentUser != null){
             Log.d("!!!","user :${auth.currentUser?.email}")
             if(auth.currentUser?.email == "Admin@Admin.se"){
 
             }
+
         }
     }
 
