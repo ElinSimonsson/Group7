@@ -75,10 +75,17 @@ class FoodFragment : Fragment(), MenuAdapter.MenuListClickListener {
         super.onViewCreated(view, savedInstanceState)
         cartTextView = view.findViewById(R.id.cartTextView)
 
+        val totalItems = getTotalItems()
+        if(totalItems >= 1) {
+            cartTextView.visibility = View.VISIBLE
+            val price = getTotalPrice()
+            cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        }
+
         cartTextView.setOnClickListener {
             for(item in DataManager.itemInCartList) {
                 if (item != null) {
-                    Log.d("!!!", "${item.name}")
+                    Log.d("!!!", "Food ${item.name}, ${item.totalCart}")
                 }
             }
             val intent = Intent(context, OrderActivity::class.java)

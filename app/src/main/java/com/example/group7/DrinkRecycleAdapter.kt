@@ -42,10 +42,86 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
             nameView.text = currentMenu.name
             priceView.text = "${currentMenu.price} kr"
 
+            checkAlreadyInList(currentMenu)
+
+            Log.d("!!!", "${currentMenu.imageURL}")
+
+            val radius = 30
+            Glide.with(menuImage)
+                .load(currentMenu.imageURL)
+                .error(R.drawable.no_image)
+                .centerCrop()
+                .transform(RoundedCorners(radius))
+                .into(menuImage)
+
+            addToCart.setOnClickListener {
+                addToCart.visibility = View.GONE
+                addImageView.visibility = View.VISIBLE
+                removeImageView.visibility = View.VISIBLE
+                countTextView.visibility = View.VISIBLE
+                currentMenu.totalCart++
+                countTextView.text = currentMenu.totalCart.toString()
+
+                if(currentMenu !in DataManager.itemInCartList) {
+                    DataManager.itemInCartList.add(currentMenu)
+                    clickListener.addItemToCart(currentMenu)
+                }
+            }
+
+            removeImageView.setOnClickListener {
+
+                // En klon av DatamManager.itemInCartList skapas
+                // för att undvika felkod ConcurrentModificationException
+
+                val cloneList = mutableListOf<MenuItem>()
+                for(item in DataManager.itemInCartList) {
+                    if (item != null) {
+                        cloneList.add(item)
+                    }
+                }
+                var total = 0
+                for (item in cloneList) {
+                    if (item.name == currentMenu.name) {
+                        item.totalCart--
+                        total = item.totalCart
+                        countTextView.text = total.toString()
+                        Log.d("!!!", "Remove, total ${item.totalCart}")
+                        clickListener.upgradeItemInCart(currentMenu)
+
+                        if(item.totalCart < 1) {
+                            DataManager.itemInCartList.remove(currentMenu)
+                            Log.d("!!!", "${DataManager.itemInCartList}")
+                            addImageView.visibility = View.GONE
+                            removeImageView.visibility = View.GONE
+                            countTextView.visibility = View.GONE
+                            addToCart.visibility = View.VISIBLE
+                            clickListener.removeItemFromCart(currentMenu)
+                        }
+                    }
+                }
+            }
+
+            addImageView.setOnClickListener {
+                var total = 0
+
+                for (item in DataManager.itemInCartList) {
+                    if (item != null) {
+                        if (item.name == currentMenu.name) {
+                            item.totalCart++
+                            total = item.totalCart
+                            countTextView.text = total.toString()
+                            Log.d("!!!", "Add, total ${item.totalCart}")
+                            clickListener.upgradeItemInCart(currentMenu)
+                        }
+                    }
+                }
+
+            }
+        }
+        fun checkAlreadyInList (currentMenu: MenuItem) {
             for(item in DataManager.itemInCartList) {
                 if (item != null) {
                     if(item.name == currentMenu.name) {
-                        Log.d("!!!", "for loop körs, $currentMenu finns i listan")
                         addToCart.visibility = View.GONE
                         addImageView.visibility = View.VISIBLE
                         removeImageView.visibility = View.VISIBLE
@@ -55,107 +131,6 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
 
                 }
             }
-
-//            if(DataManager.itemInCartList.contains(currentMenu)) {
-//                addToCart.visibility = View.GONE
-//                addImageView.visibility = View.VISIBLE
-//                removeImageView.visibility = View.VISIBLE
-//                countTextView.visibility = View.VISIBLE
-//            }
-
-            addToCart.setOnClickListener {
-                addToCart.visibility = View.GONE
-                addImageView.visibility = View.VISIBLE
-                removeImageView.visibility = View.VISIBLE
-                countTextView.visibility = View.VISIBLE
-                currentMenu.totalCart++
-                countTextView.text = currentMenu.totalCart.toString()
-                //clickListener.addItemToCart(currentMenu)
-
-                if(currentMenu !in DataManager.itemInCartList) {
-                    DataManager.itemInCartList.add(currentMenu)
-                    clickListener.addItemToCart(currentMenu)
-                }
-            }
-
-            removeImageView.setOnClickListener {
-                var total1 = 0
-                var total = 0
-                for(item in DataManager.itemInCartList) {
-                    if (item != null) {
-                        item.totalCart--
-                        total1 = item.totalCart
-                        countTextView.text = total1.toString()
-                        Log.d("!!!", "Tidigt test, total ${item.totalCart}")
-//                        if(item.name == currentMenu.name) {
-//                           // currentMenu.totalCart = item.totalCart
-//                           // total1 = currentMenu.totalCart
-//                            //Log.d("!!!", "nuvarande vara total: $total1")
-//                            //Log.d("!!!", "total1 $total1")
-//
-//                           // countTextView.text = total1.toString()
-//                        }
-//                    } else {
-//                        Log.d("!!!", "Remove körs, varan finns inte i listan")
-//
-//                    }
-                        //total1 = currentMenu.totalCart
-                        //total--
-                    }
-                }
-                //  total1--
-                Log.d("!!!", "test total $total1")
-                // countTextView.text = total1.toString()
-
-                if (total1 > 0) {
-                    //total1--
-                    Log.d("!!!", "if körs, total: $total1")
-                    currentMenu.totalCart = total1
-                    countTextView.text = total1.toString()
-                    //countTextView.text = currentMenu.totalCart.toString()
-                    val index = DataManager.itemInCartList.indexOf(currentMenu)
-                    DataManager.itemInCartList.removeAt(index)
-                    DataManager.itemInCartList.add(currentMenu)
-                    clickListener.upgradeItemInCart(currentMenu)
-
-                } else {
-                    //  total1--
-                    Log.d("!!!", "else körs")
-                    //currentMenu.totalCart = total1
-                    addImageView.visibility = View.GONE
-                    removeImageView.visibility = View.GONE
-                    countTextView.visibility = View.GONE
-                    addToCart.visibility = View.VISIBLE
-
-                    if(DataManager.itemInCartList.contains(currentMenu)) {
-                        DataManager.itemInCartList.remove(currentMenu)
-                        clickListener.removeItemFromCart(currentMenu)
-                    }
-                }
-            }
-
-
-            addImageView.setOnClickListener {
-                var total: Int = currentMenu.totalCart
-                total++
-                if (total <= 10) {
-                    currentMenu.totalCart = total
-                    countTextView.text = currentMenu.totalCart.toString()
-                    clickListener.addItemToCart(currentMenu)
-
-                    if (currentMenu !in DataManager.itemInCartList) {
-                        DataManager.itemInCartList.add(currentMenu)
-                    }
-                }
-            }
-
-            val radius = 30
-            Glide.with(menuImage)
-                .load(currentMenu.imageURL)
-                .error(R.drawable.ic_launcher_background)
-                .centerCrop()
-                .transform(RoundedCorners(radius))
-                .into(menuImage)
         }
     }
 
