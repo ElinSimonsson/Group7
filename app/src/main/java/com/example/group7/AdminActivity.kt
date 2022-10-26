@@ -47,9 +47,9 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        db.collection("restaurants")
+        db.collection(RESTAURANT_STRING)
             .document(getRestaurantName())
-            .collection("menu")
+            .collection(MENU)
             .get()
             .addOnCompleteListener{ task ->
                 if(task.isSuccessful){
@@ -58,7 +58,8 @@ class AdminActivity : AppCompatActivity() {
                         val name = document.data["name"].toString()
                         val price = document.data["price"].toString().toInt()
                         val imageURL = document.data["imageURL"].toString()
-                        val adminMenuItem = AdminMenuItem(name,price, imageURL)
+                        val documentID = document.id
+                        val adminMenuItem = AdminMenuItem(documentID,name,price, imageURL)
                         list.add(adminMenuItem)
                     }
                     myCallback(list)
