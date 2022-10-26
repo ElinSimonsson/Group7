@@ -26,11 +26,6 @@ class MenuActivity : AppCompatActivity() {
     lateinit var drinkTextView : TextView
     lateinit var recyclerView: RecyclerView
 
-    var mainMenuFragment = FoodFragment()
-    var mainDrinkFragment = DrinkFragment()
-
-
-    var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,61 +35,23 @@ class MenuActivity : AppCompatActivity() {
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
 
-        menuTextView.setOnClickListener {
-            replaceWithFoodFragment()
-            Log.d("!!!", "menuTextView körs")
-        }
-        drinkTextView.setOnClickListener {
-            //replaceWithDrinkFragment()
-            testDrinkFragment()
-        }
-
-
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-
-
-
-
-//        readData() {
-//            recyclerView = findViewById(R.id.menuRecyclerView)
-//
-//            recyclerView.layoutManager = GridLayoutManager(this, 2)
-//            recyclerView.adapter = MenuAdapter(it, this)
-//
-//        }
-
-//        cartBrn = findViewById(R.id.cartBtn)
-//        cartBrn.setOnClickListener {
-//
-//            getTotalPrice()
-//
-// }
-
-//        cartTextView = findViewById(R.id.cartTextView)
-//        cartTextView.setOnClickListener {
-//            val intent = Intent(this, OrderActivity::class.java)
-//            startActivity(intent)
-//        }
-
         replaceWithFoodFragment()
+
+
+        menuTextView.setOnClickListener {
+            replaceWithFoodFragment()
+        }
+        drinkTextView.setOnClickListener {
+            replaceWithDrinkFragment()
+        }
     }
 
-    private fun replaceWithDrinkFragment() {
-        val restaurant = getRestaurantName()
-        val drinkFragment = DrinkFragment()
-        //val drinkFragment = DrinkFragment.newInstance(restaurant, restaurant)
-       // val fragmentManager = supportFragmentManager
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container, drinkFragment, "drinkFragment")
-        fragmentTransaction.commit()
-    }
-
-    fun testDrinkFragment () {
+    fun replaceWithDrinkFragment () {
         val fragment = DrinkFragment()
         val bundle = Bundle()
         val restaurant = getRestaurantName()
@@ -114,47 +71,6 @@ class MenuActivity : AppCompatActivity() {
             .commit()
     }
 
-
-    fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
-        db.collection("restaurants").document(getRestaurantName()).collection("menu")
-            .orderBy("name")
-            .get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val list = mutableListOf<MenuItem>()
-                    for (document in task.result) {
-                        val name = document.data["name"].toString()
-                        val price = document.data["price"].toString().toInt()
-                        val imageURL = document.data["imageURL"].toString()
-                        val menuItem = MenuItem(name, price, imageURL, 0)
-                        list.add(menuItem)
-
-                    }
-                    myCallback(list)
-                }
-            }
-    }
-
-    fun getTotalPrice () : Int {
-        var totalPrice = 0
-        for (item in DataManager.itemInCartList) {
-            totalPrice = if (item?.totalCart!! > 1) {
-                val count = item.price?.times(item.totalCart)
-                totalPrice + count!!
-            } else {
-                totalPrice + item.price!!
-            }
-        }
-        return totalPrice
-    }
-
-    fun getTotalItems () : Int {
-        var totalItems = 0
-        for (item in DataManager.itemInCartList) {
-            totalItems = totalItems + item!!.totalCart
-        }
-        return totalItems
-    }
-
     fun getRestaurantName(): String {
         val restaurantName = intent.getStringExtra("restaurant").toString()
 
@@ -168,31 +84,6 @@ class MenuActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
-
-//    override fun addItemToCart(menu: MenuItem) {
-//        cartTextView.visibility = View.VISIBLE
-//        val totalItems = getTotalItems()
-//        val price = getTotalPrice()
-//        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-//    }
-//
-//    override fun upgradeItemInCart(menu: MenuItem) {
-//        val totalItems = getTotalItems()
-//        val price = getTotalPrice()
-//        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-//
-//    }
-//
-//    override fun removeItemFromCart(menu: MenuItem) {
-//        val totalItems = getTotalItems()
-//        val price = getTotalPrice()
-//        if(totalItems == 0) {
-//            cartTextView.visibility = View.GONE
-//        }
-//        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-//    }
 }
 
 
