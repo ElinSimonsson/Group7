@@ -35,13 +35,13 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
-    private var param2: String? = null
+    //private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+           // param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -65,16 +65,17 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MenuFragment().apply {
+            FoodFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    //putString(ARG_PARAM2, param2)
                 }
             }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         cartTextView = view.findViewById(R.id.cartTextView)
 
         var totalItems = getTotalItems()
@@ -100,7 +101,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
     }
 
     fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
-        db.collection("restaurants").document("Primo Ciao Ciao").collection("drink")
+        db.collection("restaurants").document(getRestaurantName()).collection("drink")
             .orderBy("name")
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -116,6 +117,12 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
                     myCallback(list)
                 }
             }
+    }
+
+    fun getRestaurantName (): String {
+        val data = arguments
+        val restaurant = data?.get("restaurant")
+        return restaurant.toString()
     }
 
     fun getTotalPrice () : Int {

@@ -26,7 +26,7 @@ class MenuActivity : AppCompatActivity() {
     lateinit var drinkTextView : TextView
     lateinit var recyclerView: RecyclerView
 
-    var mainMenuFragment = MenuFragment()
+    var mainMenuFragment = FoodFragment()
     var mainDrinkFragment = DrinkFragment()
 
 
@@ -41,11 +41,12 @@ class MenuActivity : AppCompatActivity() {
         drinkTextView = findViewById(R.id.drinkTextView)
 
         menuTextView.setOnClickListener {
-            replaceWithMenuFragment()
+            replaceWithFoodFragment()
             Log.d("!!!", "menuTextView körs")
         }
         drinkTextView.setOnClickListener {
-            replaceWtihDrinkFragment()
+            //replaceWithDrinkFragment()
+            testDrinkFragment()
         }
 
 
@@ -80,21 +81,37 @@ class MenuActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-        replaceWithMenuFragment()
+        replaceWithFoodFragment()
     }
 
-    private fun replaceWtihDrinkFragment() {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container, mainDrinkFragment)
+    private fun replaceWithDrinkFragment() {
+        val restaurant = getRestaurantName()
+        val drinkFragment = DrinkFragment()
+        //val drinkFragment = DrinkFragment.newInstance(restaurant, restaurant)
+       // val fragmentManager = supportFragmentManager
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, drinkFragment, "drinkFragment")
         fragmentTransaction.commit()
     }
 
-    fun replaceWithMenuFragment() {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container, mainMenuFragment)
-        fragmentTransaction.commit()
+    fun testDrinkFragment () {
+        val fragment = DrinkFragment()
+        val bundle = Bundle()
+        val restaurant = getRestaurantName()
+        bundle.putString("restaurant", restaurant)
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
+            .commit()
+    }
+
+    fun replaceWithFoodFragment() {
+        val foodFragment = FoodFragment()
+        val bundle = Bundle()
+        val restaurant = getRestaurantName()
+        bundle.putString("restaurant", restaurant)
+        foodFragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.container, foodFragment)
+            .commit()
     }
 
 

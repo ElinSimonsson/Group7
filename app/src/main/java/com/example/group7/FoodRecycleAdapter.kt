@@ -16,7 +16,7 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
 
 
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.menu_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.food_list_item, parent, false)
         return ViewHolder(itemView)
     }
 

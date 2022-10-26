@@ -7,11 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -20,12 +18,12 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MenuFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MenuFragment : Fragment(), MenuAdapter.MenuListClickListener {
+///**
+// * A simple [Fragment] subclass.
+// * Use the [MenuFragment.newInstance] factory method to
+// * create an instance of this fragment.
+// */
+class FoodFragment : Fragment(), MenuAdapter.MenuListClickListener {
     lateinit var recyclerView: RecyclerView
     lateinit var cartTextView: TextView
 
@@ -49,7 +47,7 @@ class MenuFragment : Fragment(), MenuAdapter.MenuListClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_menu, container, false)
+        val view = inflater.inflate(R.layout.fragment_food, container, false)
         return view
     }
 
@@ -65,7 +63,7 @@ class MenuFragment : Fragment(), MenuAdapter.MenuListClickListener {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MenuFragment().apply {
+            FoodFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -97,7 +95,7 @@ class MenuFragment : Fragment(), MenuAdapter.MenuListClickListener {
     }
 
     fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
-        db.collection("restaurants").document("Primo Ciao Ciao").collection("menu")
+        db.collection("restaurants").document(getRestaurantName()).collection("menu")
             .orderBy("name")
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -113,6 +111,12 @@ class MenuFragment : Fragment(), MenuAdapter.MenuListClickListener {
                     myCallback(list)
                 }
             }
+    }
+
+    fun getRestaurantName (): String {
+        val data = arguments
+        val restaurant = data?.get("restaurant")
+        return restaurant.toString()
     }
 
     fun getTotalPrice () : Int {
