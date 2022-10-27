@@ -17,7 +17,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuItemImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/menuItemImageView1" />
 
     <TextView
         android:id="@+id/priceTextView1"
@@ -33,7 +33,7 @@
 
 
     <TextView
-        android:id="@+id/addToCartButton"
+        android:id="@+id/addToCartButton1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/priceTextView1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addMoreLayout"
+        android:id="@+id/addMoreLayout1"
         android:layout_width="212dp"
         android:layout_height="32dp"
         android:visibility="visible"
@@ -66,13 +66,13 @@
         app:layout_constraintVertical_bias="0.448">
 
         <ImageView
-            android:id="@+id/removeImageView"
+            android:id="@+id/removeImageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:tint="#D50000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/amountTextView"
+            app:layout_constraintEnd_toStartOf="@+id/amountTextView1"
             app:layout_constraintHorizontal_bias="0.798"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +80,7 @@
             app:srcCompat="@drawable/remove_circle" />
 
         <TextView
-            android:id="@+id/amountTextView"
+            android:id="@+id/amountTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -88,11 +88,11 @@
             android:textSize="20sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addImageView"
-            app:layout_constraintStart_toEndOf="@id/removeImageView" />
+            app:layout_constraintEnd_toStartOf="@+id/addImageView1"
+            app:layout_constraintStart_toEndOf="@id/removeImageView1" />
 
         <ImageView
-            android:id="@+id/addImageView"
+            android:id="@+id/addImageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -100,14 +100,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/amountTextView"
+            app:layout_constraintStart_toEndOf="@+id/amountTextView1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/add_circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/menuItemImageView"
+        android:id="@+id/menuItemImageView1"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="10dp"
