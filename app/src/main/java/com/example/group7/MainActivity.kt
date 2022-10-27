@@ -113,8 +113,6 @@ class MainActivity : AppCompatActivity() {
              startActivity(intent)
          }
 
-
-
         }
 
 
@@ -135,6 +133,24 @@ class MainActivity : AppCompatActivity() {
         if(auth.currentUser?.email == "mcdonalds@admin.se"){
             val intentAdmin = Intent(this, AdminActivity::class.java)
             intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if(auth.currentUser?.email == "asiankitchen@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RESTAURANT,"Asian Kitchen")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if(auth.currentUser?.email == "rootssoil@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RESTAURANT,"Roots & Soil")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if(auth.currentUser?.email == "primociaociao@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RESTAURANT,"Primo Ciao Ciao")
             startActivity(intentAdmin)
             finish()
         }

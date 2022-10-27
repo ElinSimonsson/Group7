@@ -52,7 +52,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             saveBtn.setOnClickListener {
                 if (fabRestaurant != null) {
                     newItem(fabRestaurant)
-                    returnToAdmin()
+                    returnToAdmin(fabRestaurant)
                 }
                 else{
                     Log.d("!!!","No restaurant name")
@@ -62,11 +62,11 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         else{
             saveBtn.setOnClickListener {
                 updateItem()
-                returnToAdmin()
+                returnToAdmin(getRestaurant().toString())
             }
             deleteBtn.setOnClickListener {
                 deleteItem()
-                returnToAdmin()
+                returnToAdmin(getRestaurant().toString())
             }
         }
         
@@ -142,9 +142,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                 Log.d("!!!","item not deleted : $it")
             }
     }
-    fun returnToAdmin(){
+    fun returnToAdmin(rName : String){
         val intentAdmin = Intent(this, AdminActivity::class.java)
-        intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+        intentAdmin.putExtra(RESTAURANT,rName)
         startActivity(intentAdmin)
         finish()
     }
