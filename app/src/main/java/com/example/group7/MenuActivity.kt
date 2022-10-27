@@ -17,13 +17,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-
+    lateinit var db : FirebaseFirestore
     lateinit var menuTextView: TextView
     lateinit var drinkTextView : TextView
 
@@ -35,6 +36,7 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         auth = Firebase.auth
+        db = Firebase.firestore
 
 
 
@@ -60,7 +62,7 @@ class MenuActivity : AppCompatActivity() {
                 replaceWithFoodFragment()
             }
                drinkTextView.setOnClickListener {
-
+                replaceWithDrinkFragment()
             }
         }
 
