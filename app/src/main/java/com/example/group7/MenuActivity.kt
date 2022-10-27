@@ -12,6 +12,7 @@ import android.view.View
 
 
 import androidx.appcompat.app.ActionBar
+import androidx.recyclerview.widget.GridLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -37,11 +38,6 @@ class MenuActivity : AppCompatActivity() {
         drinkTextView = findViewById(R.id.drinkTextView)
 
 
-
-      
-
-
-
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
@@ -49,21 +45,13 @@ class MenuActivity : AppCompatActivity() {
 
         replaceWithFoodFragment()
 
-
-        readData() {
-            recyclerView = findViewById(R.id.menuRecyclerView)
-
-            recyclerView.layoutManager = GridLayoutManager(this, 2)
-            recyclerView.adapter = MenuAdapter(it, this)
-
-        menuTextView.setOnClickListener {
-            replaceWithFoodFragment()
+            menuTextView.setOnClickListener {
+                replaceWithFoodFragment()
+            }
+            drinkTextView.setOnClickListener {
+                replaceWithDrinkFragment()
+            }
         }
-        drinkTextView.setOnClickListener {
-            replaceWithDrinkFragment()
-        }
-    }
-
 
     fun replaceWithDrinkFragment () {
         val fragment = DrinkFragment()
@@ -73,54 +61,6 @@ class MenuActivity : AppCompatActivity() {
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
             .commit()
-
-
-    fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
-        db.collection("restaurants").document(getRestaurantName()).collection("menu")
-            .orderBy("name")
-            .get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val list = mutableListOf<MenuItem>()
-                    for (document in task.result) {
-                        val name = document.data["name"].toString()
-                        val price = document.data["price"].toString().toInt()
-                        val imageURL = document.data["imageURL"].toString()
-                        val menuItem = MenuItem(name, price, imageURL, 0)
-                        list.add(menuItem)
-
-                    }
-                    myCallback(list)
-                }
-            }
-    }
-
-   //fun getUserAdress(myCallback : (String) -> Unit){
-   //    db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-   //        .get().addOnCompleteListener{ task ->
-
-   //            var userAdress = ""
-   //            if(task.isSuccessful){
-   //                for (document in task.result){
-   //                    val adress = document.data["adress"].toString()
-   //                    userAdress = adress
-   //                }
-   //                myCallback(userAdress)
-   //            }
-   //        }
-   //}
-
-    fun getTotalPrice () : Int {
-        var totalPrice = 0
-        for (item in DataManager.itemInCartList) {
-            totalPrice = if (item?.totalCart!! > 1) {
-                val count = item.price?.times(item.totalCart)
-                totalPrice + count!!
-            } else {
-                totalPrice + item.price!!
-            }
-        }
-        return totalPrice
-
     }
 
     fun replaceWithFoodFragment() {
@@ -145,33 +85,6 @@ class MenuActivity : AppCompatActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
-    }
-}
-
-
-
-
-    override fun addItemToCart(menu: MenuItem) {
-        cartTextView.visibility = View.VISIBLE
-        val totalItems = getTotalItems()
-        val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-    }
-
-    override fun upgradeItemInCart(menu: MenuItem) {
-        val totalItems = getTotalItems()
-        val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-
-    }
-
-    override fun removeItemFromCart(menu: MenuItem) {
-        val totalItems = getTotalItems()
-        val price = getTotalPrice()
-        if(totalItems == 0) {
-            cartTextView.visibility = View.GONE
-        }
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
     }
 }
 
