@@ -45,8 +45,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        auth = Firebase.auth
+        auth.signOut()
 
-
+        db = Firebase.firestore
 
         imageId = arrayOf(
             R.drawable.roots,
@@ -67,8 +69,6 @@ class MainActivity : AppCompatActivity() {
 
         )
 
-
-
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
@@ -76,10 +76,6 @@ class MainActivity : AppCompatActivity() {
         newArrayList = arrayListOf<RestaurantsData>()
         getUserdata()
 
-        auth = Firebase.auth
-        //auth.signOut()
-
-        db = Firebase.firestore
 
 
         adressView = findViewById<TextView>(R.id.adressView)
@@ -132,11 +128,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //user
     override fun onResume() {
         super.onResume()
 
-
+        Log.d("!!!","user :${auth.currentUser?.email}")
+        if(auth.currentUser?.email == "mcdonalds@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+            startActivity(intentAdmin)
+            finish()
+        }
         getUserAdress {
             adressView.text = it.toString()
 
@@ -144,12 +145,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-            Log.d("!!!","user :${auth.currentUser?.email}")
-            if(auth.currentUser?.email == "mcdonalds@admin.se"){
-                val intentAdmin = Intent(this, AdminActivity::class.java)
-                intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
-                startActivity(intentAdmin)
-            }
+
 
 
     }

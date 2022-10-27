@@ -26,6 +26,7 @@ class AdminMenuAdapter(private val context : Context, val adminMenu : MutableLis
         holder.nameView.text = currentItem.name
         holder.priceView.text = "${currentItem.price} kr"
         var imageURL = currentItem.imageURL
+        holder.id = currentItem.documentId.toString()
 
 
         val radius = 30
@@ -46,14 +47,19 @@ class AdminMenuAdapter(private val context : Context, val adminMenu : MutableLis
         val nameView: TextView = itemView.findViewById<TextView>(R.id.adminNameText)
         val priceView: TextView = itemView.findViewById<TextView>(R.id.adminPriceText)
         var menuImage: ImageView = itemView.findViewById<ImageView>(R.id.adminMenuItemImage)
+        var id = ""
 
 
 
         init {
             itemView.setOnClickListener{
+
+                Log.d("!!!","id innerclass : $id")
                 val adminAdapterIntent = Intent(context, AdminDisplayItem_Activity::class.java)
+                adminAdapterIntent.putExtra(DOCUMENT_ID,id)
                 adminAdapterIntent.putExtra(ITEM_POSITION_NAME,nameView.text)
                 adminAdapterIntent.putExtra(RESTAURANT_NAME,restaurantName)
+                Log.d("!!!","adapter rn : $restaurantName")
                 context.startActivity(adminAdapterIntent)
             }
         }

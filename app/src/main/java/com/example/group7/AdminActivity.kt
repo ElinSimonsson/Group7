@@ -17,7 +17,6 @@ class AdminActivity : AppCompatActivity() {
 
 
     lateinit var recyclerView: RecyclerView
-    lateinit var addMenuItemFAB : FloatingActionButton
     lateinit var db : FirebaseFirestore
 
 
@@ -26,26 +25,35 @@ class AdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin)
 
         db = Firebase.firestore
+        val restaurantName = getRestaurantName()
 
         val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fab.setOnClickListener {
             val intentFab = Intent(this,AdminDisplayItem_Activity::class.java)
+            intentFab.putExtra("newUser" , 1)
+            intentFab.putExtra("restaurantNameFAB",restaurantName)
             startActivity(intentFab)
         }
 
         readMenuData {
+
             recyclerView = findViewById(R.id.AdminMenuRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(this@AdminActivity,2)
-            val adapter = AdminMenuAdapter(this,it,getRestaurantName())
+            val adapter = AdminMenuAdapter(this,it,restaurantName)
             recyclerView.adapter = adapter
-        }
+            Log.d("!!!","readmenudata")
 
+        }
 
 
     }
 
+
     fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        db.collection(getRestaurantName())
+        Log.d("!!!","Fun rmd")
+        db.collection(RESTAURANT_STRING)
+            .document(getRestaurantName())
+            .collection(MENU)
             .get()
             .addOnCompleteListener{ task ->
                 if(task.isSuccessful){
@@ -54,7 +62,8 @@ class AdminActivity : AppCompatActivity() {
                         val name = document.data["name"].toString()
                         val price = document.data["price"].toString().toInt()
                         val imageURL = document.data["imageURL"].toString()
-                        val adminMenuItem = AdminMenuItem(name,price, imageURL)
+                        val documentID = document.id
+                        val adminMenuItem = AdminMenuItem(documentID,name,price, imageURL)
                         list.add(adminMenuItem)
                     }
                     myCallback(list)
@@ -64,7 +73,7 @@ class AdminActivity : AppCompatActivity() {
 
     fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra(RESTAURANT).toString()
-
+        Log.d("!!!","rname fun admin : $restaurantName")
         return restaurantName
     }
 }

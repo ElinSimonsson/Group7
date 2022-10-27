@@ -1,6 +1,5 @@
 package com.example.group7
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,15 +9,16 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
 const val ITEM_POSITION_NAME = "ITEM_POSITION_NAME"
 const val RESTAURANT_NAME = "RestaurantName"
+const val DOCUMENT_ID = "DocumentID"
+const val RESTAURANT_STRING = "restaurants"
+const val MENU = "menu"
 
 class AdminDisplayItem_Activity : AppCompatActivity() {
 
@@ -38,35 +38,45 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         db = Firebase.firestore
 
-        val restaurantName = getRestaurant().toString()
-        val itemPositionName = getItemPosition().toString()
-        Log.d("!!!","$restaurantName")
+
+        //Skickar ett eget intent med restaurang namnet till FAB
+        val fabNumber = intent.getIntExtra("newUser" ,0)
+        Log.d("!!!","fabNr :$fabNumber ")
+        val fabRestaurant = intent.getStringExtra("restaurantNameFAB")
+        Log.d("!!!","fabRn : $fabRestaurant")
 
 
-        displayItem(restaurantName,itemPositionName)
+        displayItem()
 
-
-       //if(itemPositionName == null){
-       //    saveBtn.setOnClickListener {
-       //        newItem(restaurantName)
-       //    }
-       //    deleteBtn.setOnClickListener {
-
-       //    }
-
-       //}
-       //else{
-       //    updateItem(restaurantName,itemPositionName)
-       //}
-
-
-
+        if(fabNumber == 1){
+            saveBtn.setOnClickListener {
+                if (fabRestaurant != null) {
+                    newItem(fabRestaurant)
+                    returnToAdmin()
+                }
+                else{
+                    Log.d("!!!","No restaurant name")
+                }
+            }
+        }
+        else{
+            saveBtn.setOnClickListener {
+                updateItem()
+                returnToAdmin()
+            }
+            deleteBtn.setOnClickListener {
+                deleteItem()
+                returnToAdmin()
+            }
+        }
+        
 
     }
-    fun displayItem (restaurantName : String,itemName : String){
-        Log.d("!!!","DN : $restaurantName")
-        db.collection(restaurantName)
-            .whereEqualTo("name",itemName)
+    fun displayItem (){
+        db.collection(RESTAURANT_STRING)
+            .document(getRestaurant().toString())
+            .collection(MENU)
+            .whereEqualTo("name",getItemPositionName())
             .get()
             .addOnSuccessListener {
                 for (document in it){
@@ -79,7 +89,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             }
 
     }
-    fun newItem(restaurantName: String){
+    fun newItem(restaurantNameFAB : String){
         val defaultImage = "https://firebasestorage.googleapis.com/v0/b/group7-acaa7.appspot.com/o/No_image_available.png?alt=media&token=9f69eae8-7c9c-4897-86f2-91a86d5b945d"
         val name = editItemName.text.toString()
         val price = editItemPrice.text.toString()
@@ -89,8 +99,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             "price" to price,
             "imageURL" to defaultImage
         )
-        Log.d("!!!","RN : $restaurantName")
-        db.collection(restaurantName)
+        db.collection(RESTAURANT_STRING)
+            .document(restaurantNameFAB)
+            .collection(MENU)
             .add(newItem)
             .addOnSuccessListener {
                 Toast.makeText(this,"Added item successfully", Toast.LENGTH_SHORT).show()
@@ -101,27 +112,55 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                 Log.d("!!!","Failed to add item")
             }
 
-
     }
 
-    fun updateItem(restaurantName : String?,itemName : String?){
-        val updatedItem = hashMapOf(
-            editItemName.text to "name",
-            editItemPrice.text to "price"
-        )
-       db.collection(restaurantName.toString()).document()
-           .update("name",updatedItem)
+    fun updateItem(){
 
+              db.collection(RESTAURANT_STRING)
+                  .document(getRestaurant().toString())
+                  .collection(MENU)
+                  .document(getDocumentID().toString())
+                  .update("name",editItemName.text.toString(), "price",editItemPrice.text.toString())
+                    .addOnSuccessListener {
+                        Log.d("!!!","item name updated")
+                    }
+                    .addOnFailureListener {
+                       Log.d("!!!","item name not updated : $it")
+                    }
 
-
-
+    }
+    fun deleteItem(){
+        db.collection(RESTAURANT_STRING)
+            .document(getRestaurant().toString())
+            .collection(MENU)
+            .document(getDocumentID().toString())
+            .delete()
+            .addOnSuccessListener {
+                Log.d("!!!","item deleted")
+            }
+            .addOnFailureListener {
+                Log.d("!!!","item not deleted : $it")
+            }
+    }
+    fun returnToAdmin(){
+        val intentAdmin = Intent(this, AdminActivity::class.java)
+        intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+        startActivity(intentAdmin)
+        finish()
     }
     fun getRestaurant() : String?{
         val name = intent.getStringExtra(RESTAURANT_NAME)
+        Log.d("!!!","fun getres : $name")
         return name
     }
-    fun getItemPosition ():String?{
+    fun getItemPositionName ():String?{
         val position = intent.getStringExtra(ITEM_POSITION_NAME)
+        Log.d("!!!","fun itemposname : $position")
         return position
+    }
+    fun getDocumentID () : String?{
+        val id = intent.getStringExtra(DOCUMENT_ID)
+        Log.d("!!!","fun id : $id")
+        return id
     }
 }
