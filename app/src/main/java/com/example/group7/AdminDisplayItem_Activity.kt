@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -36,8 +37,6 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         db = Firebase.firestore
-        val restaurantName = getRestaurant().toString()
-        val documentId = getDocumentID()
 
 
         //Skickar ett eget intent med restaurang namnet till FAB
@@ -53,7 +52,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             saveBtn.setOnClickListener {
                 if (fabRestaurant != null) {
                     newItem(fabRestaurant)
-                    finish()
+                    returnToAdmin()
                 }
                 else{
                     Log.d("!!!","No restaurant name")
@@ -63,7 +62,11 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         else{
             saveBtn.setOnClickListener {
                 updateItem()
-                finish()
+                returnToAdmin()
+            }
+            deleteBtn.setOnClickListener {
+                deleteItem()
+                returnToAdmin()
             }
         }
         
@@ -86,7 +89,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             }
 
     }
-    fun newItem(restaurantName : String){
+    fun newItem(restaurantNameFAB : String){
         val defaultImage = "https://firebasestorage.googleapis.com/v0/b/group7-acaa7.appspot.com/o/No_image_available.png?alt=media&token=9f69eae8-7c9c-4897-86f2-91a86d5b945d"
         val name = editItemName.text.toString()
         val price = editItemPrice.text.toString()
@@ -97,7 +100,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             "imageURL" to defaultImage
         )
         db.collection(RESTAURANT_STRING)
-            .document(restaurantName)
+            .document(restaurantNameFAB)
             .collection(MENU)
             .add(newItem)
             .addOnSuccessListener {
@@ -109,19 +112,15 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                 Log.d("!!!","Failed to add item")
             }
 
-
     }
 
     fun updateItem(){
-        val name = editItemName.text.toString()
-        val price = editItemPrice.text.toString()
 
-            Log.d("!!!","editname : ${editItemName.text}")
               db.collection(RESTAURANT_STRING)
                   .document(getRestaurant().toString())
                   .collection(MENU)
                   .document(getDocumentID().toString())
-                  .update("name",name,"price",price)
+                  .update("name",editItemName.text.toString(), "price",editItemPrice.text.toString())
                     .addOnSuccessListener {
                         Log.d("!!!","item name updated")
                     }
@@ -129,14 +128,26 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                        Log.d("!!!","item name not updated : $it")
                     }
 
-
-
-
-
-
-
     }
-
+    fun deleteItem(){
+        db.collection(RESTAURANT_STRING)
+            .document(getRestaurant().toString())
+            .collection(MENU)
+            .document(getDocumentID().toString())
+            .delete()
+            .addOnSuccessListener {
+                Log.d("!!!","item deleted")
+            }
+            .addOnFailureListener {
+                Log.d("!!!","item not deleted : $it")
+            }
+    }
+    fun returnToAdmin(){
+        val intentAdmin = Intent(this, AdminActivity::class.java)
+        intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+        startActivity(intentAdmin)
+        finish()
+    }
     fun getRestaurant() : String?{
         val name = intent.getStringExtra(RESTAURANT_NAME)
         Log.d("!!!","fun getres : $name")

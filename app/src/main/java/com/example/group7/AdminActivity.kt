@@ -36,17 +36,21 @@ class AdminActivity : AppCompatActivity() {
         }
 
         readMenuData {
+
             recyclerView = findViewById(R.id.AdminMenuRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(this@AdminActivity,2)
             val adapter = AdminMenuAdapter(this,it,restaurantName)
             recyclerView.adapter = adapter
-        }
+            Log.d("!!!","readmenudata")
 
+        }
 
 
     }
 
+
     fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
+        Log.d("!!!","Fun rmd")
         db.collection(RESTAURANT_STRING)
             .document(getRestaurantName())
             .collection(MENU)

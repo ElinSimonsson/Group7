@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity() {
             val intentAdmin = Intent(this, AdminActivity::class.java)
             intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
             startActivity(intentAdmin)
+            finish()
         }
         getUserAdress {
             adressView.text = it.toString()
