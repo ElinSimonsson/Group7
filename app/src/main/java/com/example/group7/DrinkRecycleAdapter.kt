@@ -44,7 +44,6 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
 
             checkAlreadyInList(currentMenu)
 
-            Log.d("!!!", "${currentMenu.imageURL}")
 
             val radius = 30
             Glide.with(menuImage)
@@ -70,7 +69,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
 
             removeImageView.setOnClickListener {
 
-                // En klon av DatamManager.itemInCartList skapas
+                // En klon av DataManager.itemInCartList skapas
                 // för att undvika felkod ConcurrentModificationException
 
                 val cloneList = mutableListOf<MenuItem>()
@@ -85,12 +84,10 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                         item.totalCart--
                         total = item.totalCart
                         countTextView.text = total.toString()
-                        Log.d("!!!", "Remove, total ${item.totalCart}")
                         clickListener.upgradeItemInCart(currentMenu)
 
                         if(item.totalCart < 1) {
                             DataManager.itemInCartList.remove(currentMenu)
-                            Log.d("!!!", "${DataManager.itemInCartList}")
                             addImageView.visibility = View.GONE
                             removeImageView.visibility = View.GONE
                             countTextView.visibility = View.GONE
@@ -110,7 +107,6 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                             item.totalCart++
                             total = item.totalCart
                             countTextView.text = total.toString()
-                            Log.d("!!!", "Add, total ${item.totalCart}")
                             clickListener.upgradeItemInCart(currentMenu)
                         }
                     }

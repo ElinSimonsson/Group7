@@ -1,6 +1,5 @@
 package com.example.group7
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -110,7 +109,6 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                                 item.totalCart++
                                 total = item.totalCart
                                 countTextView.text = total.toString()
-                                Log.d("!!!", "Add, total ${item.totalCart}")
                                 clickListener.upgradeItemInCart(currentMenu)
                             } else {
                                 Toast.makeText(
