@@ -122,14 +122,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
-
-
-
-
     private fun getUserdata() {
         for (i in imageId.indices) {
             val restaurant = RestaurantsData(imageId[i], heading[i], distance[i])
@@ -186,6 +178,8 @@ private operator fun Button.get(i: Int) {
 
 }
 
+
 }
+
 
 
