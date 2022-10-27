@@ -1,11 +1,10 @@
 package com.example.group7
 
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.util.Log
+
 import android.widget.Button
 import android.widget.TextView
 
@@ -14,51 +13,41 @@ import android.view.View
 
 import androidx.appcompat.app.ActionBar
 
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
-
-
+class MenuActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-
-
-
-    lateinit var cartBrn: Button
+    lateinit var menuTextView: TextView
+    lateinit var drinkTextView : TextView
     lateinit var recyclerView: RecyclerView
-    lateinit var cartTextView: TextView
 
-
-    var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-
         auth = Firebase.auth
 
+        menuTextView = findViewById(R.id.menuTextView)
+        drinkTextView = findViewById(R.id.drinkTextView)
 
-      //  menuAdressTextView = findViewById(R.id.menuAdressView)
-      //  getUserAdress {
-      //      menuAdressTextView.text = it.toString()
-      //  }
 
-      // backBtn = findViewById(R.id.backBtn)
-      // backBtn.setOnClickListener{
-      //     finish()
-      // }
+
+      
+
 
 
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        replaceWithFoodFragment()
 
 
         readData() {
@@ -67,21 +56,23 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
             recyclerView.layoutManager = GridLayoutManager(this, 2)
             recyclerView.adapter = MenuAdapter(it, this)
 
+        menuTextView.setOnClickListener {
+            replaceWithFoodFragment()
         }
-
-//        cartBrn = findViewById(R.id.cartBtn)
-//        cartBrn.setOnClickListener {
-//
-//            getTotalPrice()
-//
-// }
-
-        cartTextView = findViewById(R.id.cartTextView)
-        cartTextView.setOnClickListener {
-            val intent = Intent(this, OrderActivity::class.java)
-            startActivity(intent)
+        drinkTextView.setOnClickListener {
+            replaceWithDrinkFragment()
         }
     }
+
+
+    fun replaceWithDrinkFragment () {
+        val fragment = DrinkFragment()
+        val bundle = Bundle()
+        val restaurant = getRestaurantName()
+        bundle.putString("restaurant", restaurant)
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
+            .commit()
 
 
     fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
@@ -129,14 +120,17 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
             }
         }
         return totalPrice
+
     }
 
-    fun getTotalItems () : Int {
-        var totalItems = 0
-        for (item in DataManager.itemInCartList) {
-            totalItems = totalItems + item!!.totalCart
-        }
-        return totalItems
+    fun replaceWithFoodFragment() {
+        val foodFragment = FoodFragment()
+        val bundle = Bundle()
+        val restaurant = getRestaurantName()
+        bundle.putString("restaurant", restaurant)
+        foodFragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.container, foodFragment)
+            .commit()
     }
 
     fun getRestaurantName(): String {
@@ -152,6 +146,8 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         }
         return super.onOptionsItemSelected(item)
     }
+}
+
 
 
 
@@ -178,6 +174,7 @@ class MenuActivity : AppCompatActivity(), MenuAdapter.MenuListClickListener {
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
     }
 }
+
 
 
 
