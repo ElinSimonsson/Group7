@@ -14,12 +14,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-const val ITEM_POSITION_NAME = "ITEM_POSITION_NAME"
-const val RESTAURANT_NAME = "RestaurantName"
-const val DOCUMENT_ID = "DocumentID"
-const val RESTAURANT_STRING = "restaurants"
-const val MENU = "menu"
-
 class AdminDisplayItem_Activity : AppCompatActivity() {
 
     lateinit var editItemName : EditText

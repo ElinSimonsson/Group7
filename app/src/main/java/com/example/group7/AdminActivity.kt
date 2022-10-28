@@ -4,13 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlin.math.log
 
 
 class AdminActivity : AppCompatActivity() {
@@ -18,6 +18,8 @@ class AdminActivity : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var db : FirebaseFirestore
+    lateinit var adminMatTextView: TextView
+    lateinit var adminDryckTextView: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,42 +36,30 @@ class AdminActivity : AppCompatActivity() {
             intentFab.putExtra("restaurantNameFAB",restaurantName)
             startActivity(intentFab)
         }
+        adminMatTextView = findViewById(R.id.adminMatTextView)
+        adminDryckTextView = findViewById(R.id.adminDryckTextView)
 
-        readMenuData {
-
-            recyclerView = findViewById(R.id.AdminMenuRecyclerView)
-            recyclerView.layoutManager = GridLayoutManager(this@AdminActivity,2)
-            val adapter = AdminMenuAdapter(this,it,restaurantName)
-            recyclerView.adapter = adapter
-            Log.d("!!!","readmenudata")
-
+        adminMatTextView.setOnClickListener {
+            replaceFragment(AdminMenuFragment())
+        }
+        adminDryckTextView.setOnClickListener {
+            replaceFragment(AdminDrinkFragment())
         }
 
 
-    }
 
 
-    fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        Log.d("!!!","Fun rmd")
-        db.collection(RESTAURANT_STRING)
-            .document(getRestaurantName())
-            .collection(MENU)
-            .get()
-            .addOnCompleteListener{ task ->
-                if(task.isSuccessful){
-                    val list = mutableListOf<AdminMenuItem>()
-                    for (document in task.result){
-                        val name = document.data["name"].toString()
-                        val price = document.data["price"].toString().toInt()
-                        val imageURL = document.data["imageURL"].toString()
-                        val documentID = document.id
-                        val adminMenuItem = AdminMenuItem(documentID,name,price, imageURL)
-                        list.add(adminMenuItem)
-                    }
-                    myCallback(list)
-                }
-            }
+
+
     }
+
+    private fun replaceFragment(AdminFragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout,AdminFragment)
+        fragmentTransaction.commit()
+    }
+
 
     fun getRestaurantName():String {
         val restaurantName = intent.getStringExtra(RESTAURANT).toString()

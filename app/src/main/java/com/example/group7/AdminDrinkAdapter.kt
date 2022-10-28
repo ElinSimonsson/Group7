@@ -9,16 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String) : RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>(){
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.admin_menu_list_item,parent,false)
+class AdminDrinkAdapter(val adminDrinkMenu : MutableList<AdminMenuItem>,val restarantName : String) : RecyclerView.Adapter<AdminDrinkAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AdminDrinkAdapter.ViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.admin_menu_list_item, parent, false)
         return ViewHolder(itemView)
+    }
+
+
+    override fun getItemCount(): Int {
+        return adminDrinkMenu.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentItem = adminMenu[position]
+        val currentItem = adminDrinkMenu[position]
 
         holder.nameView.text = currentItem.name
         holder.priceView.text = "${currentItem.price} kr"
@@ -36,28 +44,11 @@ class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
 
     }
 
-    override fun getItemCount(): Int {
-        return adminMenu.size
-    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkNameText)
         val priceView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkPriceText)
         var menuImage: ImageView = itemView.findViewById<ImageView>(R.id.adminDrinkItemImage)
         var id = ""
-
-
-
-      // init {
-      //     itemView.setOnClickListener{
-
-      //         Log.d("!!!","id innerclass : $id")
-      //         val adminAdapterIntent = Intent(context, AdminDisplayItem_Activity::class.java)
-      //         adminAdapterIntent.putExtra(DOCUMENT_ID,id)
-      //         adminAdapterIntent.putExtra(ITEM_POSITION_NAME,nameView.text)
-      //         adminAdapterIntent.putExtra(RESTAURANT_NAME,restaurantName)
-      //         Log.d("!!!","adapter rn : $restaurantName")
-      //         context.startActivity(adminAdapterIntent)
-      //     }
-      // }
     }
+
 }
