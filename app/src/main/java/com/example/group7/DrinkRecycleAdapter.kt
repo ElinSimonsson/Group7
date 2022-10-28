@@ -1,6 +1,5 @@
 package com.example.group7
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +41,15 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
             nameView.text = currentMenu.name
             priceView.text = "${currentMenu.price} kr"
 
-            checkAlreadyInList(currentMenu)
+            checkAlreadyInItemInCartList(currentMenu)
 
+            for(item in DataManager.itemInCartList) {
+                if(currentMenu.name == item?.name) {
+                    if(item?.totalCart == 10 ) {
+                        addImageView.setImageResource(R.drawable.light_add_circle)
+                    }
+                }
+            }
 
             val radius = 30
             Glide.with(menuImage)
@@ -68,6 +74,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
             }
 
             removeImageView.setOnClickListener {
+                removeImageView.setImageResource(R.drawable.add_circle)
 
                 // En klon av DataManager.itemInCartList skapas
                 // för att undvika felkod ConcurrentModificationException
@@ -78,7 +85,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                         cloneList.add(item)
                     }
                 }
-                var total = 0
+                var total: Int
                 for (item in cloneList) {
                     if (item.name == currentMenu.name) {
                         item.totalCart--
@@ -99,22 +106,26 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
             }
 
             addImageView.setOnClickListener {
-                var total = 0
-
+                var total: Int
                 for (item in DataManager.itemInCartList) {
                     if (item != null) {
                         if (item.name == currentMenu.name) {
-                            item.totalCart++
-                            total = item.totalCart
-                            countTextView.text = total.toString()
-                            clickListener.upgradeItemInCart(currentMenu)
+                            if (item.totalCart < 10) {
+                                item.totalCart++
+                                total = item.totalCart
+                                countTextView.text = total.toString()
+                                clickListener.upgradeItemInCart(currentMenu)
+                                if(item.totalCart == 10) {
+                                    addImageView.setImageResource(R.drawable.light_add_circle)
+                                }
+                            }
                         }
                     }
                 }
 
             }
         }
-        fun checkAlreadyInList (currentMenu: MenuItem) {
+        fun checkAlreadyInItemInCartList (currentMenu: MenuItem) {
             for(item in DataManager.itemInCartList) {
                 if (item != null) {
                     if(item.name == currentMenu.name) {

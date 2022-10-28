@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListClickListener) :
-    RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: FoodFragment) :
+    RecyclerView.Adapter<FoodRecycleAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
 
@@ -21,7 +21,7 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(menu.get(position))
+        holder.bind(menu.get(position)!!)
     }
 
     override fun getItemCount(): Int {
@@ -44,6 +44,13 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
             priceView.text = "${currentMenu.price} kr"
 
             checkAlreadyInList(currentMenu)
+            for(item in DataManager.itemInCartList) {
+                if(currentMenu.name == item?.name) {
+                    if(item?.totalCart == 10 ) {
+                        addImageView.setImageResource(R.drawable.light_add_circle)
+                    }
+                }
+            }
 
             val radius = 30
             Glide.with(menuImage)
@@ -69,6 +76,7 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
 
 
             removeImageView.setOnClickListener {
+                addImageView.setImageResource(R.drawable.add_circle)
 
                 // En klon av DatamManager.itemInCartList skapas
                 // för att undvika felkod ConcurrentModificationException
@@ -110,11 +118,9 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
                                 total = item.totalCart
                                 countTextView.text = total.toString()
                                 clickListener.upgradeItemInCart(currentMenu)
-                            } else {
-                                Toast.makeText(
-                                    itemView.context,
-                                    "Max 10 varor är tillåtna",
-                                    Toast.LENGTH_LONG).show()
+                                if(item.totalCart == 10) {
+                                    addImageView.setImageResource(R.drawable.light_add_circle)
+                                }
                             }
                         }
                     }
@@ -138,7 +144,7 @@ class MenuAdapter(var menu: MutableList<MenuItem>, val clickListener: MenuListCl
         }
     }
 
-    interface MenuListClickListener {
+    interface FoodListClickListener {
         fun addItemToCart (menu: MenuItem)
         fun upgradeItemInCart (menu: MenuItem)
         fun removeItemFromCart(menu: MenuItem)

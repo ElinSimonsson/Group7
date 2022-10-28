@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_divider">
 
     <TextView
         android:id="@+id/nameTextView"
@@ -19,18 +20,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuItemImageView" />
 
+
     <TextView
         android:id="@+id/priceTextView"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
+        android:layout_marginBottom="70dp"
         android:text="TextView"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
-
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+        app:layout_constraintVertical_bias="0.115" />
 
     <TextView
         android:id="@+id/addToCartButton"
@@ -39,9 +43,9 @@
         android:layout_margin="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="9dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="518dp"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/rounded_corners_button"
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:text="Lägg till varukorg"
@@ -57,27 +61,28 @@
         android:id="@+id/addMoreLayout"
         android:layout_width="212dp"
         android:layout_height="32dp"
+        android:layout_marginBottom="20dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceTextView"
-        app:layout_constraintVertical_bias="0.448">
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/removeImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:tint="#D50000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/amountTextView"
             app:layout_constraintHorizontal_bias="0.798"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/remove_circle" />
+            app:srcCompat="@drawable/remove_circle"
+            app:tint="#D50000" />
 
         <TextView
             android:id="@+id/amountTextView"
@@ -96,14 +101,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:tint="#D50000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/amountTextView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/add_circle" />
+            app:srcCompat="@drawable/add_circle"
+            app:tint="#D50000" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView

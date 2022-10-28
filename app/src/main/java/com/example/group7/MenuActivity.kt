@@ -43,6 +43,8 @@ class MenuActivity : AppCompatActivity() {
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
+
+
         replaceWithFoodFragment()
 
             menuTextView.setOnClickListener {
@@ -52,6 +54,11 @@ class MenuActivity : AppCompatActivity() {
                 replaceWithDrinkFragment()
             }
         }
+
+//    override fun onResume() {
+//        super.onResume()
+//        recyclerView.adapter?.notifyDataSetChanged()
+//    }
 
     fun replaceWithDrinkFragment () {
         val fragment = DrinkFragment()
