@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,11 +38,13 @@ class AdminActivity : AppCompatActivity() {
         adminMatTextView = findViewById(R.id.adminMatTextView)
         adminDryckTextView = findViewById(R.id.adminDryckTextView)
 
+        startMenuFragment()
+
         adminMatTextView.setOnClickListener {
-            replaceFragment(AdminMenuFragment())
+            startMenuFragment()
         }
         adminDryckTextView.setOnClickListener {
-            replaceFragment(AdminDrinkFragment())
+            startDrinkFragment()
         }
 
 
@@ -53,16 +54,30 @@ class AdminActivity : AppCompatActivity() {
 
     }
 
-    private fun replaceFragment(AdminFragment: Fragment) {
+    private fun startDrinkFragment() {
+        val AdminFragment = AdminDrinkFragment()
+        val bundle = Bundle()
+        bundle.putString(RES_NAME_DRINK_FRAGMENT, getRestaurantName())
+        AdminFragment.arguments = bundle
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout,AdminFragment)
+        fragmentTransaction.replace(R.id.frameLayout,AdminFragment)
+        fragmentTransaction.commit()
+    }
+    private fun startMenuFragment() {
+        val AdminFragment = AdminMenuFragment()
+        val bundle = Bundle()
+        bundle.putString(RES_NAME_MENU_FRAGMENT, getRestaurantName())
+        AdminFragment.arguments = bundle
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout,AdminFragment)
         fragmentTransaction.commit()
     }
 
 
     fun getRestaurantName():String {
-        val restaurantName = intent.getStringExtra(RESTAURANT).toString()
+        val restaurantName = intent.getStringExtra(RES_MAIN).toString()
         Log.d("!!!","rname fun admin : $restaurantName")
         return restaurantName
     }

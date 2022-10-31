@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String) : RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>(){
+class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String, val type : String) : RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.admin_menu_list_item,parent,false)
@@ -47,17 +48,15 @@ class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
 
 
 
-      // init {
-      //     itemView.setOnClickListener{
+       init {
+           itemView.setOnClickListener{
 
-      //         Log.d("!!!","id innerclass : $id")
-      //         val adminAdapterIntent = Intent(context, AdminDisplayItem_Activity::class.java)
-      //         adminAdapterIntent.putExtra(DOCUMENT_ID,id)
-      //         adminAdapterIntent.putExtra(ITEM_POSITION_NAME,nameView.text)
-      //         adminAdapterIntent.putExtra(RESTAURANT_NAME,restaurantName)
-      //         Log.d("!!!","adapter rn : $restaurantName")
-      //         context.startActivity(adminAdapterIntent)
-      //     }
-      // }
+               val adminAdapterIntent = Intent(it.context, AdminDisplayItem_Activity::class.java)
+               adminAdapterIntent.putExtra(DOCUMENT_ID,id)
+               adminAdapterIntent.putExtra(RES_NAME_ADAPTER,restaurantName)
+               adminAdapterIntent.putExtra(TYPE, type)
+               it.context.startActivity(adminAdapterIntent)
+           }
+       }
     }
 }

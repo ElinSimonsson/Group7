@@ -7,7 +7,9 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -30,6 +32,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         editItemImage = findViewById(R.id.editImageView)
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
+        val switch = findViewById<Switch>(R.id.switch1)
         db = Firebase.firestore
 
 
@@ -40,12 +43,29 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         Log.d("!!!","fabRn : $fabRestaurant")
 
 
-        displayItem()
+
+
+        switch.isVisible = false
+        //add drink or food
 
         if(fabNumber == 1){
+            switch.isVisible = true
+            var type = "menu"
+            switch.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    switch.text="drink"
+                    type = "drink"
+                }
+                else {
+                    switch.text ="menu"
+                    type = "menu"
+                }
+            }
+
+
             saveBtn.setOnClickListener {
                 if (fabRestaurant != null) {
-                    newItem(fabRestaurant)
+                    newItem(fabRestaurant,type)
                     returnToAdmin(fabRestaurant)
                 }
                 else{
@@ -54,6 +74,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             }
         }
         else{
+            displayItem()
             saveBtn.setOnClickListener {
                 updateItem()
                 returnToAdmin(getRestaurant().toString())
@@ -69,33 +90,37 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     fun displayItem (){
         db.collection(RESTAURANT_STRING)
             .document(getRestaurant().toString())
-            .collection(MENU)
-            .whereEqualTo("name",getItemPositionName())
+            .collection(getType().toString())
+            .document(getDocumentID().toString())
             .get()
-            .addOnSuccessListener {
-                for (document in it){
-                    editItemName.setText(document.data["name"].toString())
+            .addOnSuccessListener { document ->
+                if (document != null){
+                    editItemName.setText(document.data!!["name"].toString())
                     Log.d("!!!","name : ${editItemName.text}")
-                    editItemPrice.setText(document.data["price"].toString())
-                    Glide.with(this).load(document.data["imageURL"]).into(editItemImage)
+                    editItemPrice.setText(document.data!!["price"].toString())
+                    Glide.with(this).load(document.data!!["imageURL"]).into(editItemImage)
 
                 }
+
+            }
+            .addOnFailureListener {
+                finish()
             }
 
     }
-    fun newItem(restaurantNameFAB : String){
-        val defaultImage = "https://firebasestorage.googleapis.com/v0/b/group7-acaa7.appspot.com/o/No_image_available.png?alt=media&token=9f69eae8-7c9c-4897-86f2-91a86d5b945d"
+    fun newItem(restaurantNameFAB : String,type : String){
         val name = editItemName.text.toString()
         val price = editItemPrice.text.toString()
+        val imageURL = "https://firebasestorage.googleapis.com/v0/b/group7-acaa7.appspot.com/o/No_image_available.png?alt=media&token=9f69eae8-7c9c-4897-86f2-91a86d5b945d"
 
         val newItem = hashMapOf(
             "name" to name,
             "price" to price,
-            "imageURL" to defaultImage
+            "imageURL" to imageURL
         )
         db.collection(RESTAURANT_STRING)
             .document(restaurantNameFAB)
-            .collection(MENU)
+            .collection(type)
             .add(newItem)
             .addOnSuccessListener {
                 Toast.makeText(this,"Added item successfully", Toast.LENGTH_SHORT).show()
@@ -112,7 +137,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
               db.collection(RESTAURANT_STRING)
                   .document(getRestaurant().toString())
-                  .collection(MENU)
+                  .collection(getType().toString())
                   .document(getDocumentID().toString())
                   .update("name",editItemName.text.toString(), "price",editItemPrice.text.toString())
                     .addOnSuccessListener {
@@ -126,7 +151,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     fun deleteItem(){
         db.collection(RESTAURANT_STRING)
             .document(getRestaurant().toString())
-            .collection(MENU)
+            .collection(getType().toString())
             .document(getDocumentID().toString())
             .delete()
             .addOnSuccessListener {
@@ -138,23 +163,19 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     }
     fun returnToAdmin(rName : String){
         val intentAdmin = Intent(this, AdminActivity::class.java)
-        intentAdmin.putExtra(RESTAURANT,rName)
+        intentAdmin.putExtra(RES_MAIN,rName)
         startActivity(intentAdmin)
         finish()
     }
     fun getRestaurant() : String?{
-        val name = intent.getStringExtra(RESTAURANT_NAME)
-        Log.d("!!!","fun getres : $name")
-        return name
-    }
-    fun getItemPositionName ():String?{
-        val position = intent.getStringExtra(ITEM_POSITION_NAME)
-        Log.d("!!!","fun itemposname : $position")
-        return position
+        return intent.getStringExtra(RES_NAME_ADAPTER)
     }
     fun getDocumentID () : String?{
-        val id = intent.getStringExtra(DOCUMENT_ID)
-        Log.d("!!!","fun id : $id")
-        return id
+        return intent.getStringExtra(DOCUMENT_ID)
+    }
+    fun getType(): String? {
+        val type = intent.getStringExtra(TYPE)
+        Log.d("!!!","type : $type")
+        return type
     }
 }

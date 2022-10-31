@@ -75,16 +75,22 @@ class AdminMenuFragment : Fragment() {
 
             recyclerView = view.findViewById(R.id.adminMenuRV)
             recyclerView.layoutManager = GridLayoutManager(context,2)
-            val adapter = AdminMenuAdapter(it,"Mcdonalds")
+            val adapter = AdminMenuAdapter(it,getResNameFragment(), MENU)
             recyclerView.adapter = adapter
 
         }
     }
 
+    fun getResNameFragment() : String{
+        val data = arguments
+        val restaurant = data?.get(RES_NAME_MENU_FRAGMENT).toString()
+        Log.d("!!!","resname fragment : $restaurant")
+        return restaurant
+    }
     fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        Log.d("!!!","Fun rmd")
+        Log.d("!!!","Fun rmd MENU")
         db.collection(RESTAURANT_STRING)
-            .document("Asian Kitchen")
+            .document(getResNameFragment())
             .collection(MENU)
             .get()
             .addOnCompleteListener{ task ->

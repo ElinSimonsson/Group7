@@ -20,8 +20,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-const val RESTAURANT = "restaurant"
-
 class MainActivity : AppCompatActivity() {
     private lateinit var newRecyclerView: RecyclerView
     private lateinit var newArrayList: ArrayList<RestaurantsData>
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
-        auth.signOut()
+        //auth.signOut()
 
         db = Firebase.firestore
 
@@ -132,25 +130,25 @@ class MainActivity : AppCompatActivity() {
         Log.d("!!!","user :${auth.currentUser?.email}")
         if(auth.currentUser?.email == "mcdonalds@admin.se"){
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
+            intentAdmin.putExtra(RES_MAIN,"Mcdonalds")
             startActivity(intentAdmin)
             finish()
         }
         if(auth.currentUser?.email == "asiankitchen@admin.se"){
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RESTAURANT,"Asian Kitchen")
+            intentAdmin.putExtra(RES_MAIN,"Asian Kitchen")
             startActivity(intentAdmin)
             finish()
         }
         if(auth.currentUser?.email == "rootssoil@admin.se"){
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RESTAURANT,"Roots & Soil")
+            intentAdmin.putExtra(RES_MAIN,"Roots & Soil")
             startActivity(intentAdmin)
             finish()
         }
         if(auth.currentUser?.email == "primociaociao@admin.se"){
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RESTAURANT,"Primo Ciao Ciao")
+            intentAdmin.putExtra(RES_MAIN,"Primo Ciao Ciao")
             startActivity(intentAdmin)
             finish()
         }
