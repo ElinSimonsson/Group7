@@ -1,25 +1,22 @@
 package com.example.group7
 
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 
-import android.widget.Button
 import android.widget.TextView
-
-import android.view.View
 
 
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.GridLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
@@ -46,7 +43,6 @@ class MenuActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-
         replaceWithFoodFragment()
 
             menuTextView.setOnClickListener {
@@ -57,10 +53,6 @@ class MenuActivity : AppCompatActivity() {
             }
         }
 
-//    override fun onResume() {
-//        super.onResume()
-//        recyclerView.adapter?.notifyDataSetChanged()
-//    }
 override fun onBackPressed() {
     if (DataManager.itemInCartList.isEmpty()) {
         finish()
@@ -84,6 +76,30 @@ override fun onBackPressed() {
         alertDialog.setButton(android.app.AlertDialog.BUTTON_NEGATIVE, "Avbryt"
         ) { dialog, which -> dialog.cancel() }
         alertDialog.show()
+    }
+
+    fun customDialog () {
+
+        val dialogBinding = layoutInflater.inflate(R.layout.custom_dialog, null)
+
+        val dialog = Dialog(this)
+        dialog.setContentView(dialogBinding)
+
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        val yesButton = dialogBinding.findViewById<TextView>(R.id.yes_dialog)
+        val cancelButton = dialogBinding.findViewById<TextView>(R.id.cancel_dialog)
+
+        yesButton.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
     }
 
 
@@ -120,7 +136,7 @@ override fun onBackPressed() {
              }
          } else {
              when (item.itemId) {
-                 android.R.id.home -> warningAlertDialog()
+                 android.R.id.home -> customDialog()
              }
          }
          return super.onOptionsItemSelected(item)
