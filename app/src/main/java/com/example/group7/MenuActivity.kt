@@ -4,6 +4,7 @@ package com.example.group7
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 
 import android.widget.Button
 import android.widget.TextView
@@ -12,6 +13,7 @@ import android.view.View
 
 
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
@@ -59,6 +61,31 @@ class MenuActivity : AppCompatActivity() {
 //        super.onResume()
 //        recyclerView.adapter?.notifyDataSetChanged()
 //    }
+override fun onBackPressed() {
+    if (DataManager.itemInCartList.isEmpty()) {
+        finish()
+    } else {
+        warningAlertDialog()
+    }
+}
+    fun clearListAndFinish () {
+        DataManager.itemInCartList.clear()
+        finish()
+    }
+
+    fun warningAlertDialog() {
+        val alertDialog = android.app.AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))
+            .create()
+        alertDialog.setMessage("Varukorgen kommer att tömmas, vill du fortsätta ändå?")
+        alertDialog.setTitle("Det finns varor i din varukorg!")
+        alertDialog.setCancelable(false)
+        alertDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, "Ja"
+        ) { dialog, which -> clearListAndFinish() }
+        alertDialog.setButton(android.app.AlertDialog.BUTTON_NEGATIVE, "Avbryt"
+        ) { dialog, which -> dialog.cancel() }
+        alertDialog.show()
+    }
+
 
     fun replaceWithDrinkFragment () {
         val fragment = DrinkFragment()
@@ -87,11 +114,16 @@ class MenuActivity : AppCompatActivity() {
     }
 
      override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-
-        when (item.itemId) {
-            android.R.id.home -> finish()
-        }
-        return super.onOptionsItemSelected(item)
+         if(DataManager.itemInCartList.isEmpty()) {
+             when (item.itemId) {
+                 android.R.id.home -> finish()
+             }
+         } else {
+             when (item.itemId) {
+                 android.R.id.home -> warningAlertDialog()
+             }
+         }
+         return super.onOptionsItemSelected(item)
     }
 }
 

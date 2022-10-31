@@ -45,7 +45,7 @@
         android:layout_marginTop="9dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="518dp"
-        android:background="@drawable/rounded_corners_button"
+        android:background="@drawable/red_rounded_corners"
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:text="Lägg till varukorg"
