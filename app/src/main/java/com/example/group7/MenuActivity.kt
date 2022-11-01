@@ -119,11 +119,6 @@ class MenuActivity : AppCompatActivity() {
            }
    }
 
-    fun getRestaurantName(): String {
-        val restaurantName = intent.getStringExtra("restaurant").toString()
-
-        return restaurantName
-    }
 
 
          

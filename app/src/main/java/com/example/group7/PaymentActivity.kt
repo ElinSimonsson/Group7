@@ -32,7 +32,7 @@ class PaymentActivity : AppCompatActivity() {
         postText.filters = arrayOf<InputFilter>(MinMaxFilter(0,99999))
 
         backBtn.setOnClickListener {
-            val intent = Intent(this, OrderActivity::class.java)
+            val intent = Intent(this, ShoppingCartActivity::class.java)
             startActivity(intent)
 
         }
@@ -76,7 +76,7 @@ class PaymentActivity : AppCompatActivity() {
             else{
                 Toast.makeText(applicationContext, "Informationen bekräftades", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, OrderActivity::class.java)
+                val intent = Intent(this, ShoppingCartActivity::class.java)
                 startActivity(intent)
             }
 
