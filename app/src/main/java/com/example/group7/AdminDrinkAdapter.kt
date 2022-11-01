@@ -10,16 +10,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String, val type : String) : RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>(){
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.admin_menu_list_item,parent,false)
+class AdminDrinkAdapter(val adminDrinkMenu : MutableList<AdminMenuItem>,val restaurantName : String,val type : String) : RecyclerView.Adapter<AdminDrinkAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AdminDrinkAdapter.ViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.admin_menu_list_item, parent, false)
         return ViewHolder(itemView)
+    }
+
+
+    override fun getItemCount(): Int {
+        return adminDrinkMenu.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentItem = adminMenu[position]
+        val currentItem = adminDrinkMenu[position]
 
         holder.nameView.text = currentItem.name
         holder.priceView.text = "${currentItem.price} kr"
@@ -37,9 +45,6 @@ class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
 
     }
 
-    override fun getItemCount(): Int {
-        return adminMenu.size
-    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkNameText)
         val priceView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkPriceText)
@@ -47,16 +52,16 @@ class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
         var id = ""
 
 
+        init {
+            itemView.setOnClickListener{
 
-       init {
-           itemView.setOnClickListener{
-
-               val adminAdapterIntent = Intent(it.context, AdminDisplayItem_Activity::class.java)
-               adminAdapterIntent.putExtra(DOCUMENT_ID,id)
-               adminAdapterIntent.putExtra(RES_NAME_ADAPTER,restaurantName)
-               adminAdapterIntent.putExtra(TYPE, type)
-               it.context.startActivity(adminAdapterIntent)
-           }
-       }
+                val adminAdapterIntent = Intent(it.context, AdminDisplayItem_Activity::class.java)
+                adminAdapterIntent.putExtra(DOCUMENT_ID,id)
+                adminAdapterIntent.putExtra(RES_NAME_ADAPTER,restaurantName)
+                adminAdapterIntent.putExtra(TYPE, type)
+                it.context.startActivity(adminAdapterIntent)
+            }
+        }
     }
+
 }

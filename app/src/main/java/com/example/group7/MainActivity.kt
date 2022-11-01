@@ -20,8 +20,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-const val RESTAURANT = "restaurant"
-
 class MainActivity : AppCompatActivity() {
     private lateinit var newRecyclerView: RecyclerView
     private lateinit var newArrayList: ArrayList<RestaurantsData>
@@ -45,8 +43,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        auth = Firebase.auth
+        auth.signOut()
 
-
+        db = Firebase.firestore
 
         imageId = arrayOf(
             R.drawable.roots,
@@ -67,8 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         )
 
-
-
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
@@ -76,10 +74,6 @@ class MainActivity : AppCompatActivity() {
         newArrayList = arrayListOf<RestaurantsData>()
         getUserdata()
 
-        auth = Firebase.auth
-        //auth.signOut()
-
-        db = Firebase.firestore
 
 
         adressView = findViewById<TextView>(R.id.adressView)
@@ -117,8 +111,6 @@ class MainActivity : AppCompatActivity() {
              startActivity(intent)
          }
 
-
-
         }
 
 
@@ -132,10 +124,37 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //user
     override fun onResume() {
         super.onResume()
-        Log.d("!!!", "${DataManager.itemInCartList}")
+
+
+
+
+        Log.d("!!!","user :${auth.currentUser?.email}")
+        if(auth.currentUser?.email == "mcdonalds@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN,"Mcdonalds")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if(auth.currentUser?.email == "asiankitchen@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN,"Asian Kitchen")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if(auth.currentUser?.email == "rootssoil@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN,"Roots & Soil")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if(auth.currentUser?.email == "primociaociao@admin.se"){
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN,"Primo Ciao Ciao")
+            startActivity(intentAdmin)
+            finish()
+        }
 
         getUserAdress {
             adressView.text = it.toString()
@@ -143,12 +162,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-            Log.d("!!!","user :${auth.currentUser?.email}")
-            if(auth.currentUser?.email == "mcdonalds@admin.se"){
-                val intentAdmin = Intent(this, AdminActivity::class.java)
-                intentAdmin.putExtra(RESTAURANT,"Mcdonalds")
-                startActivity(intentAdmin)
-            }
+
 
 
     }

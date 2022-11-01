@@ -17,13 +17,20 @@ import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+
 import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
+    lateinit var db : FirebaseFirestore
     lateinit var menuTextView: TextView
+
     lateinit var drinkTextView: TextView
+
     lateinit var recyclerView: RecyclerView
 
 
@@ -32,8 +39,21 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         auth = Firebase.auth
+
+        db = Firebase.firestore
+
+
+
+      val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
+       getUserAdress {
+           menuAdressTextView.text = it.toString()
+       }
+
+
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
+
+
 
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
@@ -41,6 +61,7 @@ class MenuActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         replaceWithFoodFragment()
+
 
         menuTextView.setOnClickListener {
             replaceWithFoodFragment()
@@ -73,13 +94,40 @@ class MenuActivity : AppCompatActivity() {
             DataManager.itemInCartList.clear()
             dialog.dismiss()
             finish()
+
         }
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
     }
 
-    fun replaceWithDrinkFragment() {
+
+
+
+   fun getUserAdress(myCallback : (String) -> Unit){
+       db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+           .get().addOnCompleteListener{ task ->
+
+               var userAdress = ""
+               if(task.isSuccessful){
+                   for (document in task.result){
+                       val adress = document.data["adress"].toString()
+                       userAdress = adress
+                   }
+                   myCallback(userAdress)
+               }
+           }
+   }
+
+    fun getRestaurantName(): String {
+        val restaurantName = intent.getStringExtra("restaurant").toString()
+
+        return restaurantName
+    }
+
+
+         
+    fun replaceWithDrinkFragment () {
         val fragment = DrinkFragment()
         val bundle = Bundle()
         val restaurant = getRestaurantName()
@@ -99,6 +147,7 @@ class MenuActivity : AppCompatActivity() {
             .commit()
     }
 
+
     fun getRestaurantName(): String {
         val restaurantName = intent.getStringExtra("restaurant").toString()
 
@@ -106,6 +155,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+
         when (item.itemId) {
             android.R.id.home -> {
                 if (DataManager.itemInCartList.isEmpty()) {

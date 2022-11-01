@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +13,7 @@ class OrderActivity : AppCompatActivity() {
     lateinit var saveButton: Button
     lateinit var nameEditText: EditText
     lateinit var priceEditText: EditText
+    lateinit var payBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +22,7 @@ class OrderActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.button)
         nameEditText = findViewById(R.id.nameEditText)
         priceEditText = findViewById(R.id.priceEditText)
+        payBtn = findViewById(R.id.payBtn)
 
         saveButton.setOnClickListener{
             val name = nameEditText.text.toString()
@@ -27,8 +30,13 @@ class OrderActivity : AppCompatActivity() {
 
             addOrderFirestore(name,price)
         }
+        payBtn.setOnClickListener {
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
 
+        }
     }
+
 
     fun addOrderFirestore(name : String, price : Int ){
         val db = FirebaseFirestore.getInstance()
@@ -46,4 +54,5 @@ class OrderActivity : AppCompatActivity() {
                 Toast.makeText(this,"Fail",Toast.LENGTH_SHORT).show()
             }
     }
+
 }
