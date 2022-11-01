@@ -14,7 +14,6 @@ import com.google.firebase.ktx.Firebase
 
 class AdminActivity : AppCompatActivity() {
 
-
     lateinit var recyclerView: RecyclerView
     lateinit var db : FirebaseFirestore
     lateinit var adminMatTextView: TextView
