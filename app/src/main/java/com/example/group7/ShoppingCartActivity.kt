@@ -1,10 +1,12 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +31,11 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
         val totalPrice = getTotalPrice()
         totalPriceTextView.text = totalPrice.toString() + " kr"
 
-
+        val payButton = findViewById<TextView>(R.id.payButton)
+        payButton.setOnClickListener {
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
+        }
 
 
     }
