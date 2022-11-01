@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity">
+
+    <EditText
+        android:id="@+id/editNameText"
+        android:layout_width="386dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="84dp"
+        android:ems="10"
+        android:hint="Namn"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Skriv in ditt namn" />
+
+    <EditText
+        android:id="@+id/editAdressText"
+        android:layout_width="386dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="136dp"
+        android:ems="10"
+        android:hint="Adress"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Skriv in din adress" />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="312dp"
+        android:text="Kort betalning"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editCardNumber"
+        android:layout_width="386dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="340dp"
+        android:ems="10"
+        android:hint="Kortnummer"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Kortnummer" />
+
+    <EditText
+        android:id="@+id/edit3number"
+        android:layout_width="386dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="476dp"
+        android:ems="10"
+        android:hint="CCV/CVV (3 siffror)"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="CCV/CVV 3 siffror " />
+
+    <EditText
+        android:id="@+id/editPostNumber"
+        android:layout_width="386dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="236dp"
+        android:ems="10"
+        android:hint="Postnummer"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Postnummer" />
+
+    <Button
+        android:id="@+id/payBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Betala"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit3number" />
+
+    <EditText
+        android:id="@+id/editMonthNumber"
+        android:layout_width="40dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginTop="407dp"
+        android:ems="10"
+        android:hint="MM"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="MM" />
+
+    <EditText
+        android:id="@+id/editYearNumber"
+        android:layout_width="40dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="408dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="ÅÅ"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ÅÅ" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="27dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="408dp"
+        android:text="/"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toStartOf="@+id/editYearNumber"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toEndOf="@+id/editMonthNumber"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="220dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="420dp"
+        android:text="Sista gilltighetsdatum"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editCityText"
+        android:layout_width="386dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="188dp"
+        android:ems="10"
+        android:hint="Stad"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Skriv in din stad" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
