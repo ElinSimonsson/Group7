@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -23,9 +24,11 @@ private const val ARG_PARAM2 = "param2"
 // * Use the [MenuFragment.newInstance] factory method to
 // * create an instance of this fragment.
 // */
-class FoodFragment : Fragment(), MenuAdapter.MenuListClickListener {
-    lateinit var recyclerView: RecyclerView
+class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
+    lateinit var recyclerView1: RecyclerView
+    lateinit var adapter: FoodRecycleAdapter
     lateinit var cartTextView: TextView
+    lateinit var restaurant: String
 
 
     var db = Firebase.firestore
@@ -83,25 +86,38 @@ class FoodFragment : Fragment(), MenuAdapter.MenuListClickListener {
         }
 
         cartTextView.setOnClickListener {
-            for(item in DataManager.itemInCartList) {
-                if (item != null) {
-                    Log.d("!!!", "Food ${item.name}, ${item.totalCart}")
-                }
-            }
-            val intent = Intent(context, OrderActivity::class.java)
+            val intent = Intent(context, ShoppingCartActivity::class.java)
+            intent.putExtra("restaurant", restaurant)
             startActivity(intent)
         }
 
         readData {
-            recyclerView = view.findViewById(R.id.menuRecyclerView)
-            recyclerView.layoutManager = GridLayoutManager(context, 2)
-            recyclerView.adapter = MenuAdapter(it, this)
+            recyclerView1 = view.findViewById(R.id.foodRecyclerView)
+            recyclerView1.layoutManager = GridLayoutManager(context, 2)
+            recyclerView1.adapter = FoodRecycleAdapter(it, this)
+        }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("!!!", "Resume körs")
+        readData {
+            recyclerView1 = requireView().findViewById(R.id.foodRecyclerView)
+            recyclerView1.layoutManager = GridLayoutManager(context, 2)
+            recyclerView1.adapter = FoodRecycleAdapter(it, this)
+        }
+        val totalItems = getTotalItems()
+        val price = getTotalPrice()
+        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+
+        if (DataManager.itemInCartList.isEmpty()) {
+            cartTextView.visibility = View.GONE
         }
 
     }
 
-    fun readData(myCallback: (MutableList<MenuItem>) -> Unit) {
+
+    fun readData(myCallback: (MutableList<MenuItem?>) -> Unit) {
         db.collection("restaurants").document(getRestaurantName()).collection("menu")
             .orderBy("name")
             .get().addOnCompleteListener { task ->
@@ -115,15 +131,15 @@ class FoodFragment : Fragment(), MenuAdapter.MenuListClickListener {
                         list.add(menuItem)
 
                     }
-                    myCallback(list)
+                    myCallback(list.toMutableList())
                 }
             }
     }
 
     fun getRestaurantName (): String {
         val data = arguments
-        val restaurant = data?.get("restaurant")
-        return restaurant.toString()
+        restaurant = data?.get("restaurant") as String
+        return restaurant
     }
 
     fun getTotalPrice () : Int {
@@ -138,6 +154,7 @@ class FoodFragment : Fragment(), MenuAdapter.MenuListClickListener {
         }
         return totalPrice
     }
+
     fun getTotalItems () : Int {
         var totalItems = 0
         for (item in DataManager.itemInCartList) {

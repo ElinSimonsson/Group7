@@ -7,11 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -28,6 +26,7 @@ private const val ARG_PARAM2 = "param2"
 class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
     lateinit var recyclerView: RecyclerView
     lateinit var cartTextView: TextView
+    lateinit var restaurant: String
 
 
     var db = Firebase.firestore
@@ -85,23 +84,33 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
             cartTextView.text = getString(R.string.cart_textview, totalItems, price)
         }
 
-
         cartTextView.setOnClickListener {
-            var total = getTotalItems()
-            for(item in DataManager.itemInCartList) {
-                if (item != null) {
-                    Log.d("!!!", "Drink ${item.name}, ${item.totalCart}")
-                }
-            }
-            val intent = Intent(context, OrderActivity::class.java)
+            val intent = Intent(context, ShoppingCartActivity::class.java)
+            intent.putExtra("restaurant", restaurant)
             startActivity(intent)
         }
 
         readData {
-            recyclerView = view.findViewById(R.id.menuRecyclerView)
+            recyclerView = view.findViewById(R.id.drinkRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             recyclerView.adapter = DrinkRecycleAdapter(it, this)
 
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("!!!", "Resume körs")
+        readData {
+            recyclerView = requireView().findViewById(R.id.drinkRecyclerView)
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
+            recyclerView.adapter = DrinkRecycleAdapter(it, this)
+        }
+        val totalItems = getTotalItems()
+        val price = getTotalPrice()
+        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+
+        if (DataManager.itemInCartList.isEmpty()) {
+            cartTextView.visibility = View.GONE
         }
 
     }
@@ -118,7 +127,6 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
                         val imageURL = document.data["imageURL"].toString()
                         val menuItem = MenuItem(name, price, imageURL, 0)
                         list.add(menuItem)
-
                     }
                     myCallback(list)
                 }
@@ -127,8 +135,8 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
 
     fun getRestaurantName (): String {
         val data = arguments
-        val restaurant = data?.get("restaurant")
-        return restaurant.toString()
+        restaurant = data?.get("restaurant") as String
+        return restaurant
     }
 
     fun getTotalPrice () : Int {
