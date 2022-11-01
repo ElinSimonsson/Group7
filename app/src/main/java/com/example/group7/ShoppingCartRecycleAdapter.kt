@@ -1,15 +1,12 @@
 package com.example.group7
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -23,7 +20,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val currentItem = shoppingCartList[position]
+
         holder.bind(shoppingCartList.get(position)!!)
     }
 
@@ -39,7 +36,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
         val removeButton = itemView.findViewById<ImageView>(R.id.removeImage)
         val countTextView = itemView.findViewById<TextView>(R.id.countTextView)
         val layout = itemView.findViewById<ConstraintLayout>(R.id.constraintLayout)
-        val addMoreItemButton = itemView.findViewById<TextView>(R.id.askAddMoreItemButton)
+        val addMoreItemButton = itemView.findViewById<TextView>(R.id.addMoreItemButton)
         val itemTotalPriceTextView = itemView.findViewById<TextView>(R.id.itemTotalPriceTextView)
 
         fun bind(currentItem: MenuItem) {
@@ -50,32 +47,19 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
             if (currentItem == DataManager.itemInCartList.last()) {
                 layout.background = null
                 addMoreItemButton.visibility = View.VISIBLE
-
             }
 
             addButton.setOnClickListener {
-                var total = 0
-                for (item in DataManager.itemInCartList) {
-                    if (item != null) {
-                        if (item.name == currentItem.name) {
-                            if (item.totalCart < 10) {
-                                item.totalCart++
-                                total = item.totalCart
-                                countTextView.text = total.toString()
-                                if(item.totalCart == 10) {
-                                    addButton.setImageResource(R.drawable.light_add_circle)
-                                }
-                            }
-                        }
-                    }
-                }
+                increaseItemInCart(currentItem)
+
                 val totalItemPrice = getItemTotalPrice(currentItem)
                 itemTotalPriceTextView.text = totalItemPrice.toString() + " kr"
                 clickListener.updateInCart()
+
             }
             removeButton.setOnClickListener {
                 addButton.setImageResource(R.drawable.add_circle)
-                reduceItem(currentItem)
+                reduceItemInCart(currentItem)
                 val totalInCart = getTotalItem(currentItem)
                 if (totalInCart < 1) {
                     removeItem(currentItem)
@@ -100,7 +84,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
             return currentItem.price?.times(currentItem.totalCart)
         }
 
-        fun reduceItem (currentItem: MenuItem) {
+        fun reduceItemInCart (currentItem: MenuItem) {
             val cloneList = mutableListOf<MenuItem>()
             for(item in DataManager.itemInCartList) {
                 if (item != null) {
@@ -118,6 +102,24 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
                     if(item.totalCart < 1) {
                         DataManager.itemInCartList.remove(currentItem)
                         notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+
+        fun increaseItemInCart (currentItem: MenuItem) {
+            var total = 0
+            for (item in DataManager.itemInCartList) {
+                if (item != null) {
+                    if (item.name == currentItem.name) {
+                        if (item.totalCart < 10) {
+                            item.totalCart++
+                            total = item.totalCart
+                            countTextView.text = total.toString()
+                            if(item.totalCart == 10) {
+                                addButton.setImageResource(R.drawable.light_add_circle)
+                            }
+                        }
                     }
                 }
             }

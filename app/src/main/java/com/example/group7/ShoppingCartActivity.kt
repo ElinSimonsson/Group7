@@ -27,7 +27,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val totalPrice = getTotalPrice()
-        totalPriceTextView.text = "Totalt " + totalPrice.toString() + " kr"
+        totalPriceTextView.text = totalPrice.toString() + " kr"
 
 
 
@@ -62,10 +62,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
 
     override fun updateInCart() {
         val totalPrice = getTotalPrice()
-        totalPriceTextView.text = "Totalt " + totalPrice.toString() + " kr"
-//        if(DataManager.itemInCartList.isEmpty()) {
-//            finish()
-//        }
+        totalPriceTextView.text = totalPrice.toString() + " kr"
     }
 
 

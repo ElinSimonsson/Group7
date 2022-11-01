@@ -135,12 +135,11 @@ class MainActivity : AppCompatActivity() {
     //user
     override fun onResume() {
         super.onResume()
-
+        Log.d("!!!", "${DataManager.itemInCartList}")
 
         getUserAdress {
             adressView.text = it.toString()
 
-        DataManager.itemInCartList.clear()
 
         }
 

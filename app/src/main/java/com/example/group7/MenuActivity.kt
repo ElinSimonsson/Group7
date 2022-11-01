@@ -23,7 +23,7 @@ class MenuActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
     lateinit var menuTextView: TextView
-    lateinit var drinkTextView : TextView
+    lateinit var drinkTextView: TextView
     lateinit var recyclerView: RecyclerView
 
 
@@ -32,59 +32,36 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         auth = Firebase.auth
-
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
-
 
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = restaurant
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         replaceWithFoodFragment()
 
-            menuTextView.setOnClickListener {
-                replaceWithFoodFragment()
-            }
-            drinkTextView.setOnClickListener {
-                replaceWithDrinkFragment()
-            }
+        menuTextView.setOnClickListener {
+            replaceWithFoodFragment()
         }
-
-override fun onBackPressed() {
-    if (DataManager.itemInCartList.isEmpty()) {
-        finish()
-    } else {
-        warningAlertDialog()
-    }
-}
-    fun clearListAndFinish () {
-        DataManager.itemInCartList.clear()
-        finish()
+        drinkTextView.setOnClickListener {
+            replaceWithDrinkFragment()
+        }
     }
 
-    fun warningAlertDialog() {
-        val alertDialog = android.app.AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))
-            .create()
-        alertDialog.setMessage("Varukorgen kommer att tömmas, vill du fortsätta ändå?")
-        alertDialog.setTitle("Det finns varor i din varukorg!")
-        alertDialog.setCancelable(false)
-        alertDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, "Ja"
-        ) { dialog, which -> clearListAndFinish() }
-        alertDialog.setButton(android.app.AlertDialog.BUTTON_NEGATIVE, "Avbryt"
-        ) { dialog, which -> dialog.cancel() }
-        alertDialog.show()
+    override fun onBackPressed() {
+        if (DataManager.itemInCartList.isEmpty()) {
+            finish()
+        } else {
+            showWarningDialog()
+        }
     }
 
-    fun customDialog () {
-
+    fun showWarningDialog() {
         val dialogBinding = layoutInflater.inflate(R.layout.custom_dialog, null)
-
         val dialog = Dialog(this)
         dialog.setContentView(dialogBinding)
-
         dialog.setCancelable(false)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
@@ -93,17 +70,16 @@ override fun onBackPressed() {
         val cancelButton = dialogBinding.findViewById<TextView>(R.id.cancel_dialog)
 
         yesButton.setOnClickListener {
+            DataManager.itemInCartList.clear()
             dialog.dismiss()
             finish()
         }
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
-
     }
 
-
-    fun replaceWithDrinkFragment () {
+    fun replaceWithDrinkFragment() {
         val fragment = DrinkFragment()
         val bundle = Bundle()
         val restaurant = getRestaurantName()
@@ -129,17 +105,17 @@ override fun onBackPressed() {
         return restaurantName
     }
 
-     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-         if(DataManager.itemInCartList.isEmpty()) {
-             when (item.itemId) {
-                 android.R.id.home -> finish()
-             }
-         } else {
-             when (item.itemId) {
-                 android.R.id.home -> customDialog()
-             }
-         }
-         return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                if (DataManager.itemInCartList.isEmpty()) {
+                    finish()
+                } else {
+                    showWarningDialog()
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

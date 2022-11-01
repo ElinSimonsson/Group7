@@ -38,7 +38,7 @@
     <TextView
         android:id="@+id/countTextView"
         android:layout_width="25dp"
-        android:layout_height="23dp"
+        android:layout_height="25dp"
         android:background="@drawable/list_divider"
         android:gravity="center"
         android:text="10"
@@ -63,7 +63,7 @@
         app:tint="#D50000" />
 
     <TextView
-        android:id="@+id/askAddMoreItemButton"
+        android:id="@+id/addMoreItemButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -72,7 +72,7 @@
         android:gravity="center"
         android:text="Lägg till fler produkter"
         android:textColor="#D50000"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,10 +82,11 @@
 
     <TextView
         android:id="@+id/itemTotalPriceTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:text="100 kr"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/menuItemTextView"
         app:layout_constraintStart_toEndOf="@+id/menuItemTextView"
         app:layout_constraintTop_toTopOf="@+id/menuItemTextView" />
@@ -95,5 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="menuItemTextView" />
+        app:constraint_referenced_ids="menuItemTextView"
+        tools:layout_editor_absoluteY="38dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
