@@ -61,33 +61,40 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
 
         var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if(result.resultCode == Activity.RESULT_OK){
+            if (result.resultCode == Activity.RESULT_OK) {
+
+                val imageUri: Uri? = result.data?.data
 
                 val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
                 val now = Date()
                 val fileName = formatter.format(now)
-                val storageRef = FirebaseStorage.getInstance().getReference("images/$fileName")
 
-                val imageUri : Uri? = result.data?.data
+                val storage = FirebaseStorage.getInstance()
+                val storageRef = storage.reference
+                val newImageRef = storageRef.child("images/$fileName")
+
                 if (imageUri != null) {
-                    editItemImage.setImageURI(imageUri)
-                    storageRef.putFile(imageUri).
-                            addOnSuccessListener {
-                                Toast.makeText(this,"Uploaded Image",Toast.LENGTH_LONG).show()
-
+                    val uploadTask = newImageRef.putFile(imageUri)
+                     uploadTask.continueWithTask { task ->
+                        if(!task.isSuccessful){
+                            task.exception?.let {
+                                throw it
                             }
-                        .addOnFailureListener{
-                            Log.d("!!!","Failed : $it")
                         }
+                        newImageRef.downloadUrl
+                    }.addOnCompleteListener { task->
+                        if(task.isSuccessful){
+                            newImage = task.result.toString()
+                            editItemImage.setImageURI(imageUri)
+                            Toast.makeText(this,"Image Uploaded",Toast.LENGTH_SHORT).show()
+                            Log.d("!!!","url : $newImage")
+                        }else{
+
+                        }
+
+                    }
+
                 }
-                storageRef.child("images/$fileName").downloadUrl.addOnSuccessListener {
-                    Log.d("!!!","url : $it" )
-                }.addOnFailureListener {
-                    // Handle any errors
-                }
-
-
-
 
             }
         }
