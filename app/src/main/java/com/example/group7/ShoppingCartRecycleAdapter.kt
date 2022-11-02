@@ -44,6 +44,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
             countTextView.text = currentItem.totalCart.toString()
             itemTotalPriceTextView.text = getItemTotalPrice(currentItem).toString() + " kr"
 
+
             if (currentItem == DataManager.itemInCartList.last()) {
                 layout.background = null
                 addMoreItemButton.visibility = View.VISIBLE

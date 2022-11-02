@@ -78,7 +78,7 @@ class AdminDrinkFragment : Fragment() {
 
 
     }
-    fun getResNameFragment() : String{
+    fun getResNameFragment() : String {
         val data = arguments
         val restaurant = data?.get(RES_NAME_DRINK_FRAGMENT)
         return restaurant.toString()
