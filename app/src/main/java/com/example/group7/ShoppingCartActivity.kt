@@ -34,6 +34,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
         val payButton = findViewById<TextView>(R.id.payButton)
         payButton.setOnClickListener {
             val intent = Intent(this, PaymentActivity::class.java)
+            intent.putExtra(RES_NAME_PAYMENT,getRestaurantName())
             startActivity(intent)
         }
 
