@@ -91,6 +91,7 @@ class PaymentActivity : AppCompatActivity() {
             else{
                 Toast.makeText(applicationContext, "Informationen bekräftades", Toast.LENGTH_SHORT).show()
 
+                //User information from input to Map
                 val creditCardInfo =  "${cardNumber.text}"  + "${monthText.text}-" + "${yearText.text}-" + "${ccvText.text}-"
                 val userInformation = hashMapOf(
                     "postText " to postText.text.toString(),
@@ -110,53 +111,83 @@ class PaymentActivity : AppCompatActivity() {
 
 
                 //Collection name = userOrder or NonRegisteredUserOrders
-                var userOrNoUserDocument = "userOrders"
-                if (auth.currentUser == null){
-                    userOrNoUserDocument = "NonRegisteredUserOrders"
-                }
+            //   var userOrNoUserDocument = "userOrders"
+            //   if (auth.currentUser == null){
+            //       userOrNoUserDocument = "NonRegisteredUserOrders"
+            //   }
 
-                //Document -name = userID or date if user is logged in or not
-                val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-                val now = Date()
-                var orderName = formatter.format(now)
-                if(auth.currentUser != null){
-                    orderName = auth.currentUser!!.uid
-                }
+            //   //Document -name = userID or date if user is logged in or not
+            //   val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+            //   val now = Date()
+            //   var orderName = formatter.format(now)
+            //   if(auth.currentUser != null){
+            //       orderName = auth.currentUser!!.uid
+            //   }
 
                 //Adds user Information
-                    db.collection("Order")
-                        .document(restaurantName)
-                        .collection(userOrNoUserDocument)
-                        .document(orderName)
-                        .collection("User Information")
-                        .add(userInformation)
-                        .addOnSuccessListener {
-                            Log.d("!!!","user information added")
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this,"Failed to add item",Toast.LENGTH_SHORT).show()
-                            Log.d("!!!","Failed to add user information")
-                        }
+                 //  db.collection("Order")
+                 //      .document(restaurantName)
+                 //      .collection(userOrNoUserDocument)
+                 //      .document(orderName)
+                 //      .collection("User Information")
+                 //      .add(userInformation)
+                 //      .addOnSuccessListener {
+                 //          Log.d("!!!","user information added")
+                 //      }
+                 //      .addOnFailureListener {
+                 //          Toast.makeText(this,"Failed to add item",Toast.LENGTH_SHORT).show()
+                 //          Log.d("!!!","Failed to add user information")
+                 //      }
 
                 //Adds user order
+               //db.collection("Order")
+               //    .document(restaurantName)
+               //    .collection(userOrNoUserDocument)
+               //    .document(orderName)
+               //    .collection("Order")
+               //    .add(order)
+               //    .addOnSuccessListener {
+               //        Toast.makeText(this,"Order confirmed", Toast.LENGTH_SHORT).show()
+               //        Log.d("!!!","Added order successfully")
+               //    }
+               //    .addOnFailureListener {
+               //        Toast.makeText(this,"Failed to add order",Toast.LENGTH_SHORT).show()
+               //        Log.d("!!!","Failed to add item")
+               //    }
+
+
+
+                val name = hashMapOf(
+                    "name" to restaurantName
+                )
+
                 db.collection("Order")
                     .document(restaurantName)
-                    .collection(userOrNoUserDocument)
-                    .document(orderName)
-                    .collection("Order")
-                    .add(order)
-                    .addOnSuccessListener {
-                        Toast.makeText(this,"Order confirmed", Toast.LENGTH_SHORT).show()
-                        Log.d("!!!","Added order successfully")
+                    .collection("userOrders")
+                    .add(name)
+                    .addOnSuccessListener { documentReference ->
+
+                        db.collection("Order")
+                            .document(restaurantName)
+                            .collection("userOrders")
+                            .document(documentReference.id)
+                            .collection("Items")
+                            .add(order)
+                            .addOnSuccessListener {
+
+                                Toast.makeText(this,"Order confirmed", Toast.LENGTH_SHORT).show()
+                                Log.d("!!!","Added order successfully")
+                            }
+                            .addOnFailureListener {
+
+                                Toast.makeText(this,"Failed to add order",Toast.LENGTH_SHORT).show()
+                                Log.d("!!!","Failed to add item")
+                            }
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this,"Failed to add order",Toast.LENGTH_SHORT).show()
-                        Log.d("!!!","Failed to add item")
+                        Log.d("!!!", "failed to upload data")
                     }
-
-
-
-                    val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
 
 
