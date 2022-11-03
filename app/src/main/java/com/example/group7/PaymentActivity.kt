@@ -32,6 +32,7 @@ class PaymentActivity : AppCompatActivity() {
         val adressText = findViewById<EditText>(R.id.editAdressText)
         val cityText = findViewById<EditText>(R.id.editCityText)
         val cardNumber = findViewById<EditText>(R.id.editCardNumber)
+        val phoneNumber = findViewById<EditText>(R.id.editPhoneNumberText)
         val backBtn: Button = findViewById(R.id.backBtn)
         val payBtn2: Button = findViewById(R.id.payBtn2)
         val db = Firebase.firestore
@@ -93,6 +94,7 @@ class PaymentActivity : AppCompatActivity() {
                     //  "postText " to postText.text.toString(),
                     "name" to nameText.text.toString(),
                     "address" to adressText.text.toString(),
+                    "phoneNumber" to phoneNumber.text.toString()
                     //"cityText " to cityText.text.toString(),
                     //"creditCardInfo" to creditCardInfo
                 )
