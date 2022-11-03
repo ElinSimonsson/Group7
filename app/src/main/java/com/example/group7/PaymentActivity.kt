@@ -8,9 +8,18 @@ import android.text.Spanned
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.lang.NumberFormatException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PaymentActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
@@ -25,6 +34,9 @@ class PaymentActivity : AppCompatActivity() {
         val cardNumber = findViewById<EditText>(R.id.editCardNumber)
         val backBtn : Button = findViewById(R.id.backBtn)
         val payBtn2 : Button = findViewById(R.id.payBtn2)
+        val db = Firebase.firestore
+        val auth = Firebase.auth
+
 
         ccvText.filters = arrayOf<InputFilter>(MinMaxFilter(0,999))
         monthText.filters = arrayOf<InputFilter>(MinMaxFilter(0,12))
@@ -76,10 +88,51 @@ class PaymentActivity : AppCompatActivity() {
             else{
                 Toast.makeText(applicationContext, "Informationen bekräftades", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, ShoppingCartActivity::class.java)
-                startActivity(intent)
-            }
+                val creditCardInfo =  "${cardNumber.text}"  + "${monthText.text}-" + "${yearText.text}-" + "${ccvText.text}-"
+                val orderDetails = hashMapOf(
+                    "postText " to postText.text,
+                    "nameText " to nameText.text,
+                    "adressText" to adressText.text,
+                    "cityText " to cityText.text,
+                    "creditCardInfo" to creditCardInfo
+                )
 
+                val order = mutableMapOf<String,String?>()
+                var orderNr = 1
+                for (items in DataManager.itemInCartList) {
+                    orderNr++
+                    order.put(orderNr.toString(), items?.name)
+                }
+
+
+                var userOrNoUserDocument = "userOrders"
+                if (auth.currentUser == null){
+                    userOrNoUserDocument = "NonRegisteredUserOrders"
+                }
+
+                val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+                val now = Date()
+                var orderName = formatter.format(now)
+
+                if(auth.currentUser != null){
+                    orderName = auth.currentUser!!.uid.toString()
+                }
+
+
+
+                    db.collection("Order")
+                        .document("Restaurant")
+                        .collection(userOrNoUserDocument)
+                        .document(orderName)
+
+
+
+
+                    val intent = Intent(this, ShoppingCartActivity::class.java)
+                startActivity(intent)
+
+
+            }
 
         }
 
