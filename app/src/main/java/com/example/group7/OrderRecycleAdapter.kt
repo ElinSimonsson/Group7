@@ -49,10 +49,10 @@ class OrderRecycleAdapter (val listOfDocumentId : MutableList<DocumentId>, val r
         init {
             seeOrderBtn.setOnClickListener {
                 Log.d("!!!", "nuvarande id: $documentId")
-                val intent = Intent(it.context, DetailedOrderActivity::class.java)
-                intent.putExtra("documentId", documentId)
-                intent.putExtra("restaurant", restaurantName)
-                it.context.startActivity(intent)
+//                val intent = Intent(it.context, DetailedOrderActivity::class.java)
+//                intent.putExtra("documentId", documentId)
+//                intent.putExtra("restaurant", restaurantName)
+//                it.context.startActivity(intent)
             }
         }
     }

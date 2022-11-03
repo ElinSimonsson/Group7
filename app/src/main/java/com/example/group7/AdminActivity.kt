@@ -142,7 +142,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun replaceWithMenuFragment() {
-        val menuFragment = MenuFragment()
+        val menuFragment = AdminMenuFragment()
         Log.d("!!!", "funktion replace körs")
         val bundle = Bundle()
         bundle.putString("restaurant", getRestaurantName())
@@ -165,7 +165,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun startMenuFragment() {
-        val AdminFragment = AdminMenuFragment()
+        val AdminFragment = AdminFoodFragment()
         val bundle = Bundle()
         bundle.putString(RES_NAME_MENU_FRAGMENT, getRestaurantName())
         AdminFragment.arguments = bundle
