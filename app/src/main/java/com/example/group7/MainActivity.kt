@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 
 import android.widget.TextView
+import android.widget.Toast
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,9 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var heading: Array<String>
     lateinit var distance: Array<String>
 
-    lateinit var roots : Button
-    lateinit var asian : Button
-    lateinit var primo : Button
+
 
 
     lateinit var auth: FirebaseAuth
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         )
         heading = arrayOf(
-            "Roots and Soil",
+            "Roots & Soil",
             "Primo Ciao Ciao",
             "Asian Kitchen",
 
@@ -90,27 +89,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        roots = findViewById(R.id.rootsBtn)
-        primo = findViewById(R.id.primoBtn)
-        asian = findViewById(R.id.asianBtn)
-
-
-        asian.setOnClickListener{
-             val intent = Intent(this,MenuActivity::class.java)
-             intent.putExtra("restaurant","Asian Kitchen")
-             startActivity(intent)
-         }
-         roots.setOnClickListener{
-             val intent = Intent(this,MenuActivity::class.java)
-             intent.putExtra("restaurant","Roots & Soil")
-             startActivity(intent)
-         }
-         primo.setOnClickListener{
-             val intent = Intent(this,MenuActivity::class.java)
-             intent.putExtra("restaurant","Primo Ciao Ciao")
-             startActivity(intent)
-         }
-
         }
 
 
@@ -119,7 +97,23 @@ class MainActivity : AppCompatActivity() {
             val restaurant = RestaurantsData(imageId[i], heading[i], distance[i])
             newArrayList.add(restaurant)
         }
-        newRecyclerView.adapter = RestaurantAdapter(newArrayList)
+
+        var adapter = RestaurantAdapter(newArrayList)
+        newRecyclerView.adapter = adapter
+        adapter.setOnItemClickListener(object : RestaurantAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+
+                //Toast.makeText(this@MainActivity,"you clicked on item no. $position", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this@MainActivity,MenuActivity::class.java)
+                intent.putExtra("restaurant",newArrayList[position].restaurantHeading)
+                startActivity(intent)
+
+
+            }
+
+
+        })
 
     }
 
