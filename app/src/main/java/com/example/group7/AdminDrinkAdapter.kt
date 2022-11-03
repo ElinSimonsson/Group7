@@ -16,7 +16,7 @@ class AdminDrinkAdapter(val adminDrinkMenu : MutableList<AdminMenuItem>,val rest
         viewType: Int
     ): AdminDrinkAdapter.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.admin_menu_list_item, parent, false)
+            .inflate(R.layout.admin_food_list_item, parent, false)
         return ViewHolder(itemView)
     }
 

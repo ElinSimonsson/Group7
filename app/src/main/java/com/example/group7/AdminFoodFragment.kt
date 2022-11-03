@@ -16,12 +16,13 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+
 /**
  * A simple [Fragment] subclass.
- * Use the [AdminDrinkFragment.newInstance] factory method to
+ * Use the [AdminMenuFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AdminDrinkFragment : Fragment() {
+class AdminFoodFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -43,7 +44,7 @@ class AdminDrinkFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_drink, container, false)
+        return inflater.inflate(R.layout.fragment_admin_food, container, false)
     }
 
     companion object {
@@ -53,12 +54,12 @@ class AdminDrinkFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment AdminDrinkFragment.
+         * @return A new instance of fragment AdminMenuFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AdminDrinkFragment().apply {
+            AdminFoodFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -70,25 +71,26 @@ class AdminDrinkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         readMenuData {
-            recyclerView = view.findViewById(R.id.adminDrinkRV)
+
+            recyclerView = view.findViewById(R.id.adminMenuRV)
             recyclerView.layoutManager = GridLayoutManager(context,2)
-            val adapter = AdminDrinkAdapter(it,getResNameFragment(), DRINK)
+            val adapter = AdminFoodAdapter(it,getResNameFragment(), MENU)
             recyclerView.adapter = adapter
+
         }
-
-
     }
-    fun getResNameFragment() : String {
+
+    fun getResNameFragment() : String{
         val data = arguments
-        val restaurant = data?.get(RES_NAME_DRINK_FRAGMENT)
-        return restaurant.toString()
+        val restaurant = data?.get(RES_NAME_MENU_FRAGMENT).toString()
+        Log.d("!!!","resname fragment : $restaurant")
+        return restaurant
     }
-
     fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        Log.d("!!!","Fun rmd DRINK")
+        Log.d("!!!","Fun rmd MENU")
         db.collection(RESTAURANT_STRING)
             .document(getResNameFragment())
-            .collection(DRINK)
+            .collection(MENU)
             .get()
             .addOnCompleteListener{ task ->
                 if(task.isSuccessful){
@@ -105,5 +107,4 @@ class AdminDrinkFragment : Fragment() {
                 }
             }
     }
-
 }

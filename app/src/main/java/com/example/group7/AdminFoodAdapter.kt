@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String, val type : String) : RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>(){
+class AdminFoodAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String, val type : String) :
+    RecyclerView.Adapter<AdminFoodAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.admin_menu_list_item,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.admin_food_list_item,parent,false)
         return ViewHolder(itemView)
     }
 
@@ -41,9 +42,9 @@ class AdminMenuAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
         return adminMenu.size
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkNameText)
-        val priceView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkPriceText)
-        var menuImage: ImageView = itemView.findViewById<ImageView>(R.id.adminDrinkItemImage)
+        val nameView: TextView = itemView.findViewById(R.id.adminDrinkNameText)
+        val priceView: TextView = itemView.findViewById(R.id.adminDrinkPriceText)
+        var menuImage: ImageView = itemView.findViewById(R.id.adminDrinkItemImage)
         var id = ""
 
 

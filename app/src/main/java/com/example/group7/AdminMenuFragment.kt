@@ -1,13 +1,14 @@
 package com.example.group7
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.TextView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -17,20 +18,16 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
 /**
  * A simple [Fragment] subclass.
- * Use the [AdminMenuFragment.newInstance] factory method to
+ * Use the [MenuFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 class AdminMenuFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    lateinit var recyclerView: RecyclerView
-    var db = Firebase.firestore
-
+    lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +52,7 @@ class AdminMenuFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment AdminMenuFragment.
+         * @return A new instance of fragment MenuFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
@@ -66,46 +63,74 @@ class AdminMenuFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val foodButton = view.findViewById<TextView>(R.id.adminMatTextView)
+        val drinkButton = view.findViewById<TextView>(R.id.adminDryckTextView)
 
-        readMenuData {
+        startFoodFragment()
 
-            recyclerView = view.findViewById(R.id.adminMenuRV)
-            recyclerView.layoutManager = GridLayoutManager(context,2)
-            val adapter = AdminMenuAdapter(it,getResNameFragment(), MENU)
-            recyclerView.adapter = adapter
+        foodButton.setOnClickListener {
+            startFoodFragment()
+        }
 
+        drinkButton.setOnClickListener {
+            startDrinkFragment()
+        }
+
+        db = Firebase.firestore
+        val restaurantName = getRestaurantName()
+
+        val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        fab.setOnClickListener {
+            val intentFab = Intent(context, AdminDisplayItem_Activity::class.java)
+            intentFab.putExtra("newUser", 1)
+            intentFab.putExtra("restaurantNameFAB", restaurantName)
+            startActivity(intentFab)
         }
     }
 
-    fun getResNameFragment() : String{
-        val data = arguments
-        val restaurant = data?.get(RES_NAME_MENU_FRAGMENT).toString()
-        Log.d("!!!","resname fragment : $restaurant")
-        return restaurant
+    private fun startFoodFragment() {
+        val menuFragment = AdminFoodFragment()
+        val bundle = Bundle()
+        bundle.putString(
+            RES_NAME_MENU_FRAGMENT,
+            getRestaurantName()
+        ) // Att göra : skapa intent för att hämta restaurangens namn
+        menuFragment.arguments = bundle
+        val fragmentManager = parentFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.menuContainer, menuFragment)
+        transaction.commit()
     }
-    fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        Log.d("!!!","Fun rmd MENU")
-        db.collection(RESTAURANT_STRING)
-            .document(getResNameFragment())
-            .collection(MENU)
-            .get()
-            .addOnCompleteListener{ task ->
-                if(task.isSuccessful){
-                    val list = mutableListOf<AdminMenuItem>()
-                    for (document in task.result){
-                        val name = document.data["name"].toString()
-                        val price = document.data["price"].toString().toInt()
-                        val imageURL = document.data["imageURL"].toString()
-                        val documentID = document.id
-                        val adminMenuItem = AdminMenuItem(documentID,name,price, imageURL)
-                        list.add(adminMenuItem)
-                    }
-                    myCallback(list)
-                }
-            }
+
+    private fun startDrinkFragment() {
+        val AdminFragment = AdminDrinkFragment()
+        val bundle = Bundle()
+        bundle.putString(RES_NAME_DRINK_FRAGMENT, getRestaurantName())
+        AdminFragment.arguments = bundle
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.menuContainer, AdminFragment)
+        fragmentTransaction.commit()
+    }
+
+    fun getRestaurantName(): String {
+        val data = arguments
+        val restaurant = data?.get("restaurant")
+        Log.d("!!!", "mottagen restaurang namn: $restaurant")
+        return restaurant.toString()
     }
 }
+
+
+
+
+
+
+
+
+
