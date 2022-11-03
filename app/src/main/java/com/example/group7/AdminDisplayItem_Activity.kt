@@ -185,7 +185,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         val price = editItemPrice.text.toString()
         var imageURL = "https://firebasestorage.googleapis.com/v0/b/group7-acaa7.appspot.com/o/No_image_available.png?alt=media&token=9f69eae8-7c9c-4897-86f2-91a86d5b945d"
 
-        if(newImage != null){
+        if(newImage.isNotEmpty()){
             imageURL = newImage
         }
 
