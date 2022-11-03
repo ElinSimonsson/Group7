@@ -121,9 +121,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-
-
-
         Log.d("!!!","user :${auth.currentUser?.email}")
         if(auth.currentUser?.email == "mcdonalds@admin.se"){
             val intentAdmin = Intent(this, AdminActivity::class.java)
