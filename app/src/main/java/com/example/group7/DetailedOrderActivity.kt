@@ -66,7 +66,7 @@ class DetailedOrderActivity : AppCompatActivity() {
     fun getRestaurantName(): String? = intent.getStringExtra("restaurant")
 
     fun getCustomerData(restaurant: String, documentId: String) {
-        db.collection("Orders").document(restaurant)
+        db.collection("Order").document(restaurant)
             .collection("userOrders").document(documentId)
             .collection("userData")
             .get().addOnCompleteListener { task ->
@@ -88,8 +88,8 @@ class DetailedOrderActivity : AppCompatActivity() {
     fun fetchOrderData( myCallback: (MutableList<OrderData>) -> Unit) {
         val documentID = getDocumentId()
         val restaurant = getRestaurantName()
-        db.collection("Orders").document(restaurant!!).collection("userOrders")
-            .document(documentID!!).collection("item")
+        db.collection("Order").document(restaurant!!).collection("userOrders")
+            .document(documentID!!).collection("Items")
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val list = mutableListOf<OrderData>()
