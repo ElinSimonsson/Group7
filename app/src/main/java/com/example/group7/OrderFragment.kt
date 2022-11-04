@@ -92,7 +92,6 @@ class OrderFragment : Fragment() {
                 val listOfDocumentId = mutableListOf<DocumentId>()
                 for(document in snapshot.documents) {
                     val documentId = document.id
-                    Log.d("!!!", "documentid: $documentId")
 
                     val id = DocumentId(documentId)
                     listOfDocumentId.add(id)

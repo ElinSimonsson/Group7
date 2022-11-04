@@ -32,7 +32,6 @@ class OrderRecycleAdapter (val listOfDocumentId : MutableList<DocumentId>, val r
         holder.orderTextView.text = "Order " + currentPosition
         holder.documentId = currentDocumentId.documentId.toString()
 
-
     }
 
     override fun getItemCount(): Int {
@@ -48,7 +47,6 @@ class OrderRecycleAdapter (val listOfDocumentId : MutableList<DocumentId>, val r
 
         init {
             seeOrderBtn.setOnClickListener {
-                Log.d("!!!", "nuvarande id: $documentId")
                 val intent = Intent(it.context, DetailedOrderActivity::class.java)
                 intent.putExtra("documentId", documentId)
                 intent.putExtra("restaurant", restaurantName)
