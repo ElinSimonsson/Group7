@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -32,14 +33,17 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     lateinit var editItemPrice : EditText
     lateinit var editItemImage : ImageView
     lateinit var selectImageBtn : Button
+    lateinit var cameraBtn : Button
     lateinit var newImage : String
     lateinit var db : FirebaseFirestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_display_item)
+
 
         editItemName = findViewById(R.id.editItemName)
         editItemPrice = findViewById(R.id.editItemPrice)
@@ -48,16 +52,14 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         val switch = findViewById<Switch>(R.id.switch1)
+        cameraBtn = findViewById(R.id.cameraBtn)
         db = Firebase.firestore
 
 
 
         //Skickar ett eget intent med restaurang namnet till FAB
         val fabNumber = intent.getIntExtra("newUser" ,0)
-        Log.d("!!!","fabNr :$fabNumber ")
         val fabRestaurant = intent.getStringExtra("restaurantNameFAB")
-        Log.d("!!!","fabRn : $fabRestaurant")
-
 
 
         //result launcher som får en bild ifrån lokala telefonen och laddar upp den på filestoreStorage,
@@ -104,13 +106,26 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         }
 
 
+
+
+
+        //only showing when adding a new item and not displaying it
         switch.isVisible = false
+        cameraBtn.isVisible = false
+        selectImageBtn.isVisible = false
         //add drink or food
 
         if(fabNumber == 1){
             switch.isVisible = true
             var type = "menu"
 
+            cameraBtn.isVisible = true
+            cameraBtn.setOnClickListener {
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivity(cameraIntent)
+            }
+
+            selectImageBtn.isVisible = true
             selectImageBtn.setOnClickListener {
                 //startar telefonens "image/galleri" och startar en result launcher som inväntar en bild
                 val intent = Intent()
@@ -157,6 +172,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
 
     }
+
+
+
 
 
     fun displayItem (){

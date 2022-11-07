@@ -129,7 +129,7 @@ class DetailedOrderActivity : AppCompatActivity() {
     }
 
     fun deleteItem() {
-        db.collection("Orders")
+        db.collection("Order")
             .document(getRestaurantName()!!)
             .collection("userOrders")
             .document(getDocumentId()!!)

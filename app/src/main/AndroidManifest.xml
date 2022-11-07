@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permisson.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
 
     <application
         android:allowBackup="true"
@@ -22,20 +24,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".DetailedOrderPopUpWindow"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".OrderActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ShoppingCartActivity"
             android:exported="false">
             <meta-data
@@ -43,6 +31,7 @@
                 android:value="" />
         </activity>
         <activity
+
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity

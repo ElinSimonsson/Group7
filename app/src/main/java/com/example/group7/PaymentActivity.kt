@@ -48,6 +48,32 @@ class PaymentActivity : AppCompatActivity() {
         yearText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99))
         postText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99999))
 
+
+        //Om användaren har userData sparat så ersätts namn/adress/nummer till dess sparade uppgifter
+        var savedUserInfo = true
+        if (auth.currentUser != null){
+            val user = auth.currentUser
+            val docRef = db.collection("users").document(user!!.uid).collection("userData")
+                    docRef.get()
+                .addOnSuccessListener {
+                    if(it.isEmpty){
+                        savedUserInfo = false
+
+                    }else{
+                        for(data in it){
+                            nameText.setText(data.data["name"].toString())
+                            adressText.setText(data.data["address"].toString())
+                            phoneNumber.setText(data.data["phoneNumber"].toString())
+                            Log.d("!!!","i for loop ")
+                        }
+                    }
+                }
+
+
+
+        }
+
+
         backBtn.setOnClickListener {
             val intent = Intent(this, ShoppingCartActivity::class.java)
             startActivity(intent)
@@ -56,6 +82,8 @@ class PaymentActivity : AppCompatActivity() {
 
 
         payBtn2.setOnClickListener {
+
+
             val user_msg_error: String = ccvText.text.toString()
 
             if (user_msg_error.trim().isEmpty()) {
@@ -157,6 +185,22 @@ class PaymentActivity : AppCompatActivity() {
 
 
                     }
+
+                        //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
+                    if(!savedUserInfo){
+                         db.collection("users").document(auth.currentUser!!.uid)
+                         .collection("userData").add(userData)
+                         .addOnSuccessListener {
+                          Toast.makeText(this,"UserData saved",Toast.LENGTH_SHORT).show()
+                            }
+
+
+}
+
+                         //userData
+
+
+
 
             }
 

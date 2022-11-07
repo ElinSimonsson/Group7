@@ -36,4 +36,5 @@ RecyclerView.Adapter<DetailedOrderRecycleAdapter.ViewHolder>(){
 
     }
 
+
 }

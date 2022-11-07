@@ -74,6 +74,7 @@ class AdminDrinkFragment : Fragment() {
             recyclerView.layoutManager = GridLayoutManager(context,2)
             val adapter = AdminDrinkAdapter(it,getResNameFragment(), DRINK)
             recyclerView.adapter = adapter
+
         }
 
 

@@ -18,6 +18,8 @@ class AdminActivity : AppCompatActivity() {
     lateinit var menuButton : TextView
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
@@ -32,6 +34,7 @@ class AdminActivity : AppCompatActivity() {
         orderButton.setOnClickListener {
             replaceWithOrderFragment()
         }
+
 
 //        val orderButton = findViewById<Button>(R.id.orderButton)
 //

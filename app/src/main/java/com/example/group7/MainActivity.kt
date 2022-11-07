@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.Button
 
 import android.widget.TextView
-import android.widget.Toast
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageId: Array<Int>
     lateinit var heading: Array<String>
     lateinit var distance: Array<String>
+    lateinit var userBtn : Button
 
 
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         auth = Firebase.auth
-        //auth.signOut()
+        auth.signOut()
 
         db = Firebase.firestore
 
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        val userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener{
 
             val intent = Intent(this, UserActivity::class.java)
@@ -109,9 +109,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("restaurant",newArrayList[position].restaurantHeading)
                 startActivity(intent)
 
-
             }
-
 
         })
 
@@ -120,6 +118,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        //Changes text of 'UserBtn' to everything before @ in the email
+        if (auth.currentUser != null){
+            val userEmail = auth.currentUser!!.email.toString()
+            val nameInEmail = userEmail.substring(0,userEmail.indexOf('@'))
+            userBtn.text = nameInEmail
+        }
 
         Log.d("!!!","user :${auth.currentUser?.email}")
         if(auth.currentUser?.email == "mcdonalds@admin.se"){
