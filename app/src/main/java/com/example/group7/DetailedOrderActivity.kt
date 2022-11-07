@@ -19,6 +19,7 @@ class DetailedOrderActivity : AppCompatActivity() {
     lateinit var postAndCityTextView: TextView
     lateinit var addressTV: TextView
     lateinit var phoneNumberTV: TextView
+    lateinit var itemsTextView: TextView
     lateinit var estimatedDeliveryTV : TextView
     lateinit var modeOfDeliveryTV : TextView
     lateinit var deliveryEditText: EditText
@@ -40,12 +41,13 @@ class DetailedOrderActivity : AppCompatActivity() {
         addressTV = findViewById(R.id.addressTextView)
         postAndCityTextView = findViewById(R.id.postAndCityTextView)
         phoneNumberTV = findViewById(R.id.phoneNumberTextView)
+        itemsTextView = findViewById(R.id.itemsTextView)
         deliveryEditText = findViewById(R.id.estimatedDeliveryET)
         estimatedDeliveryTV = findViewById(R.id.estimatedDeliveryTV)
 
 
-        val receviedButton = findViewById<Button>(R.id.orderReceviedbutton)
-        receviedButton.setOnClickListener {
+        val receivedButton = findViewById<Button>(R.id.orderReceviedbutton)
+        receivedButton.setOnClickListener {
 
             if (deliveryEditText.text.toString().trim().isEmpty()) {
                 deliveryEditText.error = "Required"
@@ -66,12 +68,10 @@ class DetailedOrderActivity : AppCompatActivity() {
 
         fetchOrderData {
             recyclerView = findViewById(R.id.detailedOrderRecyclerView)
-            val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
-
+            val linearLayoutManager = LinearLayoutManager(this)
             recyclerView.layoutManager = linearLayoutManager
             recyclerView.adapter = DetailedOrderRecycleAdapter(it)
         }
-        fetchOrderDataTest()
     }
 
     fun getDocumentId(): String? = intent.getStringExtra("documentId")
@@ -84,33 +84,24 @@ class DetailedOrderActivity : AppCompatActivity() {
             .collection("userData")
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // val list = mutableListOf<Customer>()
                     for (document in task.result) {
-                        val userChoice = document.data["userChoice"].toString()
-                        when (userChoice) {
-                            "takeaway" -> {
-                                addressTV.visibility = View.GONE
-                                postAndCityTextView.visibility = View.GONE
-                                modeOfDeliveryTV.text = "Avhämtning"
-                                estimatedDeliveryTV.text = "Maten beräknas vara klar för upphämtning om:"
-                            }
-                            "delivery" -> {
-                                modeOfDeliveryTV.text = "Hemleverans"
-                                estimatedDeliveryTV.text = "Beräknad leverans om: "
-                            }
-                        }
+                        userId = document.data["user"].toString()
                         val name = document.data["name"].toString()
-                        customerNameTV.text = "Namn: " + name
                         val address = document.data["address"].toString()
-                        addressTV.text = "Adress: " + address
                         val postText = document.data["postText"].toString()
                         val city = document.data["cityText"].toString()
-                        Log.d("!!!", "stad: $city, postnummer: $postText")
-                        postAndCityTextView.text = "$postText, $city"
-                        val phoneNumber = document.data["phoneNumber"]
-                        phoneNumberTV.text = "Mobilnummer: " + phoneNumber.toString()
-                        userId = document.data["user"].toString()
+                        val phoneNumber = document.data["phoneNumber"].toString()
+                        val userChoice = document.data["userChoice"].toString()
 
+                        customerNameTV.text = "Namn: " + name
+                        addressTV.text = "Adress: " + address
+                        postAndCityTextView.text = "$postText, $city"
+                        phoneNumberTV.text = "Mobilnummer: " + phoneNumber
+
+                        when (userChoice) {
+                            "takeaway" -> initializeTakeawayLayout()
+                            "delivery" -> initializeDeliveryLayout()
+                        }
                     }
                 }
             }
@@ -136,49 +127,19 @@ class DetailedOrderActivity : AppCompatActivity() {
             }
     }
 
-    fun fetchOrderDataTest() {
-        val documentID = getDocumentId()
-        val restaurant = getRestaurantName()
-        db.collection("Orders").document(restaurant!!).collection("userOrders")
-            .document(documentID!!).collection("item")
-            .get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    var total = 0
-                    for (document in task.result) {
-                        val name = document.data["name"].toString()
-                        val price = document.data["price"].toString().toInt()
-                        val amount = document.data["amount"].toString().toInt()
-                        val pris = price * amount
-                        total += pris
-                        val orderItem = OrderData(name, amount, price)
-                        listOfItem.add(orderItem)
-                    }
-                    Log.d("!!!", "totalPris är: $total")
-                }
-            }
-    }
-
     fun sendDeliveryDataToFirebase () {
         val restaurant = getRestaurantName()
 
         val deliveryTime = hashMapOf(
             "deliveryTime" to deliveryEditText.text.toString()
         )
-        Log.d("!!!", "delivery: $deliveryTime")
         if(restaurant!= null) {
         db.collection(RESTAURANT_STRING)
             .document(restaurant)
             .collection("userDelivery")
             .document(userId)
             .set(deliveryTime)
-            .addOnSuccessListener {
-                Log.d("!!!", "delivery lyckades")
-            }
-            .addOnFailureListener {
-                Log.d("!!!", "fail att sända data till firebase")
-            }
         }
-
     }
 
     fun deleteOrder() {
@@ -195,13 +156,26 @@ class DetailedOrderActivity : AppCompatActivity() {
             }
     }
 
-    fun getTotalPrice(listOfOrderItems: MutableList<OrderData>): Int {
-        var total = 0
-        for (item in listOfOrderItems) {
-            var itemPrice = item.price?.times(item.amount!!)
-            total = total + itemPrice!!
-        }
-        return total
+    fun initializeDeliveryLayout () {
+        modeOfDeliveryTV.visibility = View.VISIBLE
+        customerTV.visibility = View.VISIBLE
+        customerNameTV.visibility = View.VISIBLE
+        phoneNumberTV.visibility = View.VISIBLE
+        addressTV.visibility = View.VISIBLE
+        postAndCityTextView.visibility = View.VISIBLE
+        itemsTextView.visibility = View.VISIBLE
+        modeOfDeliveryTV.text = "Hemleverans"
+        estimatedDeliveryTV.text = "Beräknad leverans om: "
+    }
+
+    fun initializeTakeawayLayout () {
+        modeOfDeliveryTV.visibility = View.VISIBLE
+        customerTV.visibility = View.VISIBLE
+        customerNameTV.visibility = View.VISIBLE
+        phoneNumberTV.visibility = View.VISIBLE
+        itemsTextView.visibility = View.VISIBLE
+        modeOfDeliveryTV.text = "Avhämtning"
+        estimatedDeliveryTV.text = "Maten beräknas vara klar för upphämtning om:"
     }
 }
 
