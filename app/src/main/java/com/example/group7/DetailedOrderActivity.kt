@@ -19,8 +19,8 @@ class DetailedOrderActivity : AppCompatActivity() {
     lateinit var addressTV: TextView
     lateinit var phoneNumberTV: TextView
     lateinit var db: FirebaseFirestore
-    lateinit var recyclerView : RecyclerView
-    lateinit var listOfItem : MutableList<OrderData>
+    lateinit var recyclerView: RecyclerView
+    lateinit var listOfItem: MutableList<OrderData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,7 @@ class DetailedOrderActivity : AppCompatActivity() {
             .collection("userData")
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                   // val list = mutableListOf<Customer>()
+                    // val list = mutableListOf<Customer>()
                     for (document in task.result) {
                         val name = document.data["name"].toString()
                         customerNameTV.text = "Namn: " + name
@@ -85,7 +85,7 @@ class DetailedOrderActivity : AppCompatActivity() {
             }
     }
 
-    fun fetchOrderData( myCallback: (MutableList<OrderData>) -> Unit) {
+    fun fetchOrderData(myCallback: (MutableList<OrderData>) -> Unit) {
         val documentID = getDocumentId()
         val restaurant = getRestaurantName()
         db.collection("Order").document(restaurant!!).collection("userOrders")
@@ -135,16 +135,16 @@ class DetailedOrderActivity : AppCompatActivity() {
             .document(getDocumentId()!!)
             .delete()
             .addOnSuccessListener {
-                Log.d("!!!","item deleted")
+                Log.d("!!!", "item deleted")
             }
             .addOnFailureListener {
-                Log.d("!!!","item not deleted : $it")
+                Log.d("!!!", "item not deleted : $it")
             }
     }
 
-    fun getTotalPrice (listOfOrderItems: MutableList<OrderData> ): Int {
+    fun getTotalPrice(listOfOrderItems: MutableList<OrderData>): Int {
         var total = 0
-        for(item in listOfOrderItems) {
+        for (item in listOfOrderItems) {
             var itemPrice = item.price?.times(item.amount!!)
             total = total + itemPrice!!
         }

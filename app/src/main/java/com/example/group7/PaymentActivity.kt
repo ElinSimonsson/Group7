@@ -51,24 +51,23 @@ class PaymentActivity : AppCompatActivity() {
 
         //Om användaren har userData sparat så ersätts namn/adress/nummer till dess sparade uppgifter
         var savedUserInfo = true
-        if (auth.currentUser != null){
+        if (auth.currentUser != null) {
             val user = auth.currentUser
             val docRef = db.collection("users").document(user!!.uid).collection("userData")
-                    docRef.get()
+            docRef.get()
                 .addOnSuccessListener {
-                    if(it.isEmpty){
+                    if (it.isEmpty) {
                         savedUserInfo = false
 
-                    }else{
-                        for(data in it){
+                    } else {
+                        for (data in it) {
                             nameText.setText(data.data["name"].toString())
                             adressText.setText(data.data["address"].toString())
                             phoneNumber.setText(data.data["phoneNumber"].toString())
-                            Log.d("!!!","i for loop ")
+                            Log.d("!!!", "i for loop ")
                         }
                     }
                 }
-
 
 
         }
@@ -186,20 +185,18 @@ class PaymentActivity : AppCompatActivity() {
 
                     }
 
-                        //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
-                    if(!savedUserInfo){
-                         db.collection("users").document(auth.currentUser!!.uid)
-                         .collection("userData").add(userData)
-                         .addOnSuccessListener {
-                          Toast.makeText(this,"UserData saved",Toast.LENGTH_SHORT).show()
-                            }
+                //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
+                if (!savedUserInfo) {
+                    db.collection("users").document(auth.currentUser!!.uid)
+                        .collection("userData").add(userData)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "UserData saved", Toast.LENGTH_SHORT).show()
+                        }
 
 
-}
+                }
 
-                         //userData
-
-
+                //userData
 
 
             }
@@ -208,27 +205,36 @@ class PaymentActivity : AppCompatActivity() {
         }
     }
 
-    inner class MinMaxFilter() : InputFilter{
-    private var intMin: Int = 0
-    private var intMax: Int = 0
+    inner class MinMaxFilter() : InputFilter {
+        private var intMin: Int = 0
+        private var intMax: Int = 0
 
-    constructor(minValue: Int, maxValue: Int) : this() {
-        this.intMin = minValue
-        this.intMax = maxValue
-    }
-    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence?{
-        try {
-            val input = Integer.parseInt(dest.toString() + source.toString())
-            if (isInRange(intMin, intMax, input)){
-                return null
-            }
-        } catch (e: NumberFormatException){
-            e.printStackTrace()
+        constructor(minValue: Int, maxValue: Int) : this() {
+            this.intMin = minValue
+            this.intMax = maxValue
         }
-        return ""
+
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dStart: Int,
+            dEnd: Int
+        ): CharSequence? {
+            try {
+                val input = Integer.parseInt(dest.toString() + source.toString())
+                if (isInRange(intMin, intMax, input)) {
+                    return null
+                }
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
+            }
+            return ""
+        }
+
+        private fun isInRange(a: Int, b: Int, c: Int): Boolean {
+            return if (b > a) c in a..b else c in b..a
+        }
     }
-    private fun isInRange(a: Int, b: Int, c: Int): Boolean{
-        return if (b > a) c in a..b else c in b..a
-    }
-}
 }

@@ -10,7 +10,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: MutableList<MenuItem?>, val clickListener: listClickListener) : RecyclerView.Adapter<ShoppingCartRecycleAdapter.ViewHolder>() {
+class ShoppingCartRecycleAdapter(
+    val context: Context,
+    val shoppingCartList: MutableList<MenuItem?>,
+    val clickListener: listClickListener
+) : RecyclerView.Adapter<ShoppingCartRecycleAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -81,13 +85,14 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
             }
 
         }
-        fun getItemTotalPrice (currentItem: MenuItem) : Int? {
+
+        fun getItemTotalPrice(currentItem: MenuItem): Int? {
             return currentItem.price?.times(currentItem.totalCart)
         }
 
-        fun reduceItemInCart (currentItem: MenuItem) {
+        fun reduceItemInCart(currentItem: MenuItem) {
             val cloneList = mutableListOf<MenuItem>()
-            for(item in DataManager.itemInCartList) {
+            for (item in DataManager.itemInCartList) {
                 if (item != null) {
                     cloneList.add(item)
                 }
@@ -100,7 +105,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
                     countTextView.text = total.toString()
                     clickListener.updateInCart()
 
-                    if(item.totalCart < 1) {
+                    if (item.totalCart < 1) {
                         DataManager.itemInCartList.remove(currentItem)
                         notifyDataSetChanged()
                     }
@@ -108,7 +113,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
             }
         }
 
-        fun increaseItemInCart (currentItem: MenuItem) {
+        fun increaseItemInCart(currentItem: MenuItem) {
             var total = 0
             for (item in DataManager.itemInCartList) {
                 if (item != null) {
@@ -117,7 +122,7 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
                             item.totalCart++
                             total = item.totalCart
                             countTextView.text = total.toString()
-                            if(item.totalCart == 10) {
+                            if (item.totalCart == 10) {
                                 addButton.setImageResource(R.drawable.light_add_circle)
                             }
                         }
@@ -126,16 +131,17 @@ class ShoppingCartRecycleAdapter(val context: Context, val shoppingCartList: Mut
             }
         }
 
-        fun getTotalItem (currentItem: MenuItem): Int {
+        fun getTotalItem(currentItem: MenuItem): Int {
             return currentItem.totalCart
         }
 
-        fun removeItem (currentItem: MenuItem) {
+        fun removeItem(currentItem: MenuItem) {
             DataManager.itemInCartList.remove(currentItem)
         }
 
     }
-    interface listClickListener{
+
+    interface listClickListener {
         fun finishActivity()
         fun updateInCart()
     }

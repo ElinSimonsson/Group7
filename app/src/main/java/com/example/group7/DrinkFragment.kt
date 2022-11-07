@@ -40,7 +40,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-           // param2 = it.getString(ARG_PARAM2)
+            // param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -78,7 +78,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         cartTextView = view.findViewById(R.id.cartTextView)
 
         val totalItems = getTotalItems()
-        if(totalItems >= 1) {
+        if (totalItems >= 1) {
             cartTextView.visibility = View.VISIBLE
             val price = getTotalPrice()
             cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -97,6 +97,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
 
         }
     }
+
     override fun onResume() {
         super.onResume()
         Log.d("!!!", "Resume körs")
@@ -133,13 +134,13 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
             }
     }
 
-    fun getRestaurantName (): String {
+    fun getRestaurantName(): String {
         val data = arguments
         restaurant = data?.get("restaurant") as String
         return restaurant
     }
 
-    fun getTotalPrice () : Int {
+    fun getTotalPrice(): Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
             totalPrice = if (item?.totalCart!! > 1) {
@@ -151,7 +152,8 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         }
         return totalPrice
     }
-    fun getTotalItems () : Int {
+
+    fun getTotalItems(): Int {
         var totalItems = 0
         for (item in DataManager.itemInCartList) {
             totalItems = totalItems + item!!.totalCart
@@ -176,7 +178,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
     override fun removeItemFromCart(menu: MenuItem) {
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        if(totalItems == 0) {
+        if (totalItems == 0) {
             cartTextView.visibility = View.GONE
         }
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)

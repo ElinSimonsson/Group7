@@ -26,7 +26,7 @@ import com.google.firebase.ktx.Firebase
 class MenuActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-    lateinit var db : FirebaseFirestore
+    lateinit var db: FirebaseFirestore
     lateinit var menuTextView: TextView
 
     lateinit var drinkTextView: TextView
@@ -43,16 +43,14 @@ class MenuActivity : AppCompatActivity() {
         db = Firebase.firestore
 
 
-
-      val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
-       getUserAdress {
-           menuAdressTextView.text = it.toString()
-       }
+        val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
+        getUserAdress {
+            menuAdressTextView.text = it.toString()
+        }
 
 
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
-
 
 
         val restaurant = getRestaurantName()
@@ -102,27 +100,23 @@ class MenuActivity : AppCompatActivity() {
     }
 
 
+    fun getUserAdress(myCallback: (String) -> Unit) {
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener { task ->
+
+                var userAdress = ""
+                if (task.isSuccessful) {
+                    for (document in task.result) {
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
+    }
 
 
-   fun getUserAdress(myCallback : (String) -> Unit){
-       db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-           .get().addOnCompleteListener{ task ->
-
-               var userAdress = ""
-               if(task.isSuccessful){
-                   for (document in task.result){
-                       val adress = document.data["adress"].toString()
-                       userAdress = adress
-                   }
-                   myCallback(userAdress)
-               }
-           }
-   }
-
-
-
-         
-    fun replaceWithDrinkFragment () {
+    fun replaceWithDrinkFragment() {
         val fragment = DrinkFragment()
         val bundle = Bundle()
         val restaurant = getRestaurantName()

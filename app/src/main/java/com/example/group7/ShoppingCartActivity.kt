@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.listClickListener {
     lateinit var recyclerView: RecyclerView
-    lateinit var totalPriceTextView : TextView
+    lateinit var totalPriceTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
         val payButton = findViewById<TextView>(R.id.payButton)
         payButton.setOnClickListener {
             val intent = Intent(this, PaymentActivity::class.java)
-            intent.putExtra(RES_NAME_PAYMENT,getRestaurantName())
+            intent.putExtra(RES_NAME_PAYMENT, getRestaurantName())
             startActivity(intent)
         }
 
@@ -47,10 +47,12 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
         val adapter = ShoppingCartRecycleAdapter(this, DataManager.itemInCartList, this)
         recyclerView.adapter = adapter
     }
+
     fun getRestaurantName(): String? {
         return intent.getStringExtra("restaurant")
     }
-    fun getTotalPrice () : Int {
+
+    fun getTotalPrice(): Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
             totalPrice = if (item?.totalCart!! > 1) {
@@ -74,7 +76,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)

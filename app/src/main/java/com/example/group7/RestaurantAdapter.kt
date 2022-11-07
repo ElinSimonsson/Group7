@@ -11,18 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 
 
-
-class RestaurantAdapter(private val restaurantList : ArrayList<RestaurantsData>) :
+class RestaurantAdapter(private val restaurantList: ArrayList<RestaurantsData>) :
     RecyclerView.Adapter<RestaurantAdapter.MyViewHolder>() {
 
-    private lateinit var mListener : onItemClickListener
+    private lateinit var mListener: onItemClickListener
 
-    interface onItemClickListener{
+    interface onItemClickListener {
 
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickListener(listener: onItemClickListener){
+    fun setOnItemClickListener(listener: onItemClickListener) {
 
         mListener = listener
 
@@ -31,8 +30,10 @@ class RestaurantAdapter(private val restaurantList : ArrayList<RestaurantsData>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.restaurant_list_item,
-        parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(
+            R.layout.restaurant_list_item,
+            parent, false
+        )
         return MyViewHolder(itemView, mListener)
     }
 
@@ -45,27 +46,20 @@ class RestaurantAdapter(private val restaurantList : ArrayList<RestaurantsData>)
         holder.restaurantName = currentItem.restaurantHeading
 
 
-
-
-
-
-
     }
-
-
-
 
 
     override fun getItemCount(): Int {
         return restaurantList.size
     }
 
-    class MyViewHolder(itemView : View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView){
+    class MyViewHolder(itemView: View, listener: onItemClickListener) :
+        RecyclerView.ViewHolder(itemView) {
 
 
-        val titleImage : ShapeableImageView = itemView.findViewById(R.id.title_image)
-        val restaurantHeading : TextView = itemView.findViewById(R.id.restaurantHeading)
-        val distanceTextView : TextView = itemView.findViewById(R.id.distanceTextView)
+        val titleImage: ShapeableImageView = itemView.findViewById(R.id.title_image)
+        val restaurantHeading: TextView = itemView.findViewById(R.id.restaurantHeading)
+        val distanceTextView: TextView = itemView.findViewById(R.id.distanceTextView)
         var restaurantName = ""
 
         init {
@@ -75,9 +69,6 @@ class RestaurantAdapter(private val restaurantList : ArrayList<RestaurantsData>)
 
             }
         }
-
-
-
 
 
     }

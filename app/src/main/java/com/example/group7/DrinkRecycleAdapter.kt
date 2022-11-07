@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: DrinkListClickListener) :
+class DrinkRecycleAdapter(
+    var menu: MutableList<MenuItem>,
+    val clickListener: DrinkListClickListener
+) :
     RecyclerView.Adapter<DrinkRecycleAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -43,9 +46,9 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
 
             checkAlreadyInItemInCartList(currentMenu)
 
-            for(item in DataManager.itemInCartList) {
-                if(currentMenu.name == item?.name) {
-                    if(item?.totalCart == 10 ) {
+            for (item in DataManager.itemInCartList) {
+                if (currentMenu.name == item?.name) {
+                    if (item?.totalCart == 10) {
                         addImageView.setImageResource(R.drawable.light_add_circle)
                     }
                 }
@@ -67,7 +70,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                 currentMenu.totalCart++
                 countTextView.text = currentMenu.totalCart.toString()
 
-                if(currentMenu !in DataManager.itemInCartList) {
+                if (currentMenu !in DataManager.itemInCartList) {
                     DataManager.itemInCartList.add(currentMenu)
                     clickListener.addItemToCart(currentMenu)
                 }
@@ -80,7 +83,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                 // för att undvika felkod ConcurrentModificationException
 
                 val cloneList = mutableListOf<MenuItem>()
-                for(item in DataManager.itemInCartList) {
+                for (item in DataManager.itemInCartList) {
                     if (item != null) {
                         cloneList.add(item)
                     }
@@ -93,7 +96,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                         countTextView.text = total.toString()
                         clickListener.upgradeItemInCart(currentMenu)
 
-                        if(item.totalCart < 1) {
+                        if (item.totalCart < 1) {
                             DataManager.itemInCartList.remove(currentMenu)
                             addImageView.visibility = View.GONE
                             removeImageView.visibility = View.GONE
@@ -115,7 +118,7 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
                                 total = item.totalCart
                                 countTextView.text = total.toString()
                                 clickListener.upgradeItemInCart(currentMenu)
-                                if(item.totalCart == 10) {
+                                if (item.totalCart == 10) {
                                     addImageView.setImageResource(R.drawable.light_add_circle)
                                 }
                             }
@@ -125,10 +128,11 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
 
             }
         }
-        fun checkAlreadyInItemInCartList (currentMenu: MenuItem) {
-            for(item in DataManager.itemInCartList) {
+
+        fun checkAlreadyInItemInCartList(currentMenu: MenuItem) {
+            for (item in DataManager.itemInCartList) {
                 if (item != null) {
-                    if(item.name == currentMenu.name) {
+                    if (item.name == currentMenu.name) {
                         addToCart.visibility = View.GONE
                         addImageView.visibility = View.VISIBLE
                         removeImageView.visibility = View.VISIBLE
@@ -142,8 +146,8 @@ class DrinkRecycleAdapter(var menu: MutableList<MenuItem>, val clickListener: Dr
     }
 
     interface DrinkListClickListener {
-        fun addItemToCart (menu: MenuItem)
-        fun upgradeItemInCart (menu: MenuItem)
+        fun addItemToCart(menu: MenuItem)
+        fun upgradeItemInCart(menu: MenuItem)
         fun removeItemFromCart(menu: MenuItem)
 
     }

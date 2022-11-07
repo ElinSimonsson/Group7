@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class AdminDrinkAdapter(val adminDrinkMenu : MutableList<AdminMenuItem>,val restaurantName : String,val type : String) : RecyclerView.Adapter<AdminDrinkAdapter.ViewHolder>() {
+class AdminDrinkAdapter(
+    val adminDrinkMenu: MutableList<AdminMenuItem>,
+    val restaurantName: String,
+    val type: String
+) : RecyclerView.Adapter<AdminDrinkAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -53,11 +57,11 @@ class AdminDrinkAdapter(val adminDrinkMenu : MutableList<AdminMenuItem>,val rest
 
 
         init {
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
 
                 val adminAdapterIntent = Intent(it.context, AdminDisplayItem_Activity::class.java)
-                adminAdapterIntent.putExtra(DOCUMENT_ID,id)
-                adminAdapterIntent.putExtra(RES_NAME_ADAPTER,restaurantName)
+                adminAdapterIntent.putExtra(DOCUMENT_ID, id)
+                adminAdapterIntent.putExtra(RES_NAME_ADAPTER, restaurantName)
                 adminAdapterIntent.putExtra(TYPE, type)
                 it.context.startActivity(adminAdapterIntent)
             }

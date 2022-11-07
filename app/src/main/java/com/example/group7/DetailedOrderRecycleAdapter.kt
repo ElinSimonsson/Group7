@@ -7,12 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class DetailedOrderRecycleAdapter(var listOfOrderItem: MutableList<OrderData>) :
-RecyclerView.Adapter<DetailedOrderRecycleAdapter.ViewHolder>(){
+    RecyclerView.Adapter<DetailedOrderRecycleAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.detailed_order_list_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.detailed_order_list_item, parent, false)
         return ViewHolder(itemView)
     }
 

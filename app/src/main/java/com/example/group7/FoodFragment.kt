@@ -79,7 +79,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         cartTextView = view.findViewById(R.id.cartTextView)
 
         val totalItems = getTotalItems()
-        if(totalItems >= 1) {
+        if (totalItems >= 1) {
             cartTextView.visibility = View.VISIBLE
             val price = getTotalPrice()
             cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -136,13 +136,13 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
             }
     }
 
-    fun getRestaurantName (): String {
+    fun getRestaurantName(): String {
         val data = arguments
         restaurant = data?.get("restaurant") as String
         return restaurant
     }
 
-    fun getTotalPrice () : Int {
+    fun getTotalPrice(): Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
             totalPrice = if (item?.totalCart!! > 1) {
@@ -155,7 +155,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         return totalPrice
     }
 
-    fun getTotalItems () : Int {
+    fun getTotalItems(): Int {
         var totalItems = 0
         for (item in DataManager.itemInCartList) {
             totalItems = totalItems + item!!.totalCart
@@ -180,7 +180,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
     override fun removeItemFromCart(menu: MenuItem) {
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        if(totalItems == 0) {
+        if (totalItems == 0) {
             cartTextView.visibility = View.GONE
         }
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
