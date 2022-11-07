@@ -2,8 +2,6 @@ package com.example.group7
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -14,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.lang.NumberFormatException
 
 class DetailedOrderActivity : AppCompatActivity() {
-    lateinit var titleTV: TextView
+    lateinit var customerTV: TextView
     lateinit var customerNameTV: TextView
+    lateinit var postAndCityTextView: TextView
     lateinit var addressTV: TextView
     lateinit var phoneNumberTV: TextView
     lateinit var estimatedDeliveryTV : TextView
+    lateinit var modeOfDeliveryTV : TextView
     lateinit var deliveryEditText: EditText
     lateinit var db: FirebaseFirestore
     lateinit var recyclerView: RecyclerView
@@ -35,9 +34,11 @@ class DetailedOrderActivity : AppCompatActivity() {
 
         db = Firebase.firestore
 
-        titleTV = findViewById(R.id.titleCustomerTextView)
+        modeOfDeliveryTV = findViewById(R.id.modeOfDeliveryTextView)
+        customerTV = findViewById(R.id.customerTextView)
         customerNameTV = findViewById(R.id.customerNameTextView)
         addressTV = findViewById(R.id.addressTextView)
+        postAndCityTextView = findViewById(R.id.postAndCityTextView)
         phoneNumberTV = findViewById(R.id.phoneNumberTextView)
         deliveryEditText = findViewById(R.id.estimatedDeliveryET)
         estimatedDeliveryTV = findViewById(R.id.estimatedDeliveryTV)
@@ -47,12 +48,11 @@ class DetailedOrderActivity : AppCompatActivity() {
         receviedButton.setOnClickListener {
 
             if (deliveryEditText.text.toString().trim().isEmpty()) {
-                Log.d("!!!", "du måste skriva beräknad tid!")
                 deliveryEditText.error = "Required"
             } else {
                 sendDeliveryDataToFirebase()
-               // deleteOrder()
-              finish()
+                deleteOrder()
+                finish()
             }
         }
 
@@ -90,11 +90,12 @@ class DetailedOrderActivity : AppCompatActivity() {
                         when (userChoice) {
                             "takeaway" -> {
                                 addressTV.visibility = View.GONE
-                                titleTV.text = "Maten hämtas på plats "
+                                postAndCityTextView.visibility = View.GONE
+                                modeOfDeliveryTV.text = "Avhämtning"
                                 estimatedDeliveryTV.text = "Maten beräknas vara klar för upphämtning om:"
                             }
                             "delivery" -> {
-                                titleTV.text = "Levereras till: "
+                                modeOfDeliveryTV.text = "Hemleverans"
                                 estimatedDeliveryTV.text = "Beräknad leverans om: "
                             }
                         }
@@ -102,11 +103,13 @@ class DetailedOrderActivity : AppCompatActivity() {
                         customerNameTV.text = "Namn: " + name
                         val address = document.data["address"].toString()
                         addressTV.text = "Adress: " + address
+                        val postText = document.data["postText"].toString()
+                        val city = document.data["cityText"].toString()
+                        Log.d("!!!", "stad: $city, postnummer: $postText")
+                        postAndCityTextView.text = "$postText, $city"
                         val phoneNumber = document.data["phoneNumber"]
                         phoneNumberTV.text = "Mobilnummer: " + phoneNumber.toString()
                         userId = document.data["user"].toString()
-
-                        Log.d("!!!", "userId: $userId")
 
                     }
                 }
@@ -156,11 +159,16 @@ class DetailedOrderActivity : AppCompatActivity() {
     }
 
     fun sendDeliveryDataToFirebase () {
+        val restaurant = getRestaurantName()
+
         val deliveryTime = hashMapOf(
-            "delivery" to deliveryEditText.text.toString()
+            "deliveryTime" to deliveryEditText.text.toString()
         )
         Log.d("!!!", "delivery: $deliveryTime")
-        db.collection("userDelivery")
+        if(restaurant!= null) {
+        db.collection(RESTAURANT_STRING)
+            .document(restaurant)
+            .collection("userDelivery")
             .document(userId)
             .set(deliveryTime)
             .addOnSuccessListener {
@@ -169,6 +177,7 @@ class DetailedOrderActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d("!!!", "fail att sända data till firebase")
             }
+        }
 
     }
 

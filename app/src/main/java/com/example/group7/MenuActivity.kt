@@ -71,21 +71,21 @@ class MenuActivity : AppCompatActivity() {
             replaceWithDrinkFragment()
         }
 
-        var user = auth.currentUser
-        val docRef = db.collection("user").document(user!!.uid)
-
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.d("!!!", "Listen failed")
-                return@addSnapshotListener
-            }
-            if(snapshot != null && snapshot.exists()) {
-                val delivery = snapshot.data?.get("delivery").toString().toInt()
-                Log.d("!!!", "beräknad leverans: $delivery")
-            } else {
-                Log.d("!!!", "current data: null")
-            }
-        }
+//        var user = auth.currentUser
+//        val docRef = db.collection("user").document(user!!.uid)
+//
+//        docRef.addSnapshotListener { snapshot, e ->
+//            if (e != null) {
+//                Log.d("!!!", "Listen failed")
+//                return@addSnapshotListener
+//            }
+//            if(snapshot != null && snapshot.exists()) {
+//                val delivery = snapshot.data?.get("delivery").toString().toInt()
+//                Log.d("!!!", "beräknad leverans: $delivery")
+//            } else {
+//                Log.d("!!!", "current data: null")
+//            }
+//        }
 
     }
 

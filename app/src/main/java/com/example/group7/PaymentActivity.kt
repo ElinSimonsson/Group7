@@ -1,4 +1,4 @@
-package com.example.group7
+package com. example.group7
 
 import android.app.Dialog
 import android.content.Intent
@@ -32,17 +32,19 @@ class PaymentActivity : AppCompatActivity() {
     lateinit var yearText : EditText
     lateinit var postText : EditText
     lateinit var nameText : EditText
-    lateinit var  addressText : EditText
-    lateinit var  cityText : EditText
+    lateinit var addressText : EditText
+    lateinit var cityText : EditText
     lateinit var cardNumber : EditText
     lateinit var phoneNumber : EditText
     lateinit var db : FirebaseFirestore
-    var userChoice = ""
-    var sendUserChoice = ""
+    var userChoiceTitle = ""
+    var userDeliveryChoice = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
+        db = Firebase.firestore
+        val auth = Firebase.auth
 
         ccvText = findViewById<EditText>(R.id.edit3number)
         monthText = findViewById<EditText>(R.id.editMonthNumber)
@@ -53,11 +55,9 @@ class PaymentActivity : AppCompatActivity() {
         cityText = findViewById<EditText>(R.id.editCityText)
         cardNumber = findViewById<EditText>(R.id.editCardNumber)
         phoneNumber = findViewById<EditText>(R.id.editPhoneNumberText)
-        val payBtn2: Button = findViewById(R.id.payBtn2)
         changeButton = findViewById(R.id.changeButton)
         titleWayToGetFoodTV = findViewById(R.id.titleWayToGetFoodTV)
-        db = Firebase.firestore
-        val auth = Firebase.auth
+        val payBtn2: Button = findViewById(R.id.payBtn2)
 
         var user = auth.currentUser
         showTakeawayOrDeliveryWindow()
@@ -67,9 +67,8 @@ class PaymentActivity : AppCompatActivity() {
             restaurantName = "No restaurant name"
         }
 
-        val restaurant = restaurantName
         val actionBar: ActionBar? = supportActionBar
-        actionBar?.title = restaurant
+        actionBar?.title = restaurantName
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         changeButton.setOnClickListener {
@@ -119,14 +118,13 @@ class PaymentActivity : AppCompatActivity() {
                 //User information from input to Map
                 user = auth.currentUser
                 val userData = hashMapOf(
-                    //  "postText " to postText.text.toString(),
+                    "postText" to postText.text.toString(),
                     "name" to nameText.text.toString(),
                     "address" to addressText.text.toString(),
                     "phoneNumber" to phoneNumber.text.toString(),
+                    "cityText" to cityText.text.toString(),
                     "user" to user?.uid,
-                    "userChoice" to sendUserChoice
-                    //"cityText " to cityText.text.toString(),
-                    //"creditCardInfo" to creditCardInfo
+                    "userChoice" to userDeliveryChoice
                 )
 
 
@@ -183,9 +181,12 @@ class PaymentActivity : AppCompatActivity() {
                             .addOnFailureListener {
                                 Log.d("!!!", "failed to upload data")
                             }
-//                        val intent = Intent(this, MainActivity::class.java)
-//                        startActivity(intent)
+
                     }
+                val intent = Intent(this, SuccessPaymentActivity::class.java)
+                intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
+                intent.putExtra(USER_DELIVERY_CHOICE, userDeliveryChoice)
+                startActivity(intent)
             }
         }
 
@@ -225,16 +226,16 @@ class PaymentActivity : AppCompatActivity() {
         val takeawayButton = dialogBinding.findViewById<TextView>(R.id.takeaway_button)
 
         deliveryButton.setOnClickListener {
-            userChoice = "Maten körs till din dörr"
-            sendUserChoice = "delivery"
-            titleWayToGetFoodTV.text = userChoice
+            userChoiceTitle = "Maten körs till din dörr"
+            userDeliveryChoice = "delivery"
+            titleWayToGetFoodTV.text = userChoiceTitle
             dialog.dismiss()
         }
 
         takeawayButton.setOnClickListener {
-            userChoice = "Maten hämtas i restaurangen"
-            sendUserChoice = "takeaway"
-            titleWayToGetFoodTV.text = userChoice
+            userChoiceTitle = "Maten hämtas i restaurangen"
+            userDeliveryChoice = "takeaway"
+            titleWayToGetFoodTV.text = userChoiceTitle
             dialog.dismiss()
         }
     }
