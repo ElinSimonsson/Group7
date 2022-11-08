@@ -15,6 +15,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +36,14 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-      //  auth.signOut()
+        //auth.signOut()
+
+        val currentTime = Calendar.getInstance()
+        currentTime.add(Calendar.MINUTE, 60)
+        val simpleTimeFormat = SimpleDateFormat("yyyy-MM-dd 'kl' HH:mm")
+        val estimatedDeliveryTime = simpleTimeFormat.format(currentTime.time)
+        Log.d("!!!", estimatedDeliveryTime)
+
 
         val user = auth.currentUser
         if(user == null) {
@@ -103,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("!!!", "signInAnonymously:success")
                     val user = auth.currentUser
                     updateUI(user)
-                    //linkAccount()
+                    linkAccount()
                 } else {
                     Log.w("!!!", "signInAnonymously:failure", task.exception)
                     updateUI(null)

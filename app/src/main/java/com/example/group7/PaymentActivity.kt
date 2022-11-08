@@ -9,20 +9,17 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.lang.NumberFormatException
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.HashMap
 
 class PaymentActivity : AppCompatActivity() {
     lateinit var changeButton : TextView
@@ -46,20 +43,20 @@ class PaymentActivity : AppCompatActivity() {
         db = Firebase.firestore
         val auth = Firebase.auth
 
-        ccvText = findViewById<EditText>(R.id.edit3number)
-        monthText = findViewById<EditText>(R.id.editMonthNumber)
-        yearText = findViewById<EditText>(R.id.editYearNumber)
-        postText = findViewById<EditText>(R.id.editPostNumber)
-        nameText = findViewById<EditText>(R.id.editNameText)
-        addressText = findViewById<EditText>(R.id.editAdressText)
-        cityText = findViewById<EditText>(R.id.editCityText)
-        cardNumber = findViewById<EditText>(R.id.editCardNumber)
-        phoneNumber = findViewById<EditText>(R.id.editPhoneNumberText)
+        ccvText = findViewById(R.id.edit3number)
+        monthText = findViewById(R.id.editMonthNumber)
+        yearText = findViewById(R.id.editYearNumber)
+        postText = findViewById(R.id.editPostNumber)
+        nameText = findViewById(R.id.editNameText)
+        addressText = findViewById(R.id.editAdressText)
+        cityText = findViewById(R.id.editCityText)
+        cardNumber = findViewById(R.id.editCardNumber)
+        phoneNumber = findViewById(R.id.editPhoneNumberText)
         changeButton = findViewById(R.id.changeButton)
         titleWayToGetFoodTV = findViewById(R.id.titleWayToGetFoodTV)
         val payBtn2: Button = findViewById(R.id.payBtn2)
 
-        var user = auth.currentUser
+        var user: FirebaseUser?
         showTakeawayOrDeliveryWindow()
 
         var restaurantName = intent.getStringExtra(RES_NAME_PAYMENT)
@@ -187,21 +184,6 @@ class PaymentActivity : AppCompatActivity() {
                 intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
                 intent.putExtra(USER_DELIVERY_CHOICE, userDeliveryChoice)
                 startActivity(intent)
-            }
-        }
-
-
-        val docRef = db.collection("user").document(user!!.uid)
-
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.d("!!!", "Listen failed")
-                return@addSnapshotListener
-            }
-            if(snapshot != null && snapshot.exists()) {
-                Log.d("!!!", "current data: ${snapshot.data}")
-            } else {
-                Log.d("!!!", "current data: null")
             }
         }
     }
