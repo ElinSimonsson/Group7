@@ -25,6 +25,7 @@ private const val ARG_PARAM2 = "param2"
 class OrderFragment : Fragment() {
     lateinit var db : FirebaseFirestore
     lateinit var recyclerView: RecyclerView
+    var count = 0
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -79,6 +80,25 @@ class OrderFragment : Fragment() {
             recyclerView.layoutManager = linearLayoutManager
             val adapter = OrderRecycleAdapter(it, restaurantName)
             recyclerView.adapter = adapter
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val docRef = db.collection("Order").document(getRestaurantName())
+            .collection("userOrders")
+        if (count == 0) {
+            count += 1
+        } else {
+            docRef.addSnapshotListener { snapshot, e ->
+                if (snapshot != null) {
+                    Log.d("!!!", "onStop körs, ny order!")
+                    for (document in snapshot.documents) {
+
+
+                    }
+                }
+            }
         }
     }
 

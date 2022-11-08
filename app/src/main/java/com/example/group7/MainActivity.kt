@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-        //auth.signOut()
+      //  auth.signOut()
 
         val user = auth.currentUser
         if(user == null) {
@@ -79,14 +79,13 @@ class MainActivity : AppCompatActivity() {
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
 
-        newArrayList = arrayListOf<RestaurantsData>()
+        newArrayList = arrayListOf()
         getUserdata()
 
-        adressView = findViewById<TextView>(R.id.adressView)
+        adressView = findViewById(R.id.adressView)
 
         getUserAdress {
-            adressView.text = it.toString()
-
+            adressView.text = it
         }
 
         val userBtn = findViewById<Button>(R.id.userBtn)
@@ -95,8 +94,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
-
-        }
+    }
 
     private fun signInAnonymously() {
         auth.signInAnonymously()
@@ -105,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("!!!", "signInAnonymously:success")
                     val user = auth.currentUser
                     updateUI(user)
-                    linkAccount()
+                    //linkAccount()
                 } else {
                     Log.w("!!!", "signInAnonymously:failure", task.exception)
                     updateUI(null)
@@ -191,7 +189,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         getUserAdress {
-            adressView.text = it.toString()
+            adressView.text = it
         }
     }
 

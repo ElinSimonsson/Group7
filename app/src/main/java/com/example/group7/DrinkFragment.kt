@@ -76,6 +76,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         cartTextView = view.findViewById(R.id.cartTextView)
+        recyclerView = view.findViewById(R.id.drinkRecyclerView)
 
         val totalItems = getTotalItems()
         if(totalItems >= 1) {
@@ -91,7 +92,6 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         }
 
         readData {
-            recyclerView = view.findViewById(R.id.drinkRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             recyclerView.adapter = DrinkRecycleAdapter(it, this)
 
@@ -99,12 +99,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
     }
     override fun onResume() {
         super.onResume()
-        Log.d("!!!", "Resume körs")
-        readData {
-            recyclerView = requireView().findViewById(R.id.drinkRecyclerView)
-            recyclerView.layoutManager = GridLayoutManager(context, 2)
-            recyclerView.adapter = DrinkRecycleAdapter(it, this)
-        }
+        recyclerView.adapter?.notifyDataSetChanged()
         val totalItems = getTotalItems()
         val price = getTotalPrice()
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
