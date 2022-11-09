@@ -13,9 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.lang.NumberFormatException
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.HashMap
+
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -64,7 +62,9 @@ class PaymentActivity : AppCompatActivity() {
                             nameText.setText(data.data["name"].toString())
                             adressText.setText(data.data["address"].toString())
                             phoneNumber.setText(data.data["phoneNumber"].toString())
-                            Log.d("!!!", "i for loop ")
+                           // cityText.setText(data.data["cityText"].toString())
+                           // postText.setText(data.data["postText"].toString())
+
                         }
                     }
                 }
@@ -118,13 +118,14 @@ class PaymentActivity : AppCompatActivity() {
                 //User information from input to Map
                 // val creditCardInfo =  "${cardNumber.text}"  + "${monthText.text}-" + "${yearText.text}-" + "${ccvText.text}-"
                 val userData = hashMapOf(
-                    //  "postText " to postText.text.toString(),
+                    "postText " to postText.text.toString(),
                     "name" to nameText.text.toString(),
-                    "address" to adressText.text.toString(),
-                    "phoneNumber" to phoneNumber.text.toString()
-                    //"cityText " to cityText.text.toString(),
+                    "address" to adressText.text.toString()
+                    //"phoneNumber" to phoneNumber.text.toString(),
+                   // "cityText " to cityText.text.toString()
                     //"creditCardInfo" to creditCardInfo
                 )
+                Log.d("!!!","city : ${cityText.text}")
 
 
                 val name = hashMapOf(
