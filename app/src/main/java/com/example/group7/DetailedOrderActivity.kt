@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,9 +32,6 @@ class DetailedOrderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_order)
-        listOfItem = mutableListOf()
-
-        db = Firebase.firestore
 
         modeOfDeliveryTV = findViewById(R.id.modeOfDeliveryTextView)
         customerTV = findViewById(R.id.customerTextView)
@@ -44,7 +42,11 @@ class DetailedOrderActivity : AppCompatActivity() {
         itemsTextView = findViewById(R.id.itemsTextView)
         deliveryEditText = findViewById(R.id.estimatedDeliveryET)
         estimatedDeliveryTV = findViewById(R.id.estimatedDeliveryTV)
+        listOfItem = mutableListOf()
+        db = Firebase.firestore
 
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val receivedButton = findViewById<Button>(R.id.orderReceviedbutton)
         receivedButton.setOnClickListener {
@@ -176,6 +178,13 @@ class DetailedOrderActivity : AppCompatActivity() {
         itemsTextView.visibility = View.VISIBLE
         modeOfDeliveryTV.text = "Avhämtning"
         estimatedDeliveryTV.text = "Maten beräknas vara klar för upphämtning om:"
+    }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

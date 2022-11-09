@@ -32,8 +32,6 @@ class AdminActivity : AppCompatActivity() {
             replaceWithOrderFragment()
         }
 
-
-
         replaceWithMenuFragment()
 
     }
