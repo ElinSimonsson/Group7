@@ -44,9 +44,9 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
             priceView.text = "${currentMenu.price} kr"
 
             checkAlreadyInList(currentMenu)
-            for(item in DataManager.itemInCartList) {
-                if(currentMenu.name == item?.name) {
-                    if(item?.totalCart == 10 ) {
+            for (item in DataManager.itemInCartList) {
+                if (currentMenu.name == item?.name) {
+                    if (item?.totalCart == 10) {
                         addImageView.setImageResource(R.drawable.light_add_circle)
                     }
                 }
@@ -68,7 +68,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                 currentMenu.totalCart++
                 countTextView.text = currentMenu.totalCart.toString()
 
-                if(currentMenu !in DataManager.itemInCartList) {
+                if (currentMenu !in DataManager.itemInCartList) {
                     DataManager.itemInCartList.add(currentMenu)
                     clickListener.addItemToCart(currentMenu)
                 }
@@ -82,7 +82,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                 // för att undvika felkod ConcurrentModificationException
 
                 val cloneList = mutableListOf<MenuItem>()
-                for(item in DataManager.itemInCartList) {
+                for (item in DataManager.itemInCartList) {
                     if (item != null) {
                         cloneList.add(item)
                     }
@@ -95,7 +95,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                         countTextView.text = total.toString()
                         clickListener.upgradeItemInCart(currentMenu)
 
-                        if(item.totalCart < 1) {
+                        if (item.totalCart < 1) {
                             DataManager.itemInCartList.remove(currentMenu)
                             addImageView.visibility = View.GONE
                             removeImageView.visibility = View.GONE
@@ -118,7 +118,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                                 total = item.totalCart
                                 countTextView.text = total.toString()
                                 clickListener.upgradeItemInCart(currentMenu)
-                                if(item.totalCart == 10) {
+                                if (item.totalCart == 10) {
                                     addImageView.setImageResource(R.drawable.light_add_circle)
                                 }
                             }
@@ -128,10 +128,10 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
             }
         }
 
-        fun checkAlreadyInList (currentMenu: MenuItem) {
-            for(item in DataManager.itemInCartList) {
+        fun checkAlreadyInList(currentMenu: MenuItem) {
+            for (item in DataManager.itemInCartList) {
                 if (item != null) {
-                    if(item.name == currentMenu.name) {
+                    if (item.name == currentMenu.name) {
                         addToCart.visibility = View.GONE
                         addImageView.visibility = View.VISIBLE
                         removeImageView.visibility = View.VISIBLE
@@ -145,8 +145,8 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
     }
 
     interface FoodListClickListener {
-        fun addItemToCart (menu: MenuItem)
-        fun upgradeItemInCart (menu: MenuItem)
+        fun addItemToCart(menu: MenuItem)
+        fun upgradeItemInCart(menu: MenuItem)
         fun removeItemFromCart(menu: MenuItem)
 
     }

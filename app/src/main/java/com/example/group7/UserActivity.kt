@@ -16,11 +16,11 @@ import com.google.firebase.ktx.Firebase
 class UserActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-    lateinit var db : FirebaseFirestore
+    lateinit var db: FirebaseFirestore
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
     lateinit var adressEditText: EditText
-    lateinit var saveAdressBtn : Button
+    lateinit var saveAdressBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,16 +36,16 @@ class UserActivity : AppCompatActivity() {
 
         ableAdressText(false)
 
-        ableSaveAdressBtn (false)
+        ableSaveAdressBtn(false)
 
 
         val signInBtn = findViewById<Button>(R.id.signInBtn)
-        signInBtn.setOnClickListener{
+        signInBtn.setOnClickListener {
 
             signIn()
         }
         val signUpBtn = findViewById<Button>(R.id.signUpBtn)
-        signUpBtn.setOnClickListener{
+        signUpBtn.setOnClickListener {
 
             signUp()
 
@@ -54,8 +54,7 @@ class UserActivity : AppCompatActivity() {
         saveAdressBtn.setOnClickListener {
             saveUserData()
             finish()
-    }
-
+        }
 
 
     }
@@ -65,7 +64,7 @@ class UserActivity : AppCompatActivity() {
         saveAdressBtn.isVisible = able
     }
 
-    fun ableAdressText(able :Boolean){
+    fun ableAdressText(able: Boolean) {
         adressEditText.isEnabled = able
         adressEditText.isVisible = able
     }
@@ -74,14 +73,13 @@ class UserActivity : AppCompatActivity() {
         val userData = UserData(adress = adressEditText.text.toString())
 
         val user = auth.currentUser
-        if(user == null){
-            Log.d("!!!","User not found")
+        if (user == null) {
+            Log.d("!!!", "User not found")
             return
         }
         db.collection("users").document(user.uid)
             .collection("adress").add(userData)
-            Log.d("!!!","adress added to : ${user.email}")
-
+        Log.d("!!!", "adress added to : ${user.email}")
 
 
     }
@@ -90,42 +88,42 @@ class UserActivity : AppCompatActivity() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        auth.signInWithEmailAndPassword(email,password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                if(it.isSuccessful){
-                    Log.d("!!!","Signed In")
-                    Toast.makeText(baseContext,"Signed in successfully",Toast.LENGTH_LONG).show()
+                if (it.isSuccessful) {
+                    Log.d("!!!", "Signed In")
+                    Toast.makeText(baseContext, "Signed in successfully", Toast.LENGTH_LONG).show()
                     finish()
-                }else {
-                    Toast.makeText(baseContext,"No account found",Toast.LENGTH_LONG).show()
-                    Log.d("!!!","Fail Sign in")
-                    Log.d("!!!","${it.exception}")
+                } else {
+                    Toast.makeText(baseContext, "No account found", Toast.LENGTH_LONG).show()
+                    Log.d("!!!", "Fail Sign in")
+                    Log.d("!!!", "${it.exception}")
                 }
             }
     }
-
 
 
     private fun signUp() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        if(email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             return
         }
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                if(it.isSuccessful){
-                    Log.d("!!!","Signed Up")
-                    Toast.makeText(baseContext,"Please enter home-adress below",Toast.LENGTH_LONG).show()
+                if (it.isSuccessful) {
+                    Log.d("!!!", "Signed Up")
+                    Toast.makeText(baseContext, "Please enter home-adress below", Toast.LENGTH_LONG)
+                        .show()
                     ableAdressText(true)
                     ableSaveAdressBtn(true)
 
-                }else{
-                    Toast.makeText(baseContext,"Signed up failed",Toast.LENGTH_LONG).show()
-                    Log.d("!!!","Fail Sign Up")
-                    Log.d("!!!","${it.exception}")
+                } else {
+                    Toast.makeText(baseContext, "Signed up failed", Toast.LENGTH_LONG).show()
+                    Log.d("!!!", "Fail Sign Up")
+                    Log.d("!!!", "${it.exception}")
                 }
             }
 

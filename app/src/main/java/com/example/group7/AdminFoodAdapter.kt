@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class AdminFoodAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurantName : String, val type : String) :
-    RecyclerView.Adapter<AdminFoodAdapter.ViewHolder>(){
+class AdminFoodAdapter(
+    val adminMenu: MutableList<AdminMenuItem>,
+    val restaurantName: String,
+    val type: String
+) :
+    RecyclerView.Adapter<AdminFoodAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.admin_food_list_item,parent,false)
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.admin_food_list_item, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -41,6 +46,7 @@ class AdminFoodAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
     override fun getItemCount(): Int {
         return adminMenu.size
     }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById(R.id.adminDrinkNameText)
         val priceView: TextView = itemView.findViewById(R.id.adminDrinkPriceText)
@@ -48,16 +54,15 @@ class AdminFoodAdapter(val adminMenu : MutableList<AdminMenuItem>,val restaurant
         var id = ""
 
 
+        init {
+            itemView.setOnClickListener {
 
-       init {
-           itemView.setOnClickListener{
-
-               val adminAdapterIntent = Intent(it.context, AdminDisplayItem_Activity::class.java)
-               adminAdapterIntent.putExtra(DOCUMENT_ID,id)
-               adminAdapterIntent.putExtra(RES_NAME_ADAPTER,restaurantName)
-               adminAdapterIntent.putExtra(TYPE, type)
-               it.context.startActivity(adminAdapterIntent)
-           }
-       }
+                val adminAdapterIntent = Intent(it.context, AdminDisplayItem_Activity::class.java)
+                adminAdapterIntent.putExtra(DOCUMENT_ID, id)
+                adminAdapterIntent.putExtra(RES_NAME_ADAPTER, restaurantName)
+                adminAdapterIntent.putExtra(TYPE, type)
+                it.context.startActivity(adminAdapterIntent)
+            }
+        }
     }
 }

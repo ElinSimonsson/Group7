@@ -10,7 +10,7 @@
         android:id="@+id/editNameText"
         android:layout_width="386dp"
         android:layout_height="51dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
         android:hint="Skriv in ditt namn"
         android:inputType="textPersonName"
@@ -42,6 +42,15 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#DA1212"
+        android:text="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,7 +108,8 @@
         android:id="@+id/payBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#DA1212"
         android:layout_marginBottom="16dp"
         android:text="Betala"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,7 +138,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="444dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="28dp"
         android:ems="10"
         android:hint="ÅÅ"
         android:inputType="number"
@@ -140,11 +150,11 @@
         android:id="@+id/textView4"
         android:layout_width="27dp"
         android:layout_height="60dp"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="436dp"
         android:text="/"
         android:textSize="50sp"
         app:layout_constraintEnd_toStartOf="@+id/editYearNumber"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/editMonthNumber"
         app:layout_constraintTop_toTopOf="parent" />
 

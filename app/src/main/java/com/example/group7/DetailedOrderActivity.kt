@@ -29,6 +29,7 @@ class DetailedOrderActivity : AppCompatActivity() {
     lateinit var listOfItem: MutableList<OrderData>
     var userId = ""
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_order)
@@ -86,6 +87,7 @@ class DetailedOrderActivity : AppCompatActivity() {
             .collection("userData")
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+
                     for (document in task.result) {
                         userId = document.data["user"].toString()
                         val name = document.data["name"].toString()
@@ -143,6 +145,7 @@ class DetailedOrderActivity : AppCompatActivity() {
             .set(deliveryTime)
         }
     }
+
 
     fun deleteOrder() {
         db.collection("Order")

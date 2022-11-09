@@ -23,7 +23,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class OrderFragment : Fragment() {
-    lateinit var db : FirebaseFirestore
+    lateinit var db: FirebaseFirestore
     lateinit var recyclerView: RecyclerView
     var count = 0
 
@@ -93,24 +93,20 @@ class OrderFragment : Fragment() {
             docRef.addSnapshotListener { snapshot, e ->
                 if (snapshot != null) {
                     Log.d("!!!", "onStop körs, ny order!")
-                    for (document in snapshot.documents) {
-
-
-                    }
+                    
                 }
             }
         }
     }
 
     fun fetchDocumentIdData (myCallback : (MutableList<DocumentId>)-> Unit) {
-
         val docRef = db.collection("Order").document(getRestaurantName())
             .collection("userOrders")
 
         docRef.addSnapshotListener { snapshot, e ->
             if (snapshot != null) {
                 val listOfDocumentId = mutableListOf<DocumentId>()
-                for(document in snapshot.documents) {
+                for (document in snapshot.documents) {
                     val documentId = document.id
 
                     val id = DocumentId(documentId)
@@ -121,7 +117,7 @@ class OrderFragment : Fragment() {
         }
     }
 
-    fun getRestaurantName() : String {
+    fun getRestaurantName(): String {
         val data = arguments
         val restaurant = data?.get("restaurant")
         return restaurant.toString()

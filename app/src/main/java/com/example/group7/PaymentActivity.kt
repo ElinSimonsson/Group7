@@ -21,6 +21,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.lang.NumberFormatException
 
+
 class PaymentActivity : AppCompatActivity() {
     lateinit var changeButton : TextView
     lateinit var titleWayToGetFoodTV : TextView
@@ -77,9 +78,43 @@ class PaymentActivity : AppCompatActivity() {
         yearText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99))
         postText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99999))
 
+        //Om användaren har userData sparat så ersätts namn/adress/nummer till dess sparade uppgifter
+        var savedUserInfo = true
+        if (auth.currentUser != null) {
+            val user = auth.currentUser
+            val docRef = db.collection("users").document(user!!.uid).collection("userData")
+            docRef.get()
+                .addOnSuccessListener {
+                    if (it.isEmpty) {
+                        savedUserInfo = false
+
+                    } else {
+                        for (data in it) {
+                            nameText.setText(data.data["name"].toString())
+                            adressText.setText(data.data["address"].toString())
+                            phoneNumber.setText(data.data["phoneNumber"].toString())
+                           // cityText.setText(data.data["cityText"].toString())
+                           // postText.setText(data.data["postText"].toString())
+
+                        }
+                    }
+                }
+
+
+        }
+
+
+        backBtn.setOnClickListener {
+            val intent = Intent(this, ShoppingCartActivity::class.java)
+            startActivity(intent)
+
+        }
+
 
 
         payBtn2.setOnClickListener {
+
+
             val user_msg_error: String = ccvText.text.toString()
 
             if (user_msg_error.trim().isEmpty()) {
@@ -115,6 +150,7 @@ class PaymentActivity : AppCompatActivity() {
                 //User information from input to Map
                 user = auth.currentUser
                 val userData = hashMapOf(
+
                     "postText" to postText.text.toString(),
                     "name" to nameText.text.toString(),
                     "address" to addressText.text.toString(),
@@ -123,6 +159,7 @@ class PaymentActivity : AppCompatActivity() {
                     "user" to user?.uid,
                     "userChoice" to userDeliveryChoice
                 )
+                Log.d("!!!","city : ${cityText.text}")
 
 
                 val name = hashMapOf(
@@ -180,10 +217,27 @@ class PaymentActivity : AppCompatActivity() {
                             }
 
                     }
+
+                //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
+                if (!savedUserInfo) {
+                    db.collection("users").document(auth.currentUser!!.uid)
+                        .collection("userData").add(userData)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "UserData saved", Toast.LENGTH_SHORT).show()
+                        }
+
+
+                }
+
+                //userData
+
+
+
                 val intent = Intent(this, SuccessPaymentActivity::class.java)
                 intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
                 intent.putExtra(USER_DELIVERY_CHOICE, userDeliveryChoice)
                 startActivity(intent)
+
             }
         }
     }
@@ -222,27 +276,36 @@ class PaymentActivity : AppCompatActivity() {
         }
     }
 
-    inner class MinMaxFilter() : InputFilter{
-    private var intMin: Int = 0
-    private var intMax: Int = 0
+    inner class MinMaxFilter() : InputFilter {
+        private var intMin: Int = 0
+        private var intMax: Int = 0
 
-    constructor(minValue: Int, maxValue: Int) : this() {
-        this.intMin = minValue
-        this.intMax = maxValue
-    }
-    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence?{
-        try {
-            val input = Integer.parseInt(dest.toString() + source.toString())
-            if (isInRange(intMin, intMax, input)){
-                return null
-            }
-        } catch (e: NumberFormatException){
-            e.printStackTrace()
+        constructor(minValue: Int, maxValue: Int) : this() {
+            this.intMin = minValue
+            this.intMax = maxValue
         }
-        return ""
+
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dStart: Int,
+            dEnd: Int
+        ): CharSequence? {
+            try {
+                val input = Integer.parseInt(dest.toString() + source.toString())
+                if (isInRange(intMin, intMax, input)) {
+                    return null
+                }
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
+            }
+            return ""
+        }
+
+        private fun isInRange(a: Int, b: Int, c: Int): Boolean {
+            return if (b > a) c in a..b else c in b..a
+        }
     }
-    private fun isInRange(a: Int, b: Int, c: Int): Boolean{
-        return if (b > a) c in a..b else c in b..a
-    }
-}
 }

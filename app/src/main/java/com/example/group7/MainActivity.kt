@@ -26,9 +26,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageId: Array<Int>
     lateinit var heading: Array<String>
     lateinit var distance: Array<String>
+    lateinit var userBtn: Button
     lateinit var auth: FirebaseAuth
-    lateinit var db : FirebaseFirestore
-    lateinit var adressView : TextView
+    lateinit var db: FirebaseFirestore
+    lateinit var adressView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-        //auth.signOut()
+        auth.signOut()
 
         val currentTime = Calendar.getInstance()
         currentTime.add(Calendar.MINUTE, 60)
@@ -73,17 +74,20 @@ class MainActivity : AppCompatActivity() {
             R.drawable.roots,
             R.drawable.primo,
             R.drawable.asian,
-        )
+            )
+
         heading = arrayOf(
             "Roots & Soil",
             "Primo Ciao Ciao",
             "Asian Kitchen",
-        )
+            )
+
         distance = arrayOf(
             "Distans 120m",
             "Distans 400m",
             "Distans 520m",
-        )
+            )
+
 
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -98,8 +102,8 @@ class MainActivity : AppCompatActivity() {
             adressView.text = it
         }
 
-        val userBtn = findViewById<Button>(R.id.userBtn)
-        userBtn.setOnClickListener{
+        userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn.setOnClickListener {
 
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
@@ -119,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                     updateUI(null)
                 }
             }
+
     }
 
     private fun linkAccount() {
@@ -148,14 +153,14 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = RestaurantAdapter(newArrayList)
         newRecyclerView.adapter = adapter
+
         adapter.setOnItemClickListener(object : RestaurantAdapter.onItemClickListener{
 
             override fun onItemClick(position: Int) {
 
-                val intent = Intent(this@MainActivity,MenuActivity::class.java)
-                intent.putExtra("restaurant",newArrayList[position].restaurantHeading)
+                val intent = Intent(this@MainActivity, MenuActivity::class.java)
+                intent.putExtra("restaurant", newArrayList[position].restaurantHeading)
                 startActivity(intent)
-
             }
         }
         )
@@ -172,28 +177,37 @@ class MainActivity : AppCompatActivity() {
         val user = auth.currentUser
 
 
-        Log.d("!!!","user: ${user?.uid}")
-        if(auth.currentUser?.email == "mcdonalds@admin.se"){
+
+        //Changes text of 'UserBtn' to everything before @ in the email
+        if (auth.currentUser != null) {
+            val userEmail = auth.currentUser!!.email.toString()
+            val nameInEmail = userEmail.substring(0, userEmail.indexOf('@'))
+            userBtn.text = nameInEmail
+        }
+
+        Log.d("!!!", "user :${auth.currentUser?.email}")
+        if (auth.currentUser?.email == "mcdonalds@admin.se") {
+
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN,"Mcdonalds")
+            intentAdmin.putExtra(RES_MAIN, "Mcdonalds")
             startActivity(intentAdmin)
             finish()
         }
-        if(auth.currentUser?.email == "asiankitchen@admin.se"){
+        if (auth.currentUser?.email == "asiankitchen@admin.se") {
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN,"Asian Kitchen")
+            intentAdmin.putExtra(RES_MAIN, "Asian Kitchen")
             startActivity(intentAdmin)
             finish()
         }
-        if(auth.currentUser?.email == "rootssoil@admin.se"){
+        if (auth.currentUser?.email == "rootssoil@admin.se") {
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN,"Roots & Soil")
+            intentAdmin.putExtra(RES_MAIN, "Roots & Soil")
             startActivity(intentAdmin)
             finish()
         }
-        if(auth.currentUser?.email == "primociaociao@admin.se"){
+        if (auth.currentUser?.email == "primociaociao@admin.se") {
             val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN,"Primo Ciao Ciao")
+            intentAdmin.putExtra(RES_MAIN, "Primo Ciao Ciao")
             startActivity(intentAdmin)
             finish()
         }
@@ -203,13 +217,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getUserAdress(myCallback : (String) -> Unit){
+    fun getUserAdress(myCallback: (String) -> Unit) {
+
         db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener{ task ->
+            .get().addOnCompleteListener { task ->
 
                 var userAdress = ""
-                if(task.isSuccessful){
-                    for (document in task.result){
+                if (task.isSuccessful) {
+                    for (document in task.result) {
                         val adress = document.data["adress"].toString()
                         userAdress = adress
                     }
@@ -219,7 +234,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-private operator fun Button.get(i: Int) {
+    private operator fun Button.get(i: Int) {
 
+
+    }
 }
-}
+
+
+
+

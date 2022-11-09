@@ -73,8 +73,8 @@ class AdminFoodFragment : Fragment() {
 
         readMenuData {
             recyclerView = view.findViewById(R.id.adminMenuRV)
-            recyclerView.layoutManager = GridLayoutManager(context,2)
-            val adapter = AdminFoodAdapter(it,getResNameFragment(), MENU)
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
+            val adapter = AdminFoodAdapter(it, getResNameFragment(), MENU)
             recyclerView.adapter = adapter
         }
         listenerUpdateOrder()
@@ -98,28 +98,30 @@ class AdminFoodFragment : Fragment() {
         }
     }
 
-    fun getResNameFragment() : String{
+    fun getResNameFragment(): String {
         val data = arguments
         val restaurant = data?.get(RES_NAME_MENU_FRAGMENT).toString()
-        Log.d("!!!","resname fragment : $restaurant")
+        Log.d("!!!", "resname fragment : $restaurant")
         return restaurant
     }
 
-    fun readMenuData(myCallback : (MutableList<AdminMenuItem>) -> Unit){
-        Log.d("!!!","Fun rmd MENU")
+
+    fun readMenuData(myCallback: (MutableList<AdminMenuItem>) -> Unit) {
+        Log.d("!!!", "Fun rmd MENU")
+
         db.collection(RESTAURANT_STRING)
             .document(getResNameFragment())
             .collection(MENU)
             .get()
-            .addOnCompleteListener{ task ->
-                if(task.isSuccessful){
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     val list = mutableListOf<AdminMenuItem>()
-                    for (document in task.result){
+                    for (document in task.result) {
                         val name = document.data["name"].toString()
                         val price = document.data["price"].toString().toInt()
                         val imageURL = document.data["imageURL"].toString()
                         val documentID = document.id
-                        val adminMenuItem = AdminMenuItem(documentID,name,price, imageURL)
+                        val adminMenuItem = AdminMenuItem(documentID, name, price, imageURL)
                         list.add(adminMenuItem)
                     }
                     myCallback(list)

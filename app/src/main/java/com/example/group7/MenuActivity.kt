@@ -37,15 +37,19 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        auth = Firebase.auth
+
+        db = Firebase.firestore
+
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
-        auth = Firebase.auth
-        db = Firebase.firestore
+        
 
         val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
         getUserAdress {
             menuAdressTextView.text = it.toString()
         }
+
 
         val restaurant = getRestaurantName()
         val actionBar: ActionBar? = supportActionBar
@@ -104,6 +108,23 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
     }
+
+
+    fun getUserAdress(myCallback: (String) -> Unit) {
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener { task ->
+
+                var userAdress = ""
+                if (task.isSuccessful) {
+                    for (document in task.result) {
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
+    }
+
 
     fun replaceWithDrinkFragment() {
         val fragment = DrinkFragment()

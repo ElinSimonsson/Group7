@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:text="User"
+        android:backgroundTint="#DA1212"
+        android:text="Log In"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,31 +22,32 @@
         android:id="@+id/restaurantRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="641dp"
-        android:layout_marginTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userBtn"
-        tools:listitem="@layout/restaurant_list_item"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:listitem="@layout/restaurant_list_item" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:fontFamily="cursive"
         android:text="MAT-A-DOOR"
+        android:textColor="#DA1212"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/userBtn" />
 
     <TextView
         android:id="@+id/adressView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="adressView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#DA1212"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

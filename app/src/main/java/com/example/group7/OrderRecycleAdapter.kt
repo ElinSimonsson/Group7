@@ -11,9 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class OrderRecycleAdapter (val listOfDocumentId : MutableList<DocumentId>, val restaurantName : String):
+class OrderRecycleAdapter(
+    val listOfDocumentId: MutableList<DocumentId>,
+    val restaurantName: String
+) :
     RecyclerView.Adapter<OrderRecycleAdapter.ViewHolder>() {
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
