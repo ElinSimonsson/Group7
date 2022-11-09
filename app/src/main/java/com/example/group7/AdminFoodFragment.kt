@@ -29,6 +29,7 @@ class AdminFoodFragment : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     var db = Firebase.firestore
+    var count = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,12 +72,29 @@ class AdminFoodFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         readMenuData {
-
             recyclerView = view.findViewById(R.id.adminMenuRV)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             val adapter = AdminFoodAdapter(it, getResNameFragment(), MENU)
             recyclerView.adapter = adapter
+        }
+        listenerUpdateOrder()
+    }
 
+    fun listenerUpdateOrder () {
+
+        val docRef = db.collection("Order").document(getResNameFragment())
+            .collection("userOrders")
+
+        docRef.addSnapshotListener { snapshot, e ->
+            if (snapshot != null) {
+                if(count == 0) {
+                    count += 1
+                    Log.d("!!!", "count är $count")
+                } else {
+                    Log.d("!!!", "items updated!")
+                }
+
+            }
         }
     }
 
@@ -87,8 +105,10 @@ class AdminFoodFragment : Fragment() {
         return restaurant
     }
 
+
     fun readMenuData(myCallback: (MutableList<AdminMenuItem>) -> Unit) {
         Log.d("!!!", "Fun rmd MENU")
+
         db.collection(RESTAURANT_STRING)
             .document(getResNameFragment())
             .collection(MENU)

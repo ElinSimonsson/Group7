@@ -29,6 +29,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
     lateinit var adapter: FoodRecycleAdapter
     lateinit var cartTextView: TextView
     lateinit var restaurant: String
+    lateinit var list : MutableList<MenuItem?>
 
 
     var db = Firebase.firestore
@@ -77,6 +78,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cartTextView = view.findViewById(R.id.cartTextView)
+        recyclerView1 = view.findViewById(R.id.foodRecyclerView)
 
         val totalItems = getTotalItems()
         if (totalItems >= 1) {
@@ -91,21 +93,20 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
             startActivity(intent)
         }
 
+
+
         readData {
-            recyclerView1 = view.findViewById(R.id.foodRecyclerView)
             recyclerView1.layoutManager = GridLayoutManager(context, 2)
             recyclerView1.adapter = FoodRecycleAdapter(it, this)
         }
+
     }
 
     override fun onResume() {
         super.onResume()
         Log.d("!!!", "Resume körs")
-        readData {
-            recyclerView1 = requireView().findViewById(R.id.foodRecyclerView)
-            recyclerView1.layoutManager = GridLayoutManager(context, 2)
-            recyclerView1.adapter = FoodRecycleAdapter(it, this)
-        }
+        recyclerView1.adapter?.notifyDataSetChanged()
+
         val totalItems = getTotalItems()
         val price = getTotalPrice()
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -115,7 +116,6 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         }
 
     }
-
 
     fun readData(myCallback: (MutableList<MenuItem?>) -> Unit) {
         db.collection("restaurants").document(getRestaurantName()).collection("menu")
@@ -136,7 +136,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
             }
     }
 
-    fun getRestaurantName(): String {
+    fun getRestaurantName (): String {
         val data = arguments
         restaurant = data?.get("restaurant") as String
         return restaurant

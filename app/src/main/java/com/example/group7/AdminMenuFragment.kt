@@ -1,12 +1,16 @@
 package com.example.group7
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,16 +22,12 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MenuFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AdminMenuFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     lateinit var db: FirebaseFirestore
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,15 +63,15 @@ class AdminMenuFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val foodButton = view.findViewById<TextView>(R.id.adminMatTextView)
         val drinkButton = view.findViewById<TextView>(R.id.adminDryckTextView)
-
+        db = Firebase.firestore
         startFoodFragment()
+        listenerUpdateOrder()
 
         foodButton.setOnClickListener {
             startFoodFragment()
@@ -81,7 +81,7 @@ class AdminMenuFragment : Fragment() {
             startDrinkFragment()
         }
 
-        db = Firebase.firestore
+
         val restaurantName = getRestaurantName()
 
         val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
@@ -91,6 +91,50 @@ class AdminMenuFragment : Fragment() {
             intentFab.putExtra("restaurantNameFAB", restaurantName)
             startActivity(intentFab)
         }
+    }
+
+    fun listenerUpdateOrder() {
+        val docRef = db.collection("Order").document(getRestaurantName())
+            .collection("userOrders")
+
+        docRef.addSnapshotListener { snapshot, e ->
+            if (snapshot != null) {
+                if (count == 0) {
+                    count += 1
+                    Log.d("!!!", "count är $count")
+                } else {
+                    Log.d("!!!", "items updated!")
+                    showNewOrderCustomDialog()
+                }
+            }
+        }
+    }
+
+    private fun showNewOrderCustomDialog() {
+        val dialogBinding = layoutInflater.inflate(R.layout.new_order_custom_dialog, null)
+        val dialog = context?.let { Dialog(it) }
+        dialog?.setContentView(dialogBinding)
+        dialog?.setCancelable(true)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.show()
+
+        val goToOrderFragmentButton = dialogBinding.findViewById<TextView>(R.id.goToOrderFragmentTV)
+
+        goToOrderFragmentButton.setOnClickListener {
+            dialog?.dismiss()
+            replaceWithOrderFragment()
+        }
+    }
+
+    private fun replaceWithOrderFragment() {
+        val orderFragment = OrderFragment()
+        val bundle = Bundle()
+        bundle.putString("restaurant", getRestaurantName())
+        orderFragment.arguments = bundle
+        val fragmentManager = parentFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.adminContainer, orderFragment)
+        transaction.commit()
     }
 
     private fun startFoodFragment() {
@@ -108,13 +152,13 @@ class AdminMenuFragment : Fragment() {
     }
 
     private fun startDrinkFragment() {
-        val AdminFragment = AdminDrinkFragment()
+        val adminFragment = AdminDrinkFragment()
         val bundle = Bundle()
         bundle.putString(RES_NAME_DRINK_FRAGMENT, getRestaurantName())
-        AdminFragment.arguments = bundle
+        adminFragment.arguments = bundle
         val fragmentManager = parentFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.menuContainer, AdminFragment)
+        fragmentTransaction.replace(R.id.menuContainer, adminFragment)
         fragmentTransaction.commit()
     }
 

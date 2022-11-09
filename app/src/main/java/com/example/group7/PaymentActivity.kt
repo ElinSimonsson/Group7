@@ -1,6 +1,9 @@
-package com.example.group7
+package com. example.group7
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputFilter
@@ -8,44 +11,72 @@ import android.text.Spanned
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.lang.NumberFormatException
 
 
 class PaymentActivity : AppCompatActivity() {
-
+    lateinit var changeButton : TextView
+    lateinit var titleWayToGetFoodTV : TextView
+    lateinit var ccvText : EditText
+    lateinit var monthText : EditText
+    lateinit var yearText : EditText
+    lateinit var postText : EditText
+    lateinit var nameText : EditText
+    lateinit var addressText : EditText
+    lateinit var cityText : EditText
+    lateinit var cardNumber : EditText
+    lateinit var phoneNumber : EditText
+    lateinit var db : FirebaseFirestore
+    var userChoiceTitle = ""
+    var userDeliveryChoice = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
-
-        val ccvText = findViewById<EditText>(R.id.edit3number)
-        val monthText = findViewById<EditText>(R.id.editMonthNumber)
-        val yearText = findViewById<EditText>(R.id.editYearNumber)
-        val postText = findViewById<EditText>(R.id.editPostNumber)
-        val nameText = findViewById<EditText>(R.id.editNameText)
-        val adressText = findViewById<EditText>(R.id.editAdressText)
-        val cityText = findViewById<EditText>(R.id.editCityText)
-        val cardNumber = findViewById<EditText>(R.id.editCardNumber)
-        val phoneNumber = findViewById<EditText>(R.id.editPhoneNumberText)
-        val backBtn: Button = findViewById(R.id.backBtn)
-        val payBtn2: Button = findViewById(R.id.payBtn2)
-        val db = Firebase.firestore
+        db = Firebase.firestore
         val auth = Firebase.auth
+
+        ccvText = findViewById(R.id.edit3number)
+        monthText = findViewById(R.id.editMonthNumber)
+        yearText = findViewById(R.id.editYearNumber)
+        postText = findViewById(R.id.editPostNumber)
+        nameText = findViewById(R.id.editNameText)
+        addressText = findViewById(R.id.editAdressText)
+        cityText = findViewById(R.id.editCityText)
+        cardNumber = findViewById(R.id.editCardNumber)
+        phoneNumber = findViewById(R.id.editPhoneNumberText)
+        changeButton = findViewById(R.id.changeButton)
+        titleWayToGetFoodTV = findViewById(R.id.titleWayToGetFoodTV)
+        val payBtn2: Button = findViewById(R.id.payBtn2)
+
+        var user: FirebaseUser?
+        showTakeawayOrDeliveryWindow()
 
         var restaurantName = intent.getStringExtra(RES_NAME_PAYMENT)
         if (restaurantName == null) {
             restaurantName = "No restaurant name"
         }
 
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.title = restaurantName
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        changeButton.setOnClickListener {
+            showTakeawayOrDeliveryWindow()
+        }
+
         ccvText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 999))
         monthText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 12))
         yearText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99))
         postText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99999))
-
 
         //Om användaren har userData sparat så ersätts namn/adress/nummer till dess sparade uppgifter
         var savedUserInfo = true
@@ -80,6 +111,7 @@ class PaymentActivity : AppCompatActivity() {
         }
 
 
+
         payBtn2.setOnClickListener {
 
 
@@ -105,8 +137,8 @@ class PaymentActivity : AppCompatActivity() {
             } else if (cityText.text.toString().trim().isEmpty()) {
                 cityText.error = "Required"
                 Toast.makeText(applicationContext, "Skriv in en stad!", Toast.LENGTH_SHORT).show()
-            } else if (adressText.text.toString().trim().isEmpty()) {
-                adressText.error = "Required"
+            } else if (addressText.text.toString().trim().isEmpty()) {
+                addressText.error = "Required"
                 Toast.makeText(applicationContext, "Skriv in en adress!", Toast.LENGTH_SHORT).show()
             } else if (nameText.text.toString().trim().isEmpty()) {
                 nameText.error = "Required"
@@ -116,14 +148,16 @@ class PaymentActivity : AppCompatActivity() {
                     .show()
 
                 //User information from input to Map
-                // val creditCardInfo =  "${cardNumber.text}"  + "${monthText.text}-" + "${yearText.text}-" + "${ccvText.text}-"
+                user = auth.currentUser
                 val userData = hashMapOf(
-                    "postText " to postText.text.toString(),
+
+                    "postText" to postText.text.toString(),
                     "name" to nameText.text.toString(),
-                    "address" to adressText.text.toString()
-                    //"phoneNumber" to phoneNumber.text.toString(),
-                   // "cityText " to cityText.text.toString()
-                    //"creditCardInfo" to creditCardInfo
+                    "address" to addressText.text.toString(),
+                    "phoneNumber" to phoneNumber.text.toString(),
+                    "cityText" to cityText.text.toString(),
+                    "user" to user?.uid,
+                    "userChoice" to userDeliveryChoice
                 )
                 Log.d("!!!","city : ${cityText.text}")
 
@@ -137,6 +171,7 @@ class PaymentActivity : AppCompatActivity() {
                     .collection("userOrders")
                     .add(name)
                     .addOnSuccessListener { documentReference ->
+
                         for (items in DataManager.itemInCartList) {
                             val order = hashMapOf(
                                 "name" to items?.name.toString(),
@@ -180,9 +215,6 @@ class PaymentActivity : AppCompatActivity() {
                             .addOnFailureListener {
                                 Log.d("!!!", "failed to upload data")
                             }
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-
 
                     }
 
@@ -200,9 +232,47 @@ class PaymentActivity : AppCompatActivity() {
                 //userData
 
 
+
+                val intent = Intent(this, SuccessPaymentActivity::class.java)
+                intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
+                intent.putExtra(USER_DELIVERY_CHOICE, userDeliveryChoice)
+                startActivity(intent)
+
             }
+        }
+    }
 
 
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun showTakeawayOrDeliveryWindow() {
+        val dialogBinding = layoutInflater.inflate(R.layout.question_window, null)
+        val dialog = Dialog(this)
+        dialog.setContentView(dialogBinding)
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        val deliveryButton = dialogBinding.findViewById<TextView>(R.id.delivery_button)
+        val takeawayButton = dialogBinding.findViewById<TextView>(R.id.takeaway_button)
+
+        deliveryButton.setOnClickListener {
+            userChoiceTitle = "Maten körs till din dörr"
+            userDeliveryChoice = "delivery"
+            titleWayToGetFoodTV.text = userChoiceTitle
+            dialog.dismiss()
+        }
+
+        takeawayButton.setOnClickListener {
+            userChoiceTitle = "Maten hämtas i restaurangen"
+            userDeliveryChoice = "takeaway"
+            titleWayToGetFoodTV.text = userChoiceTitle
+            dialog.dismiss()
         }
     }
 
