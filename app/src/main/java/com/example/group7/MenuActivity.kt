@@ -109,23 +109,6 @@ class MenuActivity : AppCompatActivity() {
             }
     }
 
-
-    fun getUserAdress(myCallback: (String) -> Unit) {
-        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener { task ->
-
-                var userAdress = ""
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        val adress = document.data["adress"].toString()
-                        userAdress = adress
-                    }
-                    myCallback(userAdress)
-                }
-            }
-    }
-
-
     fun replaceWithDrinkFragment() {
         val fragment = DrinkFragment()
         val bundle = Bundle()

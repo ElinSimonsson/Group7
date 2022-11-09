@@ -29,7 +29,6 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
     lateinit var adapter: FoodRecycleAdapter
     lateinit var cartTextView: TextView
     lateinit var restaurant: String
-    lateinit var list : MutableList<MenuItem?>
 
 
     var db = Firebase.firestore
@@ -78,10 +77,9 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cartTextView = view.findViewById(R.id.cartTextView)
-        recyclerView1 = view.findViewById(R.id.foodRecyclerView)
 
         val totalItems = getTotalItems()
-        if (totalItems >= 1) {
+        if(totalItems >= 1) {
             cartTextView.visibility = View.VISIBLE
             val price = getTotalPrice()
             cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -93,20 +91,23 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
             startActivity(intent)
         }
 
-
-
         readData {
+            recyclerView1 = view.findViewById(R.id.foodRecyclerView)
             recyclerView1.layoutManager = GridLayoutManager(context, 2)
             recyclerView1.adapter = FoodRecycleAdapter(it, this)
         }
-
     }
 
     override fun onResume() {
         super.onResume()
         Log.d("!!!", "Resume körs")
-        recyclerView1.adapter?.notifyDataSetChanged()
 
+
+        readData {
+            recyclerView1 = requireView().findViewById(R.id.foodRecyclerView)
+            recyclerView1.layoutManager = GridLayoutManager(context, 2)
+            recyclerView1.adapter = FoodRecycleAdapter(it, this)
+        }
         val totalItems = getTotalItems()
         val price = getTotalPrice()
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -116,6 +117,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         }
 
     }
+
 
     fun readData(myCallback: (MutableList<MenuItem?>) -> Unit) {
         db.collection("restaurants").document(getRestaurantName()).collection("menu")
@@ -142,7 +144,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         return restaurant
     }
 
-    fun getTotalPrice(): Int {
+    fun getTotalPrice () : Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
             totalPrice = if (item?.totalCart!! > 1) {
@@ -155,7 +157,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         return totalPrice
     }
 
-    fun getTotalItems(): Int {
+    fun getTotalItems () : Int {
         var totalItems = 0
         for (item in DataManager.itemInCartList) {
             totalItems = totalItems + item!!.totalCart
@@ -180,7 +182,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
     override fun removeItemFromCart(menu: MenuItem) {
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        if (totalItems == 0) {
+        if(totalItems == 0) {
             cartTextView.visibility = View.GONE
         }
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
