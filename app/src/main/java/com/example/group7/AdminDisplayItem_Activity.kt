@@ -31,7 +31,6 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     lateinit var editItemPrice: EditText
     lateinit var editItemImage: ImageView
     lateinit var selectImageBtn: Button
-    lateinit var cameraBtn: Button
     lateinit var newImage: String
     lateinit var db: FirebaseFirestore
 
@@ -50,7 +49,6 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         val switch = findViewById<Switch>(R.id.switch1)
-        cameraBtn = findViewById(R.id.cameraBtn)
         db = Firebase.firestore
 
 
@@ -106,19 +104,12 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
         //only showing when adding a new item and not displaying it
         switch.isVisible = false
-        cameraBtn.isVisible = false
         selectImageBtn.isVisible = false
         //add drink or food
 
         if (fabNumber == 1) {
             switch.isVisible = true
             var type = "menu"
-
-            cameraBtn.isVisible = true
-            cameraBtn.setOnClickListener {
-                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivity(cameraIntent)
-            }
 
             selectImageBtn.isVisible = true
             selectImageBtn.setOnClickListener {

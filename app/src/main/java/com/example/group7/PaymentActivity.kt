@@ -91,7 +91,7 @@ class PaymentActivity : AppCompatActivity() {
                     } else {
                         for (data in it) {
                             nameText.setText(data.data["name"].toString())
-                            adressText.setText(data.data["address"].toString())
+                            addressText.setText(data.data["address"].toString())
                             phoneNumber.setText(data.data["phoneNumber"].toString())
                            // cityText.setText(data.data["cityText"].toString())
                            // postText.setText(data.data["postText"].toString())
@@ -103,12 +103,6 @@ class PaymentActivity : AppCompatActivity() {
 
         }
 
-
-        backBtn.setOnClickListener {
-            val intent = Intent(this, ShoppingCartActivity::class.java)
-            startActivity(intent)
-
-        }
 
 
 
