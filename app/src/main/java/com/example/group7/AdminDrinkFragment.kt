@@ -1,11 +1,15 @@
 package com.example.group7
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -69,6 +73,7 @@ class AdminDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         readMenuData {
             recyclerView = view.findViewById(R.id.adminDrinkRV)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -107,5 +112,4 @@ class AdminDrinkFragment : Fragment() {
                 }
             }
     }
-
 }

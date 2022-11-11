@@ -39,13 +39,6 @@ class MainActivity : AppCompatActivity() {
         auth = Firebase.auth
         auth.signOut()
 
-        val currentTime = Calendar.getInstance()
-        currentTime.add(Calendar.MINUTE, 60)
-        val simpleTimeFormat = SimpleDateFormat("yyyy-MM-dd 'kl' HH:mm")
-        val estimatedDeliveryTime = simpleTimeFormat.format(currentTime.time)
-        Log.d("!!!", estimatedDeliveryTime)
-
-
         val user = auth.currentUser
         if(user == null) {
             signInAnonymously()
@@ -179,11 +172,11 @@ class MainActivity : AppCompatActivity() {
 
 
         //Changes text of 'UserBtn' to everything before @ in the email
-        if (auth.currentUser != null) {
-            val userEmail = auth.currentUser!!.email.toString()
-            val nameInEmail = userEmail.substring(0, userEmail.indexOf('@'))
-            userBtn.text = nameInEmail
-        }
+//        if (auth.currentUser != null) {
+//            val userEmail = auth.currentUser!!.email.toString()
+//            val nameInEmail = userEmail.substring(0, userEmail.indexOf('@'))
+//            userBtn.text = nameInEmail
+//        }
 
         Log.d("!!!", "user :${auth.currentUser?.email}")
         if (auth.currentUser?.email == "mcdonalds@admin.se") {
