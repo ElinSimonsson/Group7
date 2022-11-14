@@ -54,6 +54,27 @@
     <string name="waitForConfirmation_textview">Waiting for confirmation..</string>
     <string name="orderConfirmed_textview">The order is confirmed!</string>
     <string name="deliveryMinutes_textview">About %1$d min</string>
+    <string name="hintEmail_editText">Email</string>
+    <string name="hintPassword_editText">Password</string>
+    <string name="hintAddress_editText">Address</string>
+    <string name="food_textview">Food</string>
+    <string name="drink_textview">Drink</string>
+    <string name="adminFoodName_textview">%1$s</string>
+    <string name="adminFoodPrice_textview">%1$d kr</string>
+    <string name="adminDrinkName_textview">%1$s</string>
+    <string name="adminDrinkPrice_textview">%1$d kr</string>
+    <string name="uploading_textview">Uploading..</string>
+    <string name="orderEstimatedReady_textview">The order is estimated to be ready about</string>
+    <string name="hintMinutes_editText">Enter minutes</string>
+    <string name="customerTitle_textview">Customer</string>
+    <string name="customerName_textview">Name: %1$s</string>
+    <string name="customerAddress_textview">Address: %1$s</string>
+    <string name="customerPhoneNumber_textview">Phone number: %1$s</string>
+    <string name="itemSubTitle_textview">Items:</string>
+    <string name="customerPostCodeCity_textview">%1$s, %2$s</string>
+    <string name="customerTakeaway_textview">Takeaway</string>
+    <string name="customerHomeDelivery_textview">Home delivery</string>
+    <string name="estimatedHomeDelivery_textview">Estimated home delivery about</string>
 
 
     <string name="goToCheckout_button">Go to checkout</string>
@@ -62,6 +83,13 @@
     <string name="logIn_button">Log in</string>
     <string name="change_button">Change</string>
     <string name="pay_button">Pay</string>
-    <string name="ok_button">Ok</string>
+    <string name="ok_button">OK</string>
+    <string name="saveAddress_button">Save address</string>
+    <string name="signUp_button">Sign up</string>
+    <string name="signIn_button">Sign in</string>
+    <string name="menu_button">Menu</string>
+    <string name="order_button">Order</string>
+    <string name="confirmOrder_button">Confirm the order</string>
+
 
 </resources>

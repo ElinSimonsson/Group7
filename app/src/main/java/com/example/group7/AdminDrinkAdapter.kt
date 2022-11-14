@@ -20,7 +20,7 @@ class AdminDrinkAdapter(
         viewType: Int
     ): AdminDrinkAdapter.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.admin_food_list_item, parent, false)
+            .inflate(R.layout.admin_drink_list_item, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -32,10 +32,11 @@ class AdminDrinkAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val currentItem = adminDrinkMenu[position]
+        val context = holder.itemView.context
 
-        holder.nameView.text = currentItem.name
-        holder.priceView.text = "${currentItem.price} kr"
-        var imageURL = currentItem.imageURL
+        holder.nameView.text = context.getString(R.string.adminDrinkName_textview, currentItem.name)
+        holder.priceView.text = context.getString(R.string.adminDrinkPrice_textview, currentItem.price)
+        val imageURL = currentItem.imageURL
         holder.id = currentItem.documentId.toString()
 
 
@@ -50,9 +51,9 @@ class AdminDrinkAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkNameText)
-        val priceView: TextView = itemView.findViewById<TextView>(R.id.adminDrinkPriceText)
-        var menuImage: ImageView = itemView.findViewById<ImageView>(R.id.adminDrinkItemImage)
+        val nameView: TextView = itemView.findViewById(R.id.adminDrinkNameText)
+        val priceView: TextView = itemView.findViewById(R.id.adminDrinkPriceText)
+        var menuImage: ImageView = itemView.findViewById(R.id.adminDrinkItemImage)
         var id = ""
 
 

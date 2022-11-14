@@ -26,10 +26,11 @@ class AdminFoodAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val currentItem = adminMenu[position]
+        val context = holder.itemView.context
 
-        holder.nameView.text = currentItem.name
-        holder.priceView.text = "${currentItem.price} kr"
-        var imageURL = currentItem.imageURL
+        holder.nameView.text = context.getString(R.string.adminFoodName_textview, currentItem.name)
+        holder.priceView.text = context.getString(R.string.adminFoodPrice_textview, currentItem.price)
+        val imageURL = currentItem.imageURL
         holder.id = currentItem.documentId.toString()
 
 
@@ -48,9 +49,9 @@ class AdminFoodAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView: TextView = itemView.findViewById(R.id.adminDrinkNameText)
-        val priceView: TextView = itemView.findViewById(R.id.adminDrinkPriceText)
-        var menuImage: ImageView = itemView.findViewById(R.id.adminDrinkItemImage)
+        val nameView: TextView = itemView.findViewById(R.id.adminFoodNameText)
+        val priceView: TextView = itemView.findViewById(R.id.adminFoodPriceText)
+        var menuImage: ImageView = itemView.findViewById(R.id.adminFoodItemImage)
         var id = ""
 
 

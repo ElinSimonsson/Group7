@@ -80,8 +80,6 @@ class UserActivity : AppCompatActivity() {
         db.collection("users").document(user.uid)
             .collection("adress").add(userData)
         Log.d("!!!", "adress added to : ${user.email}")
-
-
     }
 
     private fun signIn() {

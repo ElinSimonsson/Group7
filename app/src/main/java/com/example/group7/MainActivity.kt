@@ -14,7 +14,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-       // auth.signOut()
+        //auth.signOut()
 
         val user = auth.currentUser
         if (user == null) {
@@ -60,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             "Distans 520m",
             )
 
-
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
@@ -76,7 +74,6 @@ class MainActivity : AppCompatActivity() {
 
         userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener {
-
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
@@ -86,7 +83,13 @@ class MainActivity : AppCompatActivity() {
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    val user = auth.currentUser?.email
                     Log.d("!!!", "signInAnonymously:success")
+                    if(user == null) {
+                        Log.d("!!!", "null")
+                    } else {
+                        Log.d("!!!", user)
+                    }
                 } else {
                     Log.w("!!!", "signInAnonymously:failure", task.exception)
 //                    updateUI(null)

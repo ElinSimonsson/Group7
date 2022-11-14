@@ -54,6 +54,27 @@
     <string name="waitForConfirmation_textview">Väntar på bekräftelse..</string>
     <string name="orderConfirmed_textview">Beställningen är bekräftad!</string>
     <string name="deliveryMinutes_textview">Om ca %1$d min</string>
+    <string name="hintEmail_editText">Email</string>
+    <string name="hintPassword_editText">Lösenord</string>
+    <string name="hintAddress_editText">Adress</string>
+    <string name="food_textview">Mat</string>
+    <string name="drink_textview">Dryck</string>
+    <string name="adminFoodName_textview">%1$s</string>
+    <string name="adminFoodPrice_textview">%1$d kr</string>
+    <string name="adminDrinkName_textview">%1$s</string>
+    <string name="adminDrinkPrice_textview">%1$d kr</string>
+    <string name="uploading_textview">Laddar upp..</string>
+    <string name="orderEstimatedReady_textview">Ordern beräknas vara klar om</string>
+    <string name="hintMinutes_editText">Ange minuter</string>
+    <string name="customerTitle_textview">Kund</string>
+    <string name="customerName_textview">Namn: %1$s</string>
+    <string name="customerAddress_textview">Adress: %1$s</string>
+    <string name="customerPhoneNumber_textview">Mobilnummer: %1$s</string>
+    <string name="itemSubTitle_textview">Varor:</string>
+    <string name="customerPostCodeCity_textview">%1$s, %2$s</string>
+    <string name="customerTakeaway_textview">Avhämtning</string>
+    <string name="customerHomeDelivery_textview">Hemleverans</string>
+    <string name="estimatedHomeDelivery_textview">Beräknad leverans om </string>
 
     <string name="goToCheckout_button">Till kassan</string>
     <string name="food_button">Mat</string>
@@ -62,6 +83,12 @@
     <string name="change_button">Ändra</string>
     <string name="pay_button">Betala</string>
     <string name="ok_button">Ok</string>
+    <string name="saveAddress_button">Save address</string>
+    <string name="signUp_button">Sign up</string>
+    <string name="signIn_button">Sign in</string>
+    <string name="menu_button">Meny</string>
+    <string name="order_button">Order</string>
+    <string name="confirmOrder_button">Bekräfta ordern</string>
 
 
 </resources>

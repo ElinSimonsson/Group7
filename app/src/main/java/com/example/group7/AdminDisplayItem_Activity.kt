@@ -6,11 +6,14 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Gallery
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Switch
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -33,6 +36,8 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     lateinit var editItemImage : ImageView
     lateinit var selectImageBtn : Button
     lateinit var newImage : String
+    lateinit var progressBar: ProgressBar
+    lateinit var uploadingTextView: TextView
     lateinit var db : FirebaseFirestore
 
 
@@ -45,6 +50,8 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         editItemPrice = findViewById(R.id.editItemPrice)
         editItemImage = findViewById(R.id.editImageView)
         selectImageBtn = findViewById(R.id.selectImageBtn)
+        progressBar = findViewById(R.id.progressBar)
+        uploadingTextView = findViewById(R.id.uploadingTextView)
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         val switch = findViewById<Switch>(R.id.switch1)
@@ -77,6 +84,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                 val newImageRef = storageRef.child("images/$fileName")
 
                 if (imageUri != null) {
+                    progressBar.visibility = View.VISIBLE
+                    uploadingTextView.visibility = View.VISIBLE
+                    editItemImage.visibility = View.INVISIBLE
                     val uploadTask = newImageRef.putFile(imageUri)
                     uploadTask.continueWithTask { task ->
                         if(!task.isSuccessful) {
@@ -87,6 +97,10 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                         newImageRef.downloadUrl
                     }.addOnCompleteListener { task->
                         if(task.isSuccessful){
+                            progressBar.visibility = View.GONE
+                            uploadingTextView.visibility = View.GONE
+                            editItemImage.visibility = View.VISIBLE
+
                             newImage = task.result.toString()
                             editItemImage.setImageURI(imageUri)
                             Toast.makeText(this,"Image Uploaded",Toast.LENGTH_SHORT).show()

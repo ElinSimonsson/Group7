@@ -97,10 +97,10 @@ class DetailedOrderActivity : AppCompatActivity() {
                         val phoneNumber = document.data["phoneNumber"].toString()
                         val userChoice = document.data["userChoice"].toString()
 
-                        customerNameTV.text = "Namn: " + name
-                        addressTV.text = "Adress: " + address
-                        postAndCityTextView.text = "$postText, $city"
-                        phoneNumberTV.text = "Mobilnummer: " + phoneNumber
+                        customerNameTV.text = getString(R.string.customerName_textview, name)
+                        addressTV.text = getString(R.string.customerAddress_textview, address)
+                        postAndCityTextView.text = getString(R.string.customerPostCodeCity_textview, postText, city)
+                        phoneNumberTV.text = getString(R.string.customerPhoneNumber_textview, phoneNumber)
 
                         when (userChoice) {
                             "takeaway" -> initializeTakeawayLayout()
@@ -169,8 +169,8 @@ class DetailedOrderActivity : AppCompatActivity() {
         addressTV.visibility = View.VISIBLE
         postAndCityTextView.visibility = View.VISIBLE
         itemsTextView.visibility = View.VISIBLE
-        modeOfDeliveryTV.text = "Hemleverans"
-        estimatedDeliveryTV.text = "Beräknad leverans om: "
+        modeOfDeliveryTV.text = getString(R.string.customerHomeDelivery_textview)
+        estimatedDeliveryTV.text = getString(R.string.estimatedHomeDelivery_textview)
     }
 
     fun initializeTakeawayLayout () {
@@ -179,8 +179,8 @@ class DetailedOrderActivity : AppCompatActivity() {
         customerNameTV.visibility = View.VISIBLE
         phoneNumberTV.visibility = View.VISIBLE
         itemsTextView.visibility = View.VISIBLE
-        modeOfDeliveryTV.text = "Avhämtning"
-        estimatedDeliveryTV.text = "Maten beräknas vara klar för upphämtning om:"
+        modeOfDeliveryTV.text = getString(R.string.customerTakeaway_textview)
+        estimatedDeliveryTV.text = getString(R.string.orderEstimatedReady_textview)
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
