@@ -81,7 +81,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         if(totalItems >= 1) {
             cartTextView.visibility = View.VISIBLE
             val price = getTotalPrice()
-            cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+            cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
         }
 
         cartTextView.setOnClickListener {
@@ -107,7 +107,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         }
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
 
         if (DataManager.itemInCartList.isEmpty()) {
             cartTextView.visibility = View.GONE
@@ -163,13 +163,13 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         cartTextView.visibility = View.VISIBLE
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
     }
 
     override fun upgradeItemInCart(menu: MenuItem) {
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
 
     }
 
@@ -179,6 +179,6 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         if(totalItems == 0) {
             cartTextView.visibility = View.GONE
         }
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
     }
 }

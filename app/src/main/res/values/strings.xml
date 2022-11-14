@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Group7</string>
-    <string name="cart_textview">%1$d varor\t\t\t\t\t\t\t\t\t Se ditt varukorg  \t\t\t\t\t\t\t\t %2$d kr</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_paying">PayingActivity</string>
@@ -12,4 +12,56 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <string name="titleMaToDoor_textview">MAT-TO-DOOR</string>
+    <string name="addressView_textview">addressView</string>
+    <string name="seeYourCart_textview">%1$d items\t\t\t\t\t\t See your shopping cart  \t\t\t\t\t %2$d kr</string>
+    <string name="foodName_textview">%1$s</string>
+    <string name="foodPrice_textview">%1$d kr</string>
+    <string name="foodAddToCart_textview">Add to cart</string>
+    <string name="foodAmount_textview">%1$d</string>
+    <string name="drinkName_textview">%1$s</string>
+    <string name="drinkPrice_textview">%1$d kr</string>
+    <string name="drinkAddToCart_textview">Add to cart</string>
+    <string name="drinkAmount_textview">%1$d</string>
+    <string name="menuItem_textview">%1$s</string>
+    <string name="shoppingCart_price_textview">%1$d kr</string>
+    <string name="shoppingCartCount_textview">%1$d</string>
+    <string name="addMoreProducts_textview">Add more products</string>
+    <string name="yourOrder_textview">Your order:</string>
+    <string name="shoppingCartTotalPrice_textview">%1$d kr</string>
+    <string name="total_textview">Total</string>
+    <string name="hintName_textview">Your name</string>
+    <string name="hintPhoneNumber_textview">Your phone number</string>
+    <string name="hintPostCode_textview">Postcode</string>
+    <string name="hintAddress_textview">Address</string>
+    <string name="hintCity_textview">City</string>
+    <string name="cardPayment_textview">Card payment</string>
+    <string name="cardNumber_textview">Card Number</string>
+    <string name="month_textview">MM</string>
+    <string name="year_textview">YY</string>
+    <string name="CCV_textview">CCV/CVV (three digits)</string>
+    <string name="expirationDate_textview">Expiration date</string>
+    <string name="virgule_textview">/</string>
+    <string name="titleQuestionWindow">Takeaway or home delivery</string>
+    <string name="bodyTextQuestionWindow">You can choose between receiving the food home or pickup at the restaurant</string>
+    <string name="takeaway_button">Takeaway</string>
+    <string name="homeDelivery_button">Home delivery</string>
+    <string name="takeaway_textview">Takeaway</string>
+    <string name="homeDelivery_textview">Home delivery</string>
+    <string name="thanksOrder_textview">Thanks for your order!</string>
+    <string name="waitForConfirmation_textview">Waiting for confirmation..</string>
+    <string name="orderConfirmed_textview">The order is confirmed!</string>
+    <string name="deliveryMinutes_textview">About %1$d min</string>
+
+
+    <string name="goToCheckout_button">Go to checkout</string>
+    <string name="food_button">Food</string>
+    <string name="drink_button">Drink</string>
+    <string name="logIn_button">Log in</string>
+    <string name="change_button">Change</string>
+    <string name="pay_button">Pay</string>
+    <string name="ok_button">Ok</string>
+
 </resources>

@@ -23,7 +23,7 @@ class DrinkRecycleAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(menu.get(position))
+        holder.bind(menu[position])
     }
 
     override fun getItemCount(): Int {
@@ -31,18 +31,19 @@ class DrinkRecycleAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView = itemView.findViewById<TextView>(R.id.nameTextView1)
-        val priceView = itemView.findViewById<TextView>(R.id.priceTextView1)
-        var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView1)
-        var countTextView = itemView.findViewById<TextView>(R.id.amountTextView1)
-        var addImageView = itemView.findViewById<ImageView>(R.id.addImageView1)
-        var removeImageView = itemView.findViewById<ImageView>(R.id.removeImageView1)
-        var addToCart = itemView.findViewById<TextView>(R.id.addToCartButton1)
+        private val nameView = itemView.findViewById<TextView>(R.id.nameTextView1)
+        private val priceView = itemView.findViewById<TextView>(R.id.priceTextView1)
+        private var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView1)
+        private var countTextView = itemView.findViewById<TextView>(R.id.amountTextView1)
+        private var addImageView = itemView.findViewById<ImageView>(R.id.addImageView1)
+        private var removeImageView = itemView.findViewById<ImageView>(R.id.removeImageView1)
+        private var addToCart = itemView.findViewById<TextView>(R.id.addToCartButton1)
+        private val context = itemView.context
 
 
         fun bind(currentMenu: MenuItem) {
-            nameView.text = currentMenu.name
-            priceView.text = "${currentMenu.price} kr"
+            nameView.text = context.getString(R.string.drinkName_textview, currentMenu.name)
+            priceView.text = context.getString(R.string.drinkPrice_textview, currentMenu.price)
 
             checkAlreadyInItemInCartList(currentMenu)
 
@@ -68,7 +69,7 @@ class DrinkRecycleAdapter(
                 removeImageView.visibility = View.VISIBLE
                 countTextView.visibility = View.VISIBLE
                 currentMenu.totalCart++
-                countTextView.text = currentMenu.totalCart.toString()
+                countTextView.text = context.getString(R.string.drinkAmount_textview, currentMenu.totalCart)
 
                 if (currentMenu !in DataManager.itemInCartList) {
                     DataManager.itemInCartList.add(currentMenu)
@@ -93,7 +94,7 @@ class DrinkRecycleAdapter(
                     if (item.name == currentMenu.name) {
                         item.totalCart--
                         total = item.totalCart
-                        countTextView.text = total.toString()
+                        countTextView.text = context.getString(R.string.drinkAmount_textview, total)
                         clickListener.upgradeItemInCart(currentMenu)
 
                         if (item.totalCart < 1) {
@@ -116,7 +117,7 @@ class DrinkRecycleAdapter(
                             if (item.totalCart < 10) {
                                 item.totalCart++
                                 total = item.totalCart
-                                countTextView.text = total.toString()
+                                countTextView.text = context.getString(R.string.drinkAmount_textview, total)
                                 clickListener.upgradeItemInCart(currentMenu)
                                 if (item.totalCart == 10) {
                                     addImageView.setImageResource(R.drawable.light_add_circle)
@@ -129,7 +130,7 @@ class DrinkRecycleAdapter(
             }
         }
 
-        fun checkAlreadyInItemInCartList(currentMenu: MenuItem) {
+        private fun checkAlreadyInItemInCartList(currentMenu: MenuItem) {
             for (item in DataManager.itemInCartList) {
                 if (item != null) {
                     if (item.name == currentMenu.name) {
@@ -137,9 +138,8 @@ class DrinkRecycleAdapter(
                         addImageView.visibility = View.VISIBLE
                         removeImageView.visibility = View.VISIBLE
                         countTextView.visibility = View.VISIBLE
-                        countTextView.text = item.totalCart.toString()
+                        countTextView.text = context.getString(R.string.drinkAmount_textview, item.totalCart)
                     }
-
                 }
             }
         }

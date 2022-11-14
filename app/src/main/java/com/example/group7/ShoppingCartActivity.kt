@@ -12,7 +12,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.listClickListener {
+class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.ListClickListener {
     lateinit var recyclerView: RecyclerView
     lateinit var totalPriceTextView: TextView
 
@@ -29,7 +29,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val totalPrice = getTotalPrice()
-        totalPriceTextView.text = totalPrice.toString() + " kr"
+        totalPriceTextView.text = getString(R.string.shoppingCartTotalPrice_textview, totalPrice)
 
         val payButton = findViewById<TextView>(R.id.payButton)
         payButton.setOnClickListener {
@@ -71,7 +71,7 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartRecycleAdapter.lis
 
     override fun updateInCart() {
         val totalPrice = getTotalPrice()
-        totalPriceTextView.text = totalPrice.toString() + " kr"
+        totalPriceTextView.text = getString(R.string.shoppingCartTotalPrice_textview, totalPrice)
     }
 
 

@@ -251,16 +251,14 @@ class PaymentActivity : AppCompatActivity() {
         val takeawayButton = dialogBinding.findViewById<TextView>(R.id.takeaway_button)
 
         deliveryButton.setOnClickListener {
-            userChoiceTitle = "Maten körs till din dörr"
             userDeliveryChoice = "delivery"
-            titleWayToGetFoodTV.text = userChoiceTitle
+            titleWayToGetFoodTV.text = getString(R.string.homeDelivery_textview)
             dialog.dismiss()
         }
 
         takeawayButton.setOnClickListener {
-            userChoiceTitle = "Maten hämtas i restaurangen"
             userDeliveryChoice = "takeaway"
-            titleWayToGetFoodTV.text = userChoiceTitle
+            titleWayToGetFoodTV.text = getString(R.string.takeaway_textview)
             dialog.dismiss()
         }
     }

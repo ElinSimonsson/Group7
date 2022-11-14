@@ -82,7 +82,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         if(totalItems >= 1) {
             cartTextView.visibility = View.VISIBLE
             val price = getTotalPrice()
-            cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+            cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
         }
 
         cartTextView.setOnClickListener {
@@ -110,7 +110,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         }
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
 
         if (DataManager.itemInCartList.isEmpty()) {
             cartTextView.visibility = View.GONE
@@ -169,14 +169,13 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         cartTextView.visibility = View.VISIBLE
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
     }
 
     override fun upgradeItemInCart(menu: MenuItem) {
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
-
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
     }
 
     override fun removeItemFromCart(menu: MenuItem) {
@@ -185,6 +184,6 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         if(totalItems == 0) {
             cartTextView.visibility = View.GONE
         }
-        cartTextView.text = getString(R.string.cart_textview, totalItems, price)
+        cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
     }
 }

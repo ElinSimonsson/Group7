@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ShoppingCartRecycleAdapter(
     val context: Context,
     val shoppingCartList: MutableList<MenuItem?>,
-    val clickListener: listClickListener
+    val clickListener: ListClickListener
 ) : RecyclerView.Adapter<ShoppingCartRecycleAdapter.ViewHolder>() {
 
 
@@ -25,7 +25,7 @@ class ShoppingCartRecycleAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bind(shoppingCartList.get(position)!!)
+        holder.bind(shoppingCartList[position]!!)
     }
 
     override fun getItemCount(): Int {
@@ -42,11 +42,12 @@ class ShoppingCartRecycleAdapter(
         val layout = itemView.findViewById<ConstraintLayout>(R.id.constraintLayout)
         val addMoreItemButton = itemView.findViewById<TextView>(R.id.addMoreItemButton)
         val itemTotalPriceTextView = itemView.findViewById<TextView>(R.id.itemTotalPriceTextView)
+        private val context = itemView.context
 
         fun bind(currentItem: MenuItem) {
-            menuItem.text = currentItem.name
-            countTextView.text = currentItem.totalCart.toString()
-            itemTotalPriceTextView.text = getItemTotalPrice(currentItem).toString() + " kr"
+            menuItem.text = context.getString(R.string.menuItem_textview, currentItem.name)
+            countTextView.text = context.getString(R.string.shoppingCartCount_textview, currentItem.totalCart)
+            itemTotalPriceTextView.text = context.getString(R.string.shoppingCart_price_textview, getItemTotalPrice(currentItem)) // pris här!
 
 
             if (currentItem == DataManager.itemInCartList.last()) {
@@ -57,8 +58,7 @@ class ShoppingCartRecycleAdapter(
             addButton.setOnClickListener {
                 increaseItemInCart(currentItem)
 
-                val totalItemPrice = getItemTotalPrice(currentItem)
-                itemTotalPriceTextView.text = totalItemPrice.toString() + " kr"
+                itemTotalPriceTextView.text = context.getString(R.string.shoppingCart_price_textview, getItemTotalPrice(currentItem))
                 clickListener.updateInCart()
 
             }
@@ -75,8 +75,7 @@ class ShoppingCartRecycleAdapter(
                     clickListener.finishActivity()
                 } else {
                     clickListener.updateInCart()
-                    val totalItemPrice = getItemTotalPrice(currentItem)
-                    itemTotalPriceTextView.text = totalItemPrice.toString() + " kr"
+                    itemTotalPriceTextView.text = context.getString(R.string.shoppingCart_price_textview, getItemTotalPrice(currentItem))
                 }
             }
 
@@ -102,7 +101,7 @@ class ShoppingCartRecycleAdapter(
                 if (item.name == currentItem.name) {
                     item.totalCart--
                     total = item.totalCart
-                    countTextView.text = total.toString()
+                    countTextView.text = context.getString(R.string.shoppingCartCount_textview, total)
                     clickListener.updateInCart()
 
                     if (item.totalCart < 1) {
@@ -114,14 +113,14 @@ class ShoppingCartRecycleAdapter(
         }
 
         fun increaseItemInCart(currentItem: MenuItem) {
-            var total = 0
+            var total : Int
             for (item in DataManager.itemInCartList) {
                 if (item != null) {
                     if (item.name == currentItem.name) {
                         if (item.totalCart < 10) {
                             item.totalCart++
                             total = item.totalCart
-                            countTextView.text = total.toString()
+                            countTextView.text = context.getString(R.string.shoppingCartCount_textview, total)
                             if (item.totalCart == 10) {
                                 addButton.setImageResource(R.drawable.light_add_circle)
                             }
@@ -141,7 +140,7 @@ class ShoppingCartRecycleAdapter(
 
     }
 
-    interface listClickListener {
+    interface ListClickListener {
         fun finishActivity()
         fun updateInCart()
     }

@@ -12,12 +12,13 @@
         android:layout_height="51dp"
         android:layout_marginTop="64dp"
         android:ems="10"
-        android:hint="Skriv in ditt namn"
+        android:hint="@string/hintName_textview"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editPhoneNumberText"
@@ -25,12 +26,13 @@
         android:layout_height="51dp"
         android:layout_marginTop="116dp"
         android:ems="10"
-        android:hint="Skriv ditt telefonnummer"
-        android:inputType="textPersonName"
+        android:hint="@string/hintPhoneNumber_textview"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editAdressText"
@@ -38,19 +40,20 @@
         android:layout_height="51dp"
         android:layout_marginTop="168dp"
         android:ems="10"
-        android:hint="Skriv in din adress"
+        android:hint="@string/hintAddress_textview"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="340dp"
-        android:text="Kort betalning"
+        android:text="@string/cardPayment_textview"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,12 +65,13 @@
         android:layout_height="51dp"
         android:layout_marginTop="372dp"
         android:ems="10"
-        android:hint="Kortnummer"
+        android:hint="@string/cardNumber_textview"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edit3number"
@@ -75,12 +79,13 @@
         android:layout_height="51dp"
         android:layout_marginTop="524dp"
         android:ems="10"
-        android:hint="CCV/CVV (3 siffror)"
+        android:hint="@string/CCV_textview"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editPostNumber"
@@ -88,21 +93,22 @@
         android:layout_height="51dp"
         android:layout_marginTop="276dp"
         android:ems="10"
-        android:hint="Postnummer"
+        android:hint="@string/hintPostCode_textview"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/payBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#DA1212"
         android:layout_marginBottom="16dp"
-        android:text="Betala"
+        android:backgroundTint="#DA1212"
+        android:text="@string/pay_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +122,9 @@
         android:layout_marginStart="260dp"
         android:layout_marginTop="444dp"
         android:layout_marginEnd="2dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="MM"
+        android:hint="@string/month_textview"
         android:inputType="number"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
@@ -131,18 +138,19 @@
         android:layout_marginTop="444dp"
         android:layout_marginEnd="28dp"
         android:ems="10"
-        android:hint="ÅÅ"
+        android:hint="@string/year_textview"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="27dp"
         android:layout_height="60dp"
         android:layout_marginTop="436dp"
-        android:text="/"
+        android:text="@string/virgule_textview"
         android:textSize="50sp"
         app:layout_constraintEnd_toStartOf="@+id/editYearNumber"
         app:layout_constraintHorizontal_bias="1.0"
@@ -155,7 +163,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="468dp"
-        android:text="Sista gilltighetsdatum"
+        android:text="@string/expirationDate_textview"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,12 +175,13 @@
         android:layout_height="51dp"
         android:layout_marginTop="220dp"
         android:ems="10"
-        android:hint="Skriv in din stad"
+        android:hint="@string/hintCity_textview"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/titleWayToGetFoodTV"
@@ -193,7 +202,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/red_rounded_corners"
         android:gravity="center"
-        android:text="Ändra"
+        android:text="@string/change_button"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/editNameText"
