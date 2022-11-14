@@ -30,8 +30,6 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
     lateinit var editItemName: EditText
     lateinit var editItemPrice: EditText
     lateinit var editItemImage: ImageView
-    lateinit var selectImageBtn: Button
-    lateinit var cameraBtn: Button
     lateinit var newImage: String
     lateinit var db: FirebaseFirestore
 
@@ -46,11 +44,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         editItemName = findViewById(R.id.editItemName)
         editItemPrice = findViewById(R.id.editItemPrice)
         editItemImage = findViewById(R.id.editImageView)
-        selectImageBtn = findViewById(R.id.selectImageBtn)
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         val switch = findViewById<Switch>(R.id.switch1)
-        cameraBtn = findViewById(R.id.cameraBtn)
         db = Firebase.firestore
 
 
@@ -92,7 +88,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                                 Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show()
                                 Log.d("!!!", "url : $newImage")
                             } else {
-                                //om det inte fungerar ??
+                                Log.d("!!!","Gick inte att ladda upp")
 
                             }
 
@@ -106,22 +102,14 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
 
         //only showing when adding a new item and not displaying it
         switch.isVisible = false
-        cameraBtn.isVisible = false
-        selectImageBtn.isVisible = false
         //add drink or food
 
         if (fabNumber == 1) {
             switch.isVisible = true
             var type = "menu"
 
-            cameraBtn.isVisible = true
-            cameraBtn.setOnClickListener {
-                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivity(cameraIntent)
-            }
 
-            selectImageBtn.isVisible = true
-            selectImageBtn.setOnClickListener {
+            editItemImage.setOnClickListener {
                 //startar telefonens "image/galleri" och startar en result launcher som inväntar en bild
                 val intent = Intent()
                 intent.type = "image/*"

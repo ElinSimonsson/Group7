@@ -74,18 +74,27 @@ class MainActivity : AppCompatActivity() {
             R.drawable.roots,
             R.drawable.primo,
             R.drawable.asian,
+            R.drawable.bankomat,
+            R.drawable.chamsin,
+            R.drawable.ilforno
             )
 
         heading = arrayOf(
             "Roots & Soil",
             "Primo Ciao Ciao",
             "Asian Kitchen",
+            "BankOmat",
+            "Chamsin",
+            "IL Forno"
             )
 
         distance = arrayOf(
             "Distans 120m",
             "Distans 400m",
             "Distans 520m",
+            "Distans 500m",
+            "Distans 450m",
+            "Distans 1km"
             )
 
 
@@ -208,6 +217,24 @@ class MainActivity : AppCompatActivity() {
         if (auth.currentUser?.email == "primociaociao@admin.se") {
             val intentAdmin = Intent(this, AdminActivity::class.java)
             intentAdmin.putExtra(RES_MAIN, "Primo Ciao Ciao")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if (auth.currentUser?.email == "bankomat@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "BankOmat")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if (auth.currentUser?.email == "chamsin@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Chamsin")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if (auth.currentUser?.email == "ilforno@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "IL Forno")
             startActivity(intentAdmin)
             finish()
         }
