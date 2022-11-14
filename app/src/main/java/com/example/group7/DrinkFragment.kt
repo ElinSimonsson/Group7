@@ -76,10 +76,9 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         cartTextView = view.findViewById(R.id.cartTextView)
-        recyclerView = view.findViewById(R.id.drinkRecyclerView)
 
         val totalItems = getTotalItems()
-        if (totalItems >= 1) {
+        if(totalItems >= 1) {
             cartTextView.visibility = View.VISIBLE
             val price = getTotalPrice()
             cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -92,15 +91,20 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         }
 
         readData {
+            recyclerView = view.findViewById(R.id.drinkRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             recyclerView.adapter = DrinkRecycleAdapter(it, this)
 
         }
     }
-
     override fun onResume() {
         super.onResume()
-        recyclerView.adapter?.notifyDataSetChanged()
+        Log.d("!!!", "Resume körs")
+        readData {
+            recyclerView = requireView().findViewById(R.id.drinkRecyclerView)
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
+            recyclerView.adapter = DrinkRecycleAdapter(it, this)
+        }
         val totalItems = getTotalItems()
         val price = getTotalPrice()
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
@@ -129,13 +133,13 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
             }
     }
 
-    fun getRestaurantName(): String {
+    fun getRestaurantName (): String {
         val data = arguments
         restaurant = data?.get("restaurant") as String
         return restaurant
     }
 
-    fun getTotalPrice(): Int {
+    fun getTotalPrice () : Int {
         var totalPrice = 0
         for (item in DataManager.itemInCartList) {
             totalPrice = if (item?.totalCart!! > 1) {
@@ -147,8 +151,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
         }
         return totalPrice
     }
-
-    fun getTotalItems(): Int {
+    fun getTotalItems () : Int {
         var totalItems = 0
         for (item in DataManager.itemInCartList) {
             totalItems = totalItems + item!!.totalCart
@@ -173,7 +176,7 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
     override fun removeItemFromCart(menu: MenuItem) {
         val totalItems = getTotalItems()
         val price = getTotalPrice()
-        if (totalItems == 0) {
+        if(totalItems == 0) {
             cartTextView.visibility = View.GONE
         }
         cartTextView.text = getString(R.string.cart_textview, totalItems, price)
