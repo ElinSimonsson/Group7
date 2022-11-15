@@ -101,6 +101,7 @@ class PaymentActivity : AppCompatActivity() {
                 }
         }
 
+
         payBtn2.setOnClickListener {
 
 

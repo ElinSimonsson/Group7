@@ -21,9 +21,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurantRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="641dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/restaurant_list_item" />
 
     <TextView
@@ -36,20 +40,10 @@
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userBtn" />
 
-    <TextView
-        android:id="@+id/adressView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/addressView_textview"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#DA1212"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

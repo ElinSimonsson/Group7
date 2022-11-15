@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var userBtn: Button
     lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
-    lateinit var adressView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,18 +44,27 @@ class MainActivity : AppCompatActivity() {
             R.drawable.roots,
             R.drawable.primo,
             R.drawable.asian,
+            R.drawable.bankomat,
+            R.drawable.chamsin,
+            R.drawable.ilforno
             )
 
         heading = arrayOf(
             "Roots & Soil",
             "Primo Ciao Ciao",
             "Asian Kitchen",
+            "BankOmat",
+            "Chamsin",
+            "IL Forno"
             )
 
         distance = arrayOf(
             "Distans 120m",
             "Distans 400m",
             "Distans 520m",
+            "Distans 500m",
+            "Distans 450m",
+            "Distans 1km"
             )
 
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
@@ -66,13 +74,8 @@ class MainActivity : AppCompatActivity() {
         newArrayList = arrayListOf()
         getUserdata()
 
-        adressView = findViewById(R.id.adressView)
 
-        getUserAdress {
-            adressView.text = it
-        }
-
-        userBtn = findViewById(R.id.userBtn)
+        userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
@@ -90,25 +93,6 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-//    private fun linkAccount(userId: String) {
-//        val mail = "$userId@anonymous.se"
-//        val credential = EmailAuthProvider.getCredential(mail, "123456789")
-//        auth.currentUser!!.linkWithCredential(credential)
-//            .addOnCompleteListener(this) { task ->
-//                if (task.isSuccessful) {
-//                    Log.d("!!!", "linkWithCredential:success")
-//                    val user = task.result?.user
-//                    //updateUI(user)
-//                    val testUser = auth.currentUser?.email
-//                    val anomys = auth.currentUser?.isAnonymous
-//
-//                } else {
-//                    Log.w("!!!", "linkWithCredential:failure", task.exception)
-//                    //updateUI(null)
-//                }
-//            }
-//    }
-//
 
     public override fun onStart() {
         super.onStart()
@@ -157,10 +141,25 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentAdmin)
             finish()
         }
-
-        getUserAdress {
-            adressView.text = it
+        if (auth.currentUser?.email == "bankomat@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "BankOmat")
+            startActivity(intentAdmin)
+            finish()
         }
+        if (auth.currentUser?.email == "chamsin@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Chamsin")
+            startActivity(intentAdmin)
+            finish()
+        }
+        if (auth.currentUser?.email == "ilforno@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "IL Forno")
+            startActivity(intentAdmin)
+            finish()
+        }
+
     }
 
     private fun updateUI(user: FirebaseUser?) {
@@ -188,22 +187,8 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun getUserAdress(myCallback: (String) -> Unit) {
 
-        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener { task ->
-
-                var userAdress = ""
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        val adress = document.data["adress"].toString()
-                        userAdress = adress
-                    }
-                    myCallback(userAdress)
-                }
-            }
     }
-
 
     private operator fun Button.get(i: Int) {
 

@@ -6,9 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextThemeWrapper
-import android.view.LayoutInflater
 
 import android.widget.TextView
 
@@ -43,12 +40,7 @@ class MenuActivity : AppCompatActivity() {
 
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
-        
 
-        val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
-        getUserAdress {
-            menuAdressTextView.text = it.toString()
-        }
 
 
         val restaurant = getRestaurantName()
@@ -95,19 +87,6 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
-    fun getUserAdress(myCallback: (String) -> Unit) {
-        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener { task ->
-                var userAdress = ""
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        val adress = document.data["adress"].toString()
-                        userAdress = adress
-                    }
-                    myCallback(userAdress)
-                }
-            }
-    }
 
     fun replaceWithDrinkFragment() {
         val fragment = DrinkFragment()

@@ -31,14 +31,15 @@ import java.util.*
 class AdminDisplayItem_Activity : AppCompatActivity() {
 
 
+
     lateinit var editItemName : EditText
     lateinit var editItemPrice : EditText
     lateinit var editItemImage : ImageView
-    lateinit var selectImageBtn : Button
     lateinit var newImage : String
     lateinit var progressBar: ProgressBar
     lateinit var uploadingTextView: TextView
     lateinit var db : FirebaseFirestore
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +50,10 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         editItemName = findViewById(R.id.editItemName)
         editItemPrice = findViewById(R.id.editItemPrice)
         editItemImage = findViewById(R.id.editImageView)
-        selectImageBtn = findViewById(R.id.selectImageBtn)
+
         progressBar = findViewById(R.id.progressBar)
         uploadingTextView = findViewById(R.id.uploadingTextView)
+
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         val deleteBtn = findViewById<Button>(R.id.deleteBtn)
         val switch = findViewById<Switch>(R.id.switch1)
@@ -70,30 +72,30 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         //result launcher som får en bild ifrån lokala telefonen och laddar upp den på filestoreStorage,
         //sedan hämtar den URL ifrån storage på den bilden och fyller newImage med den strängen. Som sedan skickas till NewImage
         //funktionen om användaren väljer att spara den nya varan.
-        var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
 
-                val imageUri: Uri? = result.data?.data
+        var resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
 
-                val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-                val now = Date()
-                val fileName = formatter.format(now)
+                    val imageUri: Uri? = result.data?.data
 
-                val storage = FirebaseStorage.getInstance()
-                val storageRef = storage.reference
-                val newImageRef = storageRef.child("images/$fileName")
+                    val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+                    val now = Date()
+                    val fileName = formatter.format(now)
 
-                if (imageUri != null) {
-                    progressBar.visibility = View.VISIBLE
-                    uploadingTextView.visibility = View.VISIBLE
-                    editItemImage.visibility = View.INVISIBLE
-                    val uploadTask = newImageRef.putFile(imageUri)
-                    uploadTask.continueWithTask { task ->
-                        if(!task.isSuccessful) {
-                            task.exception?.let {
-                                throw it
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference
+                    val newImageRef = storageRef.child("images/$fileName")
+
+                    if (imageUri != null) {
+                        val uploadTask = newImageRef.putFile(imageUri)
+                        uploadTask.continueWithTask { task ->
+                            if (!task.isSuccessful) {
+                                task.exception?.let {
+                                    throw it
+                                }
                             }
-                        }
+
                         newImageRef.downloadUrl
                     }.addOnCompleteListener { task->
                         if(task.isSuccessful){
@@ -119,7 +121,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             switch.isVisible = true
             var type = "menu"
 
-            selectImageBtn.setOnClickListener {
+
+            editItemImage.setOnClickListener {
+
                 //startar telefonens "image/galleri" och startar en result launcher som inväntar en bild
                 val intent = Intent()
                 intent.type = "image/*"

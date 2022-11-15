@@ -2,6 +2,8 @@ package com.example.group7
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -19,8 +21,6 @@ class UserActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
-    lateinit var adressEditText: EditText
-    lateinit var saveAdressBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +31,19 @@ class UserActivity : AppCompatActivity() {
         db = Firebase.firestore
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
-        adressEditText = findViewById(R.id.adressEditText)
-        saveAdressBtn = findViewById(R.id.saveAdressBtn)
 
-        ableAdressText(false)
+        val showHideBtn = findViewById<Button>(R.id.hideShowBtn)
 
-        ableSaveAdressBtn(false)
+        showHideBtn.setOnClickListener {
+            if (showHideBtn.text.toString().equals("Show")) {
+                passwordEditText.transformationMethod =
+                    HideReturnsTransformationMethod.getInstance()
+                showHideBtn.text = "Hide"
+            } else {
+                passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+                showHideBtn.text = "Show"
+            }
+        }
 
 
         val signInBtn = findViewById<Button>(R.id.signInBtn)
@@ -51,35 +58,10 @@ class UserActivity : AppCompatActivity() {
 
         }
 
-        saveAdressBtn.setOnClickListener {
-            saveUserData()
-            finish()
-        }
 
 
-    }
 
-    fun ableSaveAdressBtn(able: Boolean) {
-        saveAdressBtn.isEnabled = able
-        saveAdressBtn.isVisible = able
-    }
 
-    fun ableAdressText(able: Boolean) {
-        adressEditText.isEnabled = able
-        adressEditText.isVisible = able
-    }
-
-    private fun saveUserData() {
-        val userData = UserData(adress = adressEditText.text.toString())
-
-        val user = auth.currentUser
-        if (user == null) {
-            Log.d("!!!", "User not found")
-            return
-        }
-        db.collection("users").document(user.uid)
-            .collection("adress").add(userData)
-        Log.d("!!!", "adress added to : ${user.email}")
     }
 
     private fun signIn() {
@@ -112,10 +94,7 @@ class UserActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Log.d("!!!", "Signed Up")
-                    Toast.makeText(baseContext, "Please enter home-adress below", Toast.LENGTH_LONG)
-                        .show()
-                    ableAdressText(true)
-                    ableSaveAdressBtn(true)
+                    finish()
 
                 } else {
                     Toast.makeText(baseContext, "Signed up failed", Toast.LENGTH_LONG).show()
