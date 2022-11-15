@@ -1,12 +1,9 @@
 package com.example.group7
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -40,12 +37,11 @@ class RestaurantAdapter(private val restaurantList: ArrayList<RestaurantsData>) 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val currentItem = restaurantList[position]
+        val context = holder.itemView.context
         holder.titleImage.setImageResource(currentItem.titleImage)
-        holder.restaurantHeading.text = currentItem.restaurantHeading
-        holder.distanceTextView.text = currentItem.distanceTextView
+        holder.restaurantHeading.text = context.getString(R.string.mainRestaurantHeading_textview, currentItem.restaurantHeading)
+        holder.distanceTextView.text = context.getString(R.string.mainAddress_textview, currentItem.addressTextView)
         holder.restaurantName = currentItem.restaurantHeading
-
-
     }
 
 
@@ -59,7 +55,7 @@ class RestaurantAdapter(private val restaurantList: ArrayList<RestaurantsData>) 
 
         val titleImage: ShapeableImageView = itemView.findViewById(R.id.title_image)
         val restaurantHeading: TextView = itemView.findViewById(R.id.restaurantHeading)
-        val distanceTextView: TextView = itemView.findViewById(R.id.distanceTextView)
+        val distanceTextView: TextView = itemView.findViewById(R.id.addressTV)
         var restaurantName = ""
 
         init {
@@ -69,8 +65,5 @@ class RestaurantAdapter(private val restaurantList: ArrayList<RestaurantsData>) 
 
             }
         }
-
-
     }
-
 }

@@ -76,6 +76,18 @@
     <string name="customerHomeDelivery_textview">Hemleverans</string>
     <string name="estimatedHomeDelivery_textview">Beräknad leverans om </string>
     <string name="newOrderTitle">Ny order!</string>
+    <string name="mainAddress_textview">%1$s</string>
+    <string name="mainRestaurantHeading_textview">%1$s</string>
+    <string name="titleDialog_textview">Det finns varor i din varukorg!</string>
+    <string name="messageDialog_textview">Varukorgen kommer att tömmas,\n vill du fortsätta ändå?</string>
+    <string name="hintAdminDisplayItemName_editText">Namn</string>
+    <string name="hintAdminDisplayItemPrice_editText">Pris</string>
+    <string name="menu_switch">Meny</string>
+    <string name="drink_switch">Dryck</string>
+
+    <string name="adminDisplayItemSave_button">Spara</string>
+    <string name="delete_button">Ta bort</string>
+
 
     <string name="goToCheckout_button">Till kassan</string>
     <string name="food_button">Mat</string>
@@ -91,6 +103,8 @@
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Bekräfta ordern</string>
     <string name="goToOverviewOfOrders_button">Gå till översikt över ordrar</string>
+    <string name="yes_button">Ja</string>
+    <string name="cancel_button">Avbryt</string>
 
 
 </resources>

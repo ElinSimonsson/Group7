@@ -134,11 +134,11 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             }
             switch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    switch.text="drink"
+                    switch.text= getString(R.string.drink_switch)
                     type = "drink"
                 }
                 else {
-                    switch.text ="menu"
+                    switch.text = getString(R.string.menu_switch)
                     type = "menu"
                 }
             }

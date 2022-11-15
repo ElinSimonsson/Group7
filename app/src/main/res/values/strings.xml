@@ -76,7 +76,18 @@
     <string name="customerHomeDelivery_textview">Home delivery</string>
     <string name="estimatedHomeDelivery_textview">Estimated home delivery about</string>
     <string name="newOrderTitle">New order!</string>
+    <string name="mainAddress_textview">%1$s</string>
+    <string name="mainRestaurantHeading_textview">%1$s</string>
+    <string name="titleDialog_textview">There are items in your cart!</string>
+    <string name="messageDialog_textview">The shopping cart will be emptied, \ndo you still want to continue?</string>
 
+    <string name="hintAdminDisplayItemName_editText">Name</string>
+    <string name="hintAdminDisplayItemPrice_editText">Price</string>
+    <string name="menu_switch">Menu</string>
+    <string name="drink_switch">Drink</string>
+
+    <string name="adminDisplayItemSave_button">Save</string>
+    <string name="delete_button">Delete</string>
 
     <string name="goToCheckout_button">Go to checkout</string>
     <string name="food_button">Food</string>
@@ -92,6 +103,8 @@
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Confirm the order</string>
     <string name="goToOverviewOfOrders_button">Go to overview of orders</string>
+    <string name="yes_button">Yes</string>
+    <string name="cancel_button">Cancel</string>
 
 
 </resources>
