@@ -79,7 +79,7 @@ class SuccessPaymentActivity : AppCompatActivity() {
                     val minutes = snapshot.data?.get("deliveryTime").toString().toInt()
                     estimatedMinutesTextView.text = getString(R.string.deliveryMinutes_textview, minutes)
                     val estimatedDeliveryTime = getEstimatedDeliveryTime(minutes)
-                    estimatedDeliveryTimeTV.text = estimatedDeliveryTime
+                    estimatedDeliveryTimeTV.text = getString(R.string.estimatedDeliveryTime_textview, estimatedDeliveryTime)
                     setLayoutConfirmedOrder()
                 } else {
                     Log.d("!!!", "nuvarande data : null")

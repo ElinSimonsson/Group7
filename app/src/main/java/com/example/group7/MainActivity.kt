@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-        auth.signOut()
+        //auth.signOut()
 
         val user = auth.currentUser
         if (user == null) {

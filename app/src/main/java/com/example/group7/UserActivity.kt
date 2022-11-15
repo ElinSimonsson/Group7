@@ -21,7 +21,7 @@ class UserActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
-
+    var showOrHide = "show"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
@@ -35,22 +35,25 @@ class UserActivity : AppCompatActivity() {
         val showHideBtn = findViewById<Button>(R.id.hideShowBtn)
 
         showHideBtn.setOnClickListener {
-            if (showHideBtn.text.toString().equals("Show")) {
+
+            if (showOrHide == "show") {
                 passwordEditText.transformationMethod =
                     HideReturnsTransformationMethod.getInstance()
-                showHideBtn.text = "Hide"
+                showHideBtn.text = getString(R.string.hide_button)
+                showOrHide = "hide"
             } else {
                 passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-                showHideBtn.text = "Show"
+                showHideBtn.text = getString(R.string.show_button)
+                showOrHide = "show"
             }
         }
-
 
         val signInBtn = findViewById<Button>(R.id.signInBtn)
         signInBtn.setOnClickListener {
 
             signIn()
         }
+
         val signUpBtn = findViewById<Button>(R.id.signUpBtn)
         signUpBtn.setOnClickListener {
 

@@ -65,6 +65,7 @@
     <string name="adminDrinkPrice_textview">%1$d kr</string>
     <string name="uploading_textview">Laddar upp..</string>
     <string name="orderEstimatedReady_textview">Ordern beräknas vara klar om</string>
+    <string name="estimatedDeliveryTime_textview">%1$s</string>
     <string name="hintMinutes_editText">Ange minuter</string>
     <string name="customerTitle_textview">Kund</string>
     <string name="customerName_textview">Namn: %1$s</string>
@@ -84,11 +85,14 @@
     <string name="hintAdminDisplayItemPrice_editText">Pris</string>
     <string name="menu_switch">Meny</string>
     <string name="drink_switch">Dryck</string>
+    <string name="amount_textview">%1$d</string>
+    <string name="orderItem_textview">%1$s</string>
+    <string name="x_textview">x</string>
+    <string name="overviewOfOrders_textview">Översikt över ordrar</string>
+    <string name="order_textview">Order %1$d</string>
 
     <string name="adminDisplayItemSave_button">Spara</string>
     <string name="delete_button">Ta bort</string>
-
-
     <string name="goToCheckout_button">Till kassan</string>
     <string name="food_button">Mat</string>
     <string name="drink_button">Dryck</string>
@@ -97,14 +101,17 @@
     <string name="pay_button">Betala</string>
     <string name="ok_button">Ok</string>
     <string name="saveAddress_button">Save address</string>
-    <string name="signUp_button">Sign up</string>
-    <string name="signIn_button">Sign in</string>
+    <string name="signUp_button">Bli medlem</string>
+    <string name="signIn_button">Logga in</string>
     <string name="menu_button">Meny</string>
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Bekräfta ordern</string>
     <string name="goToOverviewOfOrders_button">Gå till översikt över ordrar</string>
     <string name="yes_button">Ja</string>
     <string name="cancel_button">Avbryt</string>
+    <string name="show_button">Visa</string>
+    <string name="hide_button">Dölj</string>
+    <string name="showOrder_button">Se ordern</string>
 
 
 </resources>
