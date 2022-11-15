@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,6 +27,7 @@ class AdminMenuFragment : Fragment() {
     private var param2: String? = null
     lateinit var db: FirebaseFirestore
     private var count = 0
+    private var menuFragmentIsRunning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +93,17 @@ class AdminMenuFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.d("!!!", "onpause menuFragment!")
+        menuFragmentIsRunning = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        menuFragmentIsRunning = true
+    }
+
     fun listenerUpdateOrder() {
         val docRef = db.collection("Order").document(getRestaurantName())
             .collection("userOrders")
@@ -101,10 +112,10 @@ class AdminMenuFragment : Fragment() {
             if (snapshot != null) {
                 if (count == 0) {
                     count += 1
-                    Log.d("!!!", "count är $count")
                 } else {
-                    Log.d("!!!", "items updated!")
-                    showNewOrderCustomDialog()
+                    if (menuFragmentIsRunning) {
+                        showNewOrderCustomDialog()
+                    }
                 }
             }
         }

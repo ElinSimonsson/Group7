@@ -5,15 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: FoodFragment) :
     RecyclerView.Adapter<FoodRecycleAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.food_list_item, parent, false)
@@ -21,7 +20,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(menu.get(position)!!)
+        holder.bind(menu[position]!!)
     }
 
     override fun getItemCount(): Int {
@@ -29,19 +28,20 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
-        val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
-        var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView)
-        var countTextView = itemView.findViewById<TextView>(R.id.amountTextView)
-        var addImageView = itemView.findViewById<ImageView>(R.id.addImageView)
-        var removeImageView = itemView.findViewById<ImageView>(R.id.removeImageView)
-        var addToCart = itemView.findViewById<TextView>(R.id.addToCartButton)
+       private val nameView = itemView.findViewById<TextView>(R.id.nameTextView)
+        private val priceView = itemView.findViewById<TextView>(R.id.priceTextView)
+        private var menuImage = itemView.findViewById<ImageView>(R.id.menuItemImageView)
+        private var countTextView = itemView.findViewById<TextView>(R.id.amountTextView)
+        private var addImageView = itemView.findViewById<ImageView>(R.id.addImageView)
+        private var removeImageView = itemView.findViewById<ImageView>(R.id.removeImageView)
+        private var addToCart = itemView.findViewById<TextView>(R.id.addToCartButton)
+        private var context = itemView.context
 
 
         fun bind(currentMenu: MenuItem) {
 
-            nameView.text = currentMenu.name
-            priceView.text = "${currentMenu.price} kr"
+            nameView.text = context.getString(R.string.foodName_textview, currentMenu.name)
+            priceView.text = context.getString(R.string.foodPrice_textview, currentMenu.price)
 
             checkAlreadyInList(currentMenu)
             for (item in DataManager.itemInCartList) {
@@ -66,7 +66,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                 removeImageView.visibility = View.VISIBLE
                 countTextView.visibility = View.VISIBLE
                 currentMenu.totalCart++
-                countTextView.text = currentMenu.totalCart.toString()
+                countTextView.text = context.getString(R.string.foodAmount_textview, currentMenu.totalCart)
 
                 if (currentMenu !in DataManager.itemInCartList) {
                     DataManager.itemInCartList.add(currentMenu)
@@ -87,12 +87,12 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                         cloneList.add(item)
                     }
                 }
-                var total = 0
+                var total : Int
                 for (item in cloneList) {
                     if (item.name == currentMenu.name) {
                         item.totalCart--
                         total = item.totalCart
-                        countTextView.text = total.toString()
+                        countTextView.text = context.getString(R.string.drinkAmount_textview, total)
                         clickListener.upgradeItemInCart(currentMenu)
 
                         if (item.totalCart < 1) {
@@ -108,7 +108,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
             }
 
             addImageView.setOnClickListener {
-                var total = 0
+                var total : Int
 
                 for (item in DataManager.itemInCartList) {
                     if (item != null) {
@@ -116,7 +116,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                             if (item.totalCart < 10) {
                                 item.totalCart++
                                 total = item.totalCart
-                                countTextView.text = total.toString()
+                                countTextView.text = context.getString(R.string.drinkAmount_textview, total)
                                 clickListener.upgradeItemInCart(currentMenu)
                                 if (item.totalCart == 10) {
                                     addImageView.setImageResource(R.drawable.light_add_circle)
@@ -128,7 +128,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
             }
         }
 
-        fun checkAlreadyInList(currentMenu: MenuItem) {
+        private fun checkAlreadyInList(currentMenu: MenuItem) {
             for (item in DataManager.itemInCartList) {
                 if (item != null) {
                     if (item.name == currentMenu.name) {
@@ -136,7 +136,7 @@ class FoodRecycleAdapter(var menu: MutableList<MenuItem?>, val clickListener: Fo
                         addImageView.visibility = View.VISIBLE
                         removeImageView.visibility = View.VISIBLE
                         countTextView.visibility = View.VISIBLE
-                        countTextView.text = item.totalCart.toString()
+                        countTextView.text = context.getString(R.string.drinkAmount_textview, item.totalCart)
                     }
 
                 }

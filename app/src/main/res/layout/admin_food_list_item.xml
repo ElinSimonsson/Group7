@@ -7,7 +7,7 @@
     android:backgroundTintMode="src_in">
 
     <ImageView
-        android:id="@+id/adminDrinkItemImage"
+        android:id="@+id/adminFoodItemImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
@@ -18,26 +18,26 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/adminDrinkNameText"
+        android:id="@+id/adminFoodNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/adminFoodName_textview"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminDrinkItemImage" />
+        app:layout_constraintTop_toBottomOf="@+id/adminFoodItemImage" />
 
     <TextView
-        android:id="@+id/adminDrinkPriceText"
+        android:id="@+id/adminFoodPriceText"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
-        android:text="TextView"
+        android:text="@string/adminFoodPrice_textview"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -45,5 +45,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminDrinkNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/adminFoodNameText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

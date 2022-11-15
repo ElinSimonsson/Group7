@@ -77,7 +77,7 @@ class SuccessPaymentActivity : AppCompatActivity() {
                 }
                 if(snapshot != null && snapshot.exists()) {
                     val minutes = snapshot.data?.get("deliveryTime").toString().toInt()
-                    estimatedMinutesTextView.text = "om ca $minutes min"
+                    estimatedMinutesTextView.text = getString(R.string.deliveryMinutes_textview, minutes)
                     val estimatedDeliveryTime = getEstimatedDeliveryTime(minutes)
                     estimatedDeliveryTimeTV.text = estimatedDeliveryTime
                     setLayoutConfirmedOrder()
@@ -91,7 +91,7 @@ class SuccessPaymentActivity : AppCompatActivity() {
     fun getEstimatedDeliveryTime (minutes: Int): String {
         val currentTime = Calendar.getInstance()
         currentTime.add(Calendar.MINUTE, minutes)
-        val simpleTimeFormat = SimpleDateFormat("yyyy-MM-dd 'kl' HH:mm")
+        val simpleTimeFormat = SimpleDateFormat("yyyy-MM-dd 'kl' HH:mm", Locale.getDefault())
         val estimatedDeliveryTime = simpleTimeFormat.format(currentTime.time)
         return estimatedDeliveryTime
     }
@@ -99,8 +99,8 @@ class SuccessPaymentActivity : AppCompatActivity() {
     fun setLayoutConfirmedOrder () {
         val userDeliveryChoice = intent.getStringExtra(USER_DELIVERY_CHOICE)
         when (userDeliveryChoice) {
-            "delivery" -> modeOfDeliveryTextView.text = "Hemleverans"
-            "takeaway" -> modeOfDeliveryTextView.text = "Avhämtning"
+            "delivery" -> modeOfDeliveryTextView.text = getString(R.string.homeDelivery_textview)
+            "takeaway" -> modeOfDeliveryTextView.text = getString(R.string.takeaway_textview)
         }
 
         waitConfirmationTextView.visibility = View.GONE

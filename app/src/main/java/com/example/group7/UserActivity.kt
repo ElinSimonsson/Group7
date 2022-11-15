@@ -61,6 +61,7 @@ class UserActivity : AppCompatActivity() {
 
 
 
+
     }
 
     private fun signIn() {
@@ -80,7 +81,6 @@ class UserActivity : AppCompatActivity() {
                 }
             }
     }
-
 
     private fun signUp() {
         val email = emailEditText.text.toString()

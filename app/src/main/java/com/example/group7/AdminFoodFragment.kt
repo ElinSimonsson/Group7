@@ -1,11 +1,15 @@
 package com.example.group7
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -77,25 +81,7 @@ class AdminFoodFragment : Fragment() {
             val adapter = AdminFoodAdapter(it, getResNameFragment(), MENU)
             recyclerView.adapter = adapter
         }
-        listenerUpdateOrder()
-    }
 
-    fun listenerUpdateOrder () {
-
-        val docRef = db.collection("Order").document(getResNameFragment())
-            .collection("userOrders")
-
-        docRef.addSnapshotListener { snapshot, e ->
-            if (snapshot != null) {
-                if(count == 0) {
-                    count += 1
-                    Log.d("!!!", "count är $count")
-                } else {
-                    Log.d("!!!", "items updated!")
-                }
-
-            }
-        }
     }
 
     fun getResNameFragment(): String {

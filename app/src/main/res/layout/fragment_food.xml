@@ -32,7 +32,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/red_rounded_corners"
         android:gravity="center"
-        android:text="@string/cart_textview"
+        android:text="@string/seeYourCart_textview"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"

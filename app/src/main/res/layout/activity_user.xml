@@ -10,11 +10,14 @@
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="292dp"
+
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
+        android:hint="@string/hintEmail_editText"
+        android:inputType="textEmailAddress"
         android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,11 +27,14 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="Password"
+
         android:inputType="textPassword"
         android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +47,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginBottom="160dp"
         android:backgroundTint="#DA1212"
-        android:text="Sign IN"
+        android:text="@string/signIn_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
         android:backgroundTint="#DA1212"
-        android:text="Sign Up"
+        android:text="@string/signUp_button"
         app:layout_constraintBaseline_toBaselineOf="@+id/signInBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.802"
@@ -62,9 +68,11 @@
         android:layout_width="64dp"
         android:layout_height="48dp"
         android:backgroundTint="#DA1212"
+
         android:text="Show"
         android:textSize="8sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/passwordEditText"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/passwordEditText" />

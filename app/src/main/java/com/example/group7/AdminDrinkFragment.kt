@@ -69,6 +69,7 @@ class AdminDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         readMenuData {
             recyclerView = view.findViewById(R.id.adminDrinkRV)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -107,5 +108,4 @@ class AdminDrinkFragment : Fragment() {
                 }
             }
     }
-
 }

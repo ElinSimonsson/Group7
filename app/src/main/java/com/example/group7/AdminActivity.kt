@@ -2,7 +2,6 @@ package com.example.group7
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,8 +11,6 @@ class AdminActivity : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var db: FirebaseFirestore
-    lateinit var adminMatTextView: TextView
-    lateinit var adminDryckTextView: TextView
     lateinit var orderButton: TextView
     lateinit var menuButton: TextView
 
@@ -25,14 +22,14 @@ class AdminActivity : AppCompatActivity() {
         menuButton = findViewById(R.id.menuTV)
         orderButton = findViewById(R.id.orderTV)
 
+        replaceWithMenuFragment()
+
         menuButton.setOnClickListener {
             replaceWithMenuFragment()
         }
         orderButton.setOnClickListener {
             replaceWithOrderFragment()
         }
-
-        replaceWithMenuFragment()
 
     }
 
@@ -58,34 +55,8 @@ class AdminActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    private fun startDrinkFragment() {
-        val AdminFragment = AdminDrinkFragment()
-        val bundle = Bundle()
-        bundle.putString(RES_NAME_DRINK_FRAGMENT, getRestaurantName())
-        AdminFragment.arguments = bundle
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.menuContainer, AdminFragment)
-        fragmentTransaction.commit()
-    }
-
-    private fun startMenuFragment() {
-        val AdminFragment = AdminFoodFragment()
-        val bundle = Bundle()
-        bundle.putString(RES_NAME_MENU_FRAGMENT, getRestaurantName())
-        AdminFragment.arguments = bundle
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.menuContainer, AdminFragment)
-        fragmentTransaction.commit()
-    }
-
-
     fun getRestaurantName(): String {
         val restaurantName = intent.getStringExtra(RES_MAIN).toString()
-
-        Log.d("!!!", "rname fun admin : $restaurantName")
-
         return restaurantName
     }
 }
