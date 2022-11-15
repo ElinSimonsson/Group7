@@ -40,12 +40,7 @@ class MenuActivity : AppCompatActivity() {
 
         menuTextView = findViewById(R.id.menuTextView)
         drinkTextView = findViewById(R.id.drinkTextView)
-        
 
-        val menuAdressTextView = findViewById<TextView>(R.id.adressTextView)
-        getUserAdress {
-            menuAdressTextView.text = it.toString()
-        }
 
 
         val restaurant = getRestaurantName()

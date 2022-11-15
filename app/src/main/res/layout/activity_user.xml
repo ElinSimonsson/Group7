@@ -10,7 +10,7 @@
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="300dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -24,13 +24,12 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
@@ -43,8 +42,7 @@
         android:backgroundTint="#DA1212"
         android:text="Sign IN"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveAdressBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/signUpBtn"
@@ -58,29 +56,14 @@
         app:layout_constraintHorizontal_bias="0.802"
         app:layout_constraintStart_toEndOf="@+id/signInBtn" />
 
-    <EditText
-        android:id="@+id/adressEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint="Adress"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
-
     <Button
-        android:id="@+id/saveAdressBtn"
+        android:id="@+id/hideShowBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#DA1212"
-        android:text="save adress"
+        android:backgroundTint="#00BCD4"
+        android:text="Show"
+        app:layout_constraintBaseline_toBaselineOf="@+id/passwordEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adressEditText" />
+        app:layout_constraintStart_toEndOf="@+id/passwordEditText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
