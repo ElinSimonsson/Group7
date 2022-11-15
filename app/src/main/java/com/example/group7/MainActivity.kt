@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var userBtn: Button
     lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
-    lateinit var adressView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,12 +103,6 @@ class MainActivity : AppCompatActivity() {
 
         newArrayList = arrayListOf()
         getUserdata()
-
-        adressView = findViewById(R.id.adressView)
-
-        getUserAdress {
-            adressView.text = it
-        }
 
         userBtn = findViewById<Button>(R.id.userBtn)
         userBtn.setOnClickListener {
@@ -239,27 +232,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        getUserAdress {
-            adressView.text = it
-        }
     }
-
-    fun getUserAdress(myCallback: (String) -> Unit) {
-
-        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
-            .get().addOnCompleteListener { task ->
-
-                var userAdress = ""
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        val adress = document.data["adress"].toString()
-                        userAdress = adress
-                    }
-                    myCallback(userAdress)
-                }
-            }
-    }
-
 
     private operator fun Button.get(i: Int) {
 
