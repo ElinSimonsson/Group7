@@ -10,7 +10,7 @@
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="292dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -24,6 +24,7 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
@@ -58,12 +59,14 @@
 
     <Button
         android:id="@+id/hideShowBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#00BCD4"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:backgroundTint="#DA1212"
         android:text="Show"
+        android:textSize="8sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/passwordEditText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/passwordEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
