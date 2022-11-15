@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             adressView.text = it
         }
 
-        userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn = findViewById(R.id.userBtn)
         userBtn.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
@@ -83,16 +83,9 @@ class MainActivity : AppCompatActivity() {
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser?.email
                     Log.d("!!!", "signInAnonymously:success")
-                    if(user == null) {
-                        Log.d("!!!", "null")
-                    } else {
-                        Log.d("!!!", user)
-                    }
                 } else {
                     Log.w("!!!", "signInAnonymously:failure", task.exception)
-//                    updateUI(null)
                 }
             }
     }

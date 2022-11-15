@@ -181,12 +181,12 @@ class PaymentActivity : AppCompatActivity() {
                                     Log.d("!!!", "Added order successfully")
                                 }
                                 .addOnFailureListener {
-
                                     Toast.makeText(this, "Failed to add order", Toast.LENGTH_SHORT)
                                         .show()
                                     Log.d("!!!", "Failed to add item")
                                 }
                         }
+
                         db.collection("Order")
                             .document(restaurantName)
                             .collection("userOrders")

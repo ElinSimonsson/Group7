@@ -75,6 +75,7 @@
     <string name="customerTakeaway_textview">Avhämtning</string>
     <string name="customerHomeDelivery_textview">Hemleverans</string>
     <string name="estimatedHomeDelivery_textview">Beräknad leverans om </string>
+    <string name="newOrderTitle">Ny order!</string>
 
     <string name="goToCheckout_button">Till kassan</string>
     <string name="food_button">Mat</string>
@@ -89,6 +90,7 @@
     <string name="menu_button">Meny</string>
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Bekräfta ordern</string>
+    <string name="goToOverviewOfOrders_button">Gå till översikt över ordrar</string>
 
 
 </resources>

@@ -91,7 +91,7 @@ class SuccessPaymentActivity : AppCompatActivity() {
     fun getEstimatedDeliveryTime (minutes: Int): String {
         val currentTime = Calendar.getInstance()
         currentTime.add(Calendar.MINUTE, minutes)
-        val simpleTimeFormat = SimpleDateFormat("yyyy-MM-dd 'kl' HH:mm")
+        val simpleTimeFormat = SimpleDateFormat("yyyy-MM-dd 'kl' HH:mm", Locale.getDefault())
         val estimatedDeliveryTime = simpleTimeFormat.format(currentTime.time)
         return estimatedDeliveryTime
     }

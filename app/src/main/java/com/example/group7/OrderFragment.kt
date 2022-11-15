@@ -100,15 +100,14 @@ class OrderFragment : Fragment() {
     }
 
     fun fetchDocumentIdData (myCallback : (MutableList<DocumentId>)-> Unit) {
-        val docRef = db.collection("Order").document(getRestaurantName())
-            .collection("userOrders")
-
-        docRef.addSnapshotListener { snapshot, e ->
+         db.collection("Order")
+             .document(getRestaurantName())
+             .collection("userOrders")
+             .addSnapshotListener { snapshot, e ->
             if (snapshot != null) {
                 val listOfDocumentId = mutableListOf<DocumentId>()
                 for (document in snapshot.documents) {
                     val documentId = document.id
-
                     val id = DocumentId(documentId)
                     listOfDocumentId.add(id)
                 }

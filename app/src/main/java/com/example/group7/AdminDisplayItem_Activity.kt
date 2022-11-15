@@ -105,15 +105,9 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                             editItemImage.setImageURI(imageUri)
                             Toast.makeText(this,"Image Uploaded",Toast.LENGTH_SHORT).show()
                             Log.d("!!!","url : $newImage")
-                        }else{
-                            //om det inte fungerar ??
-
                         }
-
                     }
-
                 }
-
             }
         }
 
@@ -121,7 +115,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         switch.isVisible = false
         //add drink or food
 
-        if(fabNumber == 1){
+        if(fabNumber == 1) {
             switch.isVisible = true
             var type = "menu"
 
@@ -150,13 +144,11 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                 if (fabRestaurant != null) {
                     newItem(fabRestaurant,type)
                     returnToAdmin(fabRestaurant)
-                }
-                else{
+                } else {
                     Log.d("!!!","No restaurant name")
                 }
             }
-        }
-        else{
+        } else {
             displayItem()
             saveBtn.setOnClickListener {
                 updateItem()
@@ -167,9 +159,6 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                 returnToAdmin(getRestaurant().toString())
             }
         }
-
-
-
     }
 
 
@@ -184,10 +173,10 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
                     editItemName.setText(document.data!!["name"].toString())
                     Log.d("!!!","name : ${editItemName.text}")
                     editItemPrice.setText(document.data!!["price"].toString())
-                    Glide.with(this).load(document.data!!["imageURL"]).into(editItemImage)
-
+                    Glide.with(this)
+                        .load(document.data!!["imageURL"])
+                        .into(editItemImage)
                 }
-
             }
             .addOnFailureListener {
                 finish()

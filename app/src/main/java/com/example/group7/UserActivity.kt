@@ -100,7 +100,6 @@ class UserActivity : AppCompatActivity() {
             }
     }
 
-
     private fun signUp() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()

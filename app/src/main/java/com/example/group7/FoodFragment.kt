@@ -102,12 +102,14 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
         super.onResume()
         Log.d("!!!", "Resume körs")
 
-
+        // recyclerView1.adapter.notifyDataSetChanged() används inte eftersom bugg dyker upp
+        // när man backar från shoppingCartActivity. fun readData är en tillfällig lösning
         readData {
             recyclerView1 = requireView().findViewById(R.id.foodRecyclerView)
             recyclerView1.layoutManager = GridLayoutManager(context, 2)
             recyclerView1.adapter = FoodRecycleAdapter(it, this)
         }
+
         val totalItems = getTotalItems()
         val price = getTotalPrice()
         cartTextView.text = getString(R.string.seeYourCart_textview, totalItems, price)
@@ -120,9 +122,12 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
 
 
     fun readData(myCallback: (MutableList<MenuItem?>) -> Unit) {
-        db.collection("restaurants").document(getRestaurantName()).collection("menu")
+        db.collection("restaurants")
+            .document(getRestaurantName())
+            .collection("menu")
             .orderBy("name")
-            .get().addOnCompleteListener { task ->
+            .get()
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val list = mutableListOf<MenuItem>()
                     for (document in task.result) {
@@ -131,9 +136,10 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
                         val imageURL = document.data["imageURL"].toString()
                         val menuItem = MenuItem(name, price, imageURL, 0)
                         list.add(menuItem)
-
                     }
                     myCallback(list.toMutableList())
+                } else {
+                    Log.d("!!!", "${task.exception}")
                 }
             }
     }

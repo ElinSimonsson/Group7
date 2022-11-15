@@ -75,6 +75,7 @@
     <string name="customerTakeaway_textview">Takeaway</string>
     <string name="customerHomeDelivery_textview">Home delivery</string>
     <string name="estimatedHomeDelivery_textview">Estimated home delivery about</string>
+    <string name="newOrderTitle">New order!</string>
 
 
     <string name="goToCheckout_button">Go to checkout</string>
@@ -90,6 +91,7 @@
     <string name="menu_button">Menu</string>
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Confirm the order</string>
+    <string name="goToOverviewOfOrders_button">Go to overview of orders</string>
 
 
 </resources>

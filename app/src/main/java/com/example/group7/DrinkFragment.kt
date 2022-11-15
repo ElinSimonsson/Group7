@@ -100,6 +100,9 @@ class DrinkFragment : Fragment(), DrinkRecycleAdapter.DrinkListClickListener {
     override fun onResume() {
         super.onResume()
         Log.d("!!!", "Resume körs")
+
+        // recyclerView1.adapter.notifyDataSetChanged() används inte eftersom buggar upptäckts
+        // när man backar från shoppingCartActivity. fun readData är tillfällig lösning
         readData {
             recyclerView = requireView().findViewById(R.id.drinkRecyclerView)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
