@@ -65,6 +65,21 @@ class MenuActivity : AppCompatActivity() {
             showWarningDialog()
         }
     }
+    fun getUserAdress(myCallback: (String) -> Unit) {
+
+        db.collection("users").document(auth.currentUser?.uid.toString()).collection("adress")
+            .get().addOnCompleteListener { task ->
+
+                var userAdress = ""
+                if (task.isSuccessful) {
+                    for (document in task.result) {
+                        val adress = document.data["adress"].toString()
+                        userAdress = adress
+                    }
+                    myCallback(userAdress)
+                }
+            }
+    }
 
     fun showWarningDialog() {
         val dialogBinding = layoutInflater.inflate(R.layout.custom_dialog, null)
