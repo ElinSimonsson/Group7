@@ -89,6 +89,14 @@
     <string name="delete_button">Delete</string>
     <string name="overviewOfOrders_textview">Overview of orders</string>
     <string name="order_textview">Order %1$d</string>
+    <string name="ccvRequired_textview">You must enter CCV/CVV!</string>
+    <string name="yearRequired_textview">You must enter year!</string>
+    <string name="monthRequired_textview">You must enter month!</string>
+    <string name="cardNumberRequired_textview">You must enter your card number!</string>
+    <string name="cityRequired_textview">You must enter city!</string>
+    <string name="addressRequired_textview">You must enter your address!</string>
+    <string name="postCodeRequired_textview">You must enter postcode!</string>
+    <string name="nameRequired_textview">You must enter your name!</string>
 
     <string name="goToCheckout_button">Go to checkout</string>
     <string name="food_button">Food</string>

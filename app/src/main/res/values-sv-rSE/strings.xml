@@ -90,6 +90,14 @@
     <string name="x_textview">x</string>
     <string name="overviewOfOrders_textview">Översikt över ordrar</string>
     <string name="order_textview">Order %1$d</string>
+    <string name="ccvRequired_textview">Du måste ange CCV/CVV!</string>
+    <string name="yearRequired_textview">Du måste ange år!</string>
+    <string name="monthRequired_textview">Du måste ange månad!</string>
+    <string name="cardNumberRequired_textview">Du måste ange ditt kortnummer!</string>
+    <string name="cityRequired_textview">Du måste ange stad!</string>
+    <string name="postCodeRequired_textview">Du måste ange postnummer!</string>
+    <string name="nameRequired_textview">Du måste ange ditt namn!</string>
+    <string name="addressRequired_textview">Du måste ange din adress!</string>
 
     <string name="adminDisplayItemSave_button">Spara</string>
     <string name="delete_button">Ta bort</string>

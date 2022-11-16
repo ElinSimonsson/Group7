@@ -35,7 +35,6 @@ class PaymentActivity : AppCompatActivity() {
     lateinit var cardNumber : EditText
     lateinit var phoneNumber : EditText
     lateinit var db : FirebaseFirestore
-    var userChoiceTitle = ""
     var userDeliveryChoice = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +80,7 @@ class PaymentActivity : AppCompatActivity() {
         //Om användaren har userData sparat så ersätts namn/adress/nummer till dess sparade uppgifter
         var savedUserInfo = true
         if (auth.currentUser != null) {
-            val user = auth.currentUser
+            user = auth.currentUser
             val docRef = db.collection("users").document(user!!.uid).collection("userData")
             docRef.get()
                 .addOnSuccessListener {
@@ -93,8 +92,8 @@ class PaymentActivity : AppCompatActivity() {
                             nameText.setText(data.data["name"].toString())
                             addressText.setText(data.data["address"].toString())
                             phoneNumber.setText(data.data["phoneNumber"].toString())
-                           // cityText.setText(data.data["cityText"].toString())
-                           // postText.setText(data.data["postText"].toString())
+                            cityText.setText(data.data["cityText"].toString())
+                            postText.setText(data.data["postText"].toString())
 
                         }
                     }
@@ -109,34 +108,31 @@ class PaymentActivity : AppCompatActivity() {
 
             if (user_msg_error.trim().isEmpty()) {
                 ccvText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in CCV/CVV!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.ccvRequired_textview), Toast.LENGTH_SHORT).show()
             } else if (yearText.text.toString().trim().isEmpty()) {
                 yearText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in ett år!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.yearRequired_textview), Toast.LENGTH_SHORT).show()
             } else if (monthText.text.toString().trim().isEmpty()) {
                 monthText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in en månad!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.monthRequired_textview), Toast.LENGTH_SHORT).show()
             } else if (cardNumber.text.toString().trim().isEmpty()) {
                 cardNumber.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in kortnummer!", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, getString(R.string.cardNumberRequired_textview), Toast.LENGTH_SHORT)
                     .show()
             } else if (postText.text.toString().trim().isEmpty()) {
                 postText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in ett postnummer!", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, getString(R.string.postCodeRequired_textview), Toast.LENGTH_SHORT)
                     .show()
             } else if (cityText.text.toString().trim().isEmpty()) {
                 cityText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in en stad!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.cityRequired_textview), Toast.LENGTH_SHORT).show()
             } else if (addressText.text.toString().trim().isEmpty()) {
                 addressText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in en adress!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.addressRequired_textview), Toast.LENGTH_SHORT).show()
             } else if (nameText.text.toString().trim().isEmpty()) {
                 nameText.error = "Required"
-                Toast.makeText(applicationContext, "Skriv in namn", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.nameRequired_textview), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(applicationContext, "Informationen bekräftades", Toast.LENGTH_SHORT)
-                    .show()
-
                 //User information from input to Map
                 user = auth.currentUser
                 val userData = hashMapOf(
