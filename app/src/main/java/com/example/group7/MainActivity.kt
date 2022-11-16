@@ -34,12 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-        auth.signOut()
+        //auth.signOut()
 
-        val user = auth.currentUser
-        if (user == null) {
-            signInAnonymously()
-        }
+//        val user = auth.currentUser
+//        if (user == null) {
+//            signInAnonymously()
+//        }
 
         imageId = arrayOf(
             R.drawable.roots,
@@ -99,8 +99,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun signInBtn() {
-        if (auth.currentUser == null) {
-            userBtn.text = "Sign In"
+        if (auth.currentUser?.email == null) {
+            userBtn.text = "Sign in"
             userBtn.setOnClickListener {
                 val intent = Intent(this, UserActivity::class.java)
                 startActivity(intent)
@@ -121,27 +121,30 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         val user = auth.currentUser
 
-        // Changes text of 'UserBtn' to everything before @ in the email
-//        if (auth.currentUser != null) {
-//
-//                val userEmail = auth.currentUser!!.email.toString()
-//                val nameInEmail = userEmail.substring(0, userEmail.indexOf('@'))
-//            val mail = userEmail.substring(userEmail.indexOf('@'))
-//            Log.d("!!!", "substring: $mail")
-//               // userBtn.text = nameInEmail
-//            }
-
-        if (auth.currentUser != null) {
-            userBtn.text = "Log Out"
+        if (user == null) {
+            signInAnonymously()
+            userBtn.text = "Log in"
 
             userBtn.setOnClickListener {
-                Toast.makeText(
-                    this,
-                    "Signed Out : ${auth.currentUser!!.email.toString()}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                auth.signOut()
-                signInBtn()
+                val intent = Intent(this, UserActivity::class.java)
+                startActivity(intent)
+            }
+        }
+         else {
+            if (!user.isAnonymous) {
+                userBtn.text = "Profile"
+
+                userBtn.setOnClickListener {
+                    val intent = Intent(this, UserProfileActivity::class.java)
+                    startActivity(intent)
+                }
+            } else {
+                userBtn.text = "Log in"
+
+                userBtn.setOnClickListener {
+                    val intent = Intent(this, UserActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
 

@@ -33,7 +33,7 @@ class PaymentActivity : AppCompatActivity() {
     lateinit var addressText : EditText
     lateinit var cityText : EditText
     lateinit var cardNumber : EditText
-    lateinit var phoneNumber : EditText
+    lateinit var phoneNumberET : EditText
     lateinit var db : FirebaseFirestore
     var userDeliveryChoice = ""
 
@@ -51,7 +51,7 @@ class PaymentActivity : AppCompatActivity() {
         addressText = findViewById(R.id.editAdressText)
         cityText = findViewById(R.id.editCityText)
         cardNumber = findViewById(R.id.editCardNumber)
-        phoneNumber = findViewById(R.id.editPhoneNumberText)
+        phoneNumberET = findViewById(R.id.editPhoneNumberText)
         changeButton = findViewById(R.id.changeButton)
         titleWayToGetFoodTV = findViewById(R.id.titleWayToGetFoodTV)
         val payBtn2: Button = findViewById(R.id.payBtn2)
@@ -77,153 +77,198 @@ class PaymentActivity : AppCompatActivity() {
         yearText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99))
         postText.filters = arrayOf<InputFilter>(MinMaxFilter(0, 99999))
 
-        //Om användaren har userData sparat så ersätts namn/adress/nummer till dess sparade uppgifter
-        var savedUserInfo = true
-        if (auth.currentUser != null) {
-            user = auth.currentUser
-            val docRef = db.collection("users").document(user!!.uid).collection("userData")
+
+
+         user = auth.currentUser
+        if (user?.email != null) {
+            val docRef = db.collection("users")
+                .document(user.uid)
             docRef.get()
-                .addOnSuccessListener {
-                    if (it.isEmpty) {
-                        savedUserInfo = false
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val name = document.data?.get("name")
+                        val address = document.data?.get("address")
+                        val phoneNumber = document.data?.get("phoneNumber")
+                        val city = document.data?.get("city")
+                        val postCode = document.data?.get("postCode")
 
-                    } else {
-                        for (data in it) {
-                            nameText.setText(data.data["name"].toString())
-                            addressText.setText(data.data["address"].toString())
-                            phoneNumber.setText(data.data["phoneNumber"].toString())
-                            cityText.setText(data.data["cityText"].toString())
-                            postText.setText(data.data["postText"].toString())
-
+                        if (name != null) {
+                            nameText.setText(name.toString())
+                        }
+                        if (address != null) {
+                            addressText.setText(address.toString())
+                        }
+                        if (phoneNumber != null) {
+                            phoneNumberET.setText(phoneNumber.toString())
+                        }
+                        if (city != null) {
+                            cityText.setText(city.toString())
+                        }
+                        if (postCode != null) {
+                            postText.setText(postCode.toString())
                         }
                     }
                 }
-        }
 
 
-        payBtn2.setOnClickListener {
+            payBtn2.setOnClickListener {
 
 
-            val user_msg_error: String = ccvText.text.toString()
+                val user_msg_error: String = ccvText.text.toString()
 
-            if (user_msg_error.trim().isEmpty()) {
-                ccvText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.ccvRequired_textview), Toast.LENGTH_SHORT).show()
-            } else if (yearText.text.toString().trim().isEmpty()) {
-                yearText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.yearRequired_textview), Toast.LENGTH_SHORT).show()
-            } else if (monthText.text.toString().trim().isEmpty()) {
-                monthText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.monthRequired_textview), Toast.LENGTH_SHORT).show()
-            } else if (cardNumber.text.toString().trim().isEmpty()) {
-                cardNumber.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.cardNumberRequired_textview), Toast.LENGTH_SHORT)
-                    .show()
-            } else if (postText.text.toString().trim().isEmpty()) {
-                postText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.postCodeRequired_textview), Toast.LENGTH_SHORT)
-                    .show()
-            } else if (cityText.text.toString().trim().isEmpty()) {
-                cityText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.cityRequired_textview), Toast.LENGTH_SHORT).show()
-            } else if (addressText.text.toString().trim().isEmpty()) {
-                addressText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.addressRequired_textview), Toast.LENGTH_SHORT).show()
-            } else if (nameText.text.toString().trim().isEmpty()) {
-                nameText.error = "Required"
-                Toast.makeText(applicationContext, getString(R.string.nameRequired_textview), Toast.LENGTH_SHORT).show()
-            } else {
-                //User information from input to Map
-                user = auth.currentUser
-                val userData = hashMapOf(
+                if (user_msg_error.trim().isEmpty()) {
+                    ccvText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.ccvRequired_textview),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (yearText.text.toString().trim().isEmpty()) {
+                    yearText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.yearRequired_textview),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (monthText.text.toString().trim().isEmpty()) {
+                    monthText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.monthRequired_textview),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (cardNumber.text.toString().trim().isEmpty()) {
+                    cardNumber.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.cardNumberRequired_textview),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                } else if (postText.text.toString().trim().isEmpty()) {
+                    postText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.postCodeRequired_textview),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                } else if (cityText.text.toString().trim().isEmpty()) {
+                    cityText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.cityRequired_textview),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (addressText.text.toString().trim().isEmpty()) {
+                    addressText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.addressRequired_textview),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (nameText.text.toString().trim().isEmpty()) {
+                    nameText.error = "Required"
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.nameRequired_textview),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    //User information from input to Map
+                    user = auth.currentUser
+                    val userData = hashMapOf(
+                        "postText" to postText.text.toString(),
+                        "name" to nameText.text.toString(),
+                        "address" to addressText.text.toString(),
+                        "phoneNumber" to phoneNumberET.text.toString(),
+                        "cityText" to cityText.text.toString(),
+                        "user" to user?.uid,
+                        "userChoice" to userDeliveryChoice
+                    )
+                    Log.d("!!!", "city : ${cityText.text}")
 
-                    "postText" to postText.text.toString(),
-                    "name" to nameText.text.toString(),
-                    "address" to addressText.text.toString(),
-                    "phoneNumber" to phoneNumber.text.toString(),
-                    "cityText" to cityText.text.toString(),
-                    "user" to user?.uid,
-                    "userChoice" to userDeliveryChoice
-                )
-                Log.d("!!!","city : ${cityText.text}")
 
+                    val name = hashMapOf(
+                        "name" to restaurantName
+                    )
 
-                val name = hashMapOf(
-                    "name" to restaurantName
-                )
+                    db.collection("Order")
+                        .document(restaurantName)
+                        .collection("userOrders")
+                        .add(name)
+                        .addOnSuccessListener { documentReference ->
 
-                db.collection("Order")
-                    .document(restaurantName)
-                    .collection("userOrders")
-                    .add(name)
-                    .addOnSuccessListener { documentReference ->
+                            for (items in DataManager.itemInCartList) {
+                                val order = hashMapOf(
+                                    "name" to items?.name.toString(),
+                                    "amount" to items?.totalCart.toString().toInt(),
+                                    "price" to items?.price.toString().toInt()
+                                )
 
-                        for (items in DataManager.itemInCartList) {
-                            val order = hashMapOf(
-                                "name" to items?.name.toString(),
-                                "amount" to items?.totalCart.toString().toInt(),
-                                "price" to items?.price.toString().toInt()
-                            )
+                                db.collection("Order")
+                                    .document(restaurantName)
+                                    .collection("userOrders")
+                                    .document(documentReference.id)
+                                    .collection("Items")
+                                    .add(order)
+                                    .addOnSuccessListener {
+
+                                        Toast.makeText(this, "Order confirmed", Toast.LENGTH_SHORT)
+                                            .show()
+                                        Log.d("!!!", "Added order successfully")
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(
+                                            this,
+                                            "Failed to add order",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                        Log.d("!!!", "Failed to add item")
+                                    }
+                            }
 
                             db.collection("Order")
                                 .document(restaurantName)
                                 .collection("userOrders")
                                 .document(documentReference.id)
-                                .collection("Items")
-                                .add(order)
+                                .collection("userData")
+                                .add(userData)
                                 .addOnSuccessListener {
 
                                     Toast.makeText(this, "Order confirmed", Toast.LENGTH_SHORT)
                                         .show()
                                     Log.d("!!!", "Added order successfully")
+
                                 }
+
                                 .addOnFailureListener {
-                                    Toast.makeText(this, "Failed to add order", Toast.LENGTH_SHORT)
-                                        .show()
-                                    Log.d("!!!", "Failed to add item")
+                                    Log.d("!!!", "failed to upload data")
                                 }
+
                         }
 
-                        db.collection("Order")
-                            .document(restaurantName)
-                            .collection("userOrders")
-                            .document(documentReference.id)
-                            .collection("userData")
-                            .add(userData)
-                            .addOnSuccessListener {
+                    //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
+//                    if (!savedUserInfo) {
+//                        db.collection("users").document(auth.currentUser!!.uid)
+//                            .collection("userData").add(userData)
+//                            .addOnSuccessListener {
+//                                Toast.makeText(this, "UserData saved", Toast.LENGTH_SHORT).show()
+//                            }
+//
+//
+//                    }
 
-                                Toast.makeText(this, "Order confirmed", Toast.LENGTH_SHORT)
-                                    .show()
-                                Log.d("!!!", "Added order successfully")
+                    //userData
 
-                            }
 
-                            .addOnFailureListener {
-                                Log.d("!!!", "failed to upload data")
-                            }
-
-                    }
-
-                //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
-                if (!savedUserInfo) {
-                    db.collection("users").document(auth.currentUser!!.uid)
-                        .collection("userData").add(userData)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "UserData saved", Toast.LENGTH_SHORT).show()
-                        }
-
+                    val intent = Intent(this, SuccessPaymentActivity::class.java)
+                    intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
+                    intent.putExtra(USER_DELIVERY_CHOICE, userDeliveryChoice)
+                    startActivity(intent)
 
                 }
-
-                //userData
-
-
-
-                val intent = Intent(this, SuccessPaymentActivity::class.java)
-                intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
-                intent.putExtra(USER_DELIVERY_CHOICE, userDeliveryChoice)
-                startActivity(intent)
-
             }
         }
     }
