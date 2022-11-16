@@ -23,7 +23,7 @@
     <string name="foodAmount_textview">%1$d</string>
     <string name="drinkName_textview">%1$s</string>
     <string name="drinkPrice_textview">%1$d kr</string>
-    <string name="drinkAddToCart_textview">Add to cart</string>
+    <string name="drinkAddToCart_textview">Lägg till varukorg</string>
     <string name="drinkAmount_textview">%1$d</string>
     <string name="menuItem_textview">%1$s</string>
     <string name="shoppingCart_price_textview">%1$d kr</string>

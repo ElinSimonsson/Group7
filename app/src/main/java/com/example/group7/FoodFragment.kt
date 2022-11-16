@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -76,7 +75,7 @@ class FoodFragment : Fragment(), FoodRecycleAdapter.FoodListClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cartTextView = view.findViewById(R.id.cartTextView)
+        cartTextView = view.findViewById(R.id.cartTextView1)
 
         val totalItems = getTotalItems()
         if(totalItems >= 1) {
