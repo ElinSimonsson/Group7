@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-        //auth.signOut()
+        auth.signOut()
 
         val user = auth.currentUser
         if (user == null) {
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             R.drawable.bankomat,
             R.drawable.chamsin,
             R.drawable.ilforno
-            )
+        )
 
         heading = arrayOf(
             "Roots & Soil",
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             "BankOmat",
             "Chamsin",
             "IL Forno"
-            )
+        )
 
         address = arrayOf(
             "Årstaängsvägen 21B, \n" +
@@ -82,12 +83,9 @@ class MainActivity : AppCompatActivity() {
 
 
         userBtn = findViewById<Button>(R.id.userBtn)
-        userBtn.setOnClickListener {
-            val intent = Intent(this, UserActivity::class.java)
-            startActivity(intent)
-        }
-    }
+        signInBtn()
 
+    }
     private fun signInAnonymously() {
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
@@ -98,6 +96,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+
+    fun signInBtn (){
+        if(auth.currentUser == null){
+            userBtn.text = "Sign In"
+            userBtn.setOnClickListener {
+                val intent = Intent(this, UserActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
 
 
     public override fun onStart() {
@@ -122,6 +131,15 @@ class MainActivity : AppCompatActivity() {
 //               // userBtn.text = nameInEmail
 //            }
 
+        if(auth.currentUser != null){
+            userBtn.text = "Log Out"
+            
+            userBtn.setOnClickListener {
+                Toast.makeText(this,"Signed Out : ${auth.currentUser!!.email.toString()}",Toast.LENGTH_SHORT).show()
+                auth.signOut()
+                signInBtn()
+            }
+        }
 
         if (auth.currentUser?.email == "mcdonalds@admin.se") {
             val intentAdmin = Intent(this, AdminActivity::class.java)
@@ -197,7 +215,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-}
+
 
 
 
