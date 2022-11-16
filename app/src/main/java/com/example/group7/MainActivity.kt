@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     "117 61 Stockholm",
             "Liljeholmstorget 5, \n" +
                     "117 63 Stockholm"
-            )
+        )
 
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         signInBtn()
 
     }
+
     private fun signInAnonymously() {
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
@@ -97,8 +98,8 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    fun signInBtn (){
-        if(auth.currentUser == null){
+    fun signInBtn() {
+        if (auth.currentUser == null) {
             userBtn.text = "Sign In"
             userBtn.setOnClickListener {
                 val intent = Intent(this, UserActivity::class.java)
@@ -106,7 +107,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     public override fun onStart() {
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         val user = auth.currentUser
 
-       // Changes text of 'UserBtn' to everything before @ in the email
+        // Changes text of 'UserBtn' to everything before @ in the email
 //        if (auth.currentUser != null) {
 //
 //                val userEmail = auth.currentUser!!.email.toString()
@@ -131,11 +131,15 @@ class MainActivity : AppCompatActivity() {
 //               // userBtn.text = nameInEmail
 //            }
 
-        if(auth.currentUser != null){
+        if (auth.currentUser != null) {
             userBtn.text = "Log Out"
-            
+
             userBtn.setOnClickListener {
-                Toast.makeText(this,"Signed Out : ${auth.currentUser!!.email.toString()}",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Signed Out : ${auth.currentUser!!.email.toString()}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 auth.signOut()
                 signInBtn()
             }
@@ -199,7 +203,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = RestaurantAdapter(newArrayList)
         newRecyclerView.adapter = adapter
 
-        adapter.setOnItemClickListener(object : RestaurantAdapter.onItemClickListener{
+        adapter.setOnItemClickListener(object : RestaurantAdapter.onItemClickListener {
 
             override fun onItemClick(position: Int) {
 
@@ -215,6 +219,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+}
 
 
 
