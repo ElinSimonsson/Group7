@@ -103,7 +103,7 @@
             android:id="@+id/estimatedDeliveryTimeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="@string/estimatedDeliveryTime_textview"
             android:textColor="#000000"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

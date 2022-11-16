@@ -19,9 +19,7 @@ class DetailedOrderRecycleAdapter(var listOfOrderItem: MutableList<OrderData>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentItem = listOfOrderItem[position]
-        holder.orderItemTextView.text = currentItem.name
-        holder.amountTextView.text = currentItem.amount.toString()
+        holder.bind(listOfOrderItem[position])
 
 
     }
@@ -32,9 +30,16 @@ class DetailedOrderRecycleAdapter(var listOfOrderItem: MutableList<OrderData>) :
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val orderItemTextView = itemView.findViewById<TextView>(R.id.orderItemTextView)
-        val amountTextView = itemView.findViewById<TextView>(R.id.amountTV)
+        private var orderItemTextView = itemView.findViewById<TextView>(R.id.orderItemTextView)
+        private val amountTextView = itemView.findViewById<TextView>(R.id.amountTV)
+        private val context = itemView.context
 
+
+        fun bind (currentItem : OrderData) {
+            orderItemTextView.text = context.getString(R.string.orderItem_textview, currentItem.name)
+            amountTextView.text = context.getString(R.string.amount_textview, currentItem.amount)
+
+        }
     }
 
 

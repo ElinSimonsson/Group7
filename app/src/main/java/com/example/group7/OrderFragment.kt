@@ -75,7 +75,7 @@ class OrderFragment : Fragment() {
 
         fetchDocumentIdData {
             recyclerView = view.findViewById(R.id.orderRecyclerView)
-            val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context)
+            val linearLayoutManager = LinearLayoutManager(context)
             linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
             recyclerView.layoutManager = linearLayoutManager
             val adapter = OrderRecycleAdapter(it, restaurantName)
