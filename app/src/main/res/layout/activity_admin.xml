@@ -46,7 +46,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/left_border"
         android:gravity="center"
-        android:text="Log out"
+        android:text="@string/signOut_button"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
