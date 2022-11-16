@@ -40,12 +40,11 @@ class AdminActivity : AppCompatActivity() {
             replaceWithOrderFragment()
         }
         logOutBtn.setOnClickListener {
-            //val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this,MainActivity::class.java)
             auth.signOut()
             Log.d("!!!", "user: ${auth.currentUser}")
-
             finish()
-            //startActivity(intent)
+            startActivity(intent)
         }
 
     }
