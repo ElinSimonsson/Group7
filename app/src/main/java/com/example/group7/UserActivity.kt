@@ -7,9 +7,9 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
-import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,6 +22,7 @@ class UserActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
+    lateinit var userImage : ImageView
     var showOrHide = "show"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class UserActivity : AppCompatActivity() {
         db = Firebase.firestore
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
+        userImage = findViewById(R.id.userImage)
         val showHideBtn = findViewById<Button>(R.id.hideShowBtn)
 
         val actionBar: ActionBar? = supportActionBar
