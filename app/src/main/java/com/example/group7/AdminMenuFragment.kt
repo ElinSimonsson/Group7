@@ -100,7 +100,6 @@ class AdminMenuFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("!!!", "onpause menuFragment!")
         menuFragmentIsRunning = false
     }
 

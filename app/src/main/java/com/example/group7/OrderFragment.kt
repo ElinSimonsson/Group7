@@ -83,22 +83,6 @@ class OrderFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        val docRef = db.collection("Order").document(getRestaurantName())
-            .collection("userOrders")
-        if (count == 0) {
-            count += 1
-        } else {
-            docRef.addSnapshotListener { snapshot, e ->
-                if (snapshot != null) {
-                    Log.d("!!!", "onStop körs, ny order!")
-                    
-                }
-            }
-        }
-    }
-
     fun fetchDocumentIdData (myCallback : (MutableList<DocumentId>)-> Unit) {
          db.collection("Order")
              .document(getRestaurantName())

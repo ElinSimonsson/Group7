@@ -32,8 +32,8 @@
     <string name="yourOrder_textview">Din beställning:</string>
     <string name="shoppingCartTotalPrice_textview">%1$d kr</string>
     <string name="total_textview">Totalt</string>
-    <string name="hintName_textview">Ditt namn</string>
-    <string name="hintPhoneNumber_textview">Ditt mobilnummer</string>
+    <string name="hintName_textview">Namn</string>
+    <string name="hintPhoneNumber_textview">Mobilnummer</string>
     <string name="hintPostCode_textview">Postnummer</string>
     <string name="hintAddress_textview">Adress</string>
     <string name="hintCity_textview">Stad</string>
@@ -42,9 +42,9 @@
     <string name="month_textview">MM</string>
     <string name="year_textview">ÅÅ</string>
     <string name="CCV_textview">CCV/CVV (tre siffror)</string>
-    <string name="expirationDate_textview">sista giltighetsdag</string>
+    <string name="expirationDate_textview">Sista giltighetsdag</string>
     <string name="virgule_textview">/</string>
-    <string name="titleQuestionWindow">Hur vill du få din beställning</string>
+    <string name="titleQuestionWindow">Hur vill du få din beställning?</string>
     <string name="bodyTextQuestionWindow">Du kan välja mellan att få hem mat eller upphämtning på restaurangen</string>
     <string name="takeaway_button">Takeaway</string>
     <string name="homeDelivery_button">Hemkörning</string>
@@ -98,6 +98,7 @@
     <string name="postCodeRequired_textview">Du måste ange postnummer!</string>
     <string name="nameRequired_textview">Du måste ange ditt namn!</string>
     <string name="addressRequired_textview">Du måste ange din adress!</string>
+    <string name="yourProfile_textview">Din profil</string>
 
     <string name="adminDisplayItemSave_button">Spara</string>
     <string name="delete_button">Ta bort</string>
@@ -105,12 +106,15 @@
     <string name="food_button">Mat</string>
     <string name="drink_button">Dryck</string>
     <string name="logIn_button">Logga in</string>
+    <string name="profile_button">Profil</string>
     <string name="change_button">Ändra</string>
     <string name="pay_button">Betala</string>
     <string name="ok_button">Ok</string>
     <string name="saveAddress_button">Save address</string>
     <string name="signUp_button">Bli medlem</string>
     <string name="signIn_button">Logga in</string>
+    <string name="signOut_button">Logga ut</string>
+    <string name="save_button">Spara</string>
     <string name="menu_button">Meny</string>
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Bekräfta ordern</string>
