@@ -10,8 +10,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -91,6 +94,8 @@ class AdminMenuFragment : Fragment() {
             intentFab.putExtra("restaurantNameFAB", restaurantName)
             startActivity(intentFab)
         }
+
+
     }
 
     override fun onPause() {
