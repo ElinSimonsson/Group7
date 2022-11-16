@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
@@ -14,6 +15,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,13 +37,15 @@ class PaymentActivity : AppCompatActivity() {
     lateinit var cardNumber : EditText
     lateinit var phoneNumberET : EditText
     lateinit var db : FirebaseFirestore
+    lateinit var auth : FirebaseAuth
+    var user: FirebaseUser? = null
     var userDeliveryChoice = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
         db = Firebase.firestore
-        val auth = Firebase.auth
+        auth = Firebase.auth
 
         ccvText = findViewById(R.id.edit3number)
         monthText = findViewById(R.id.editMonthNumber)
@@ -56,7 +60,7 @@ class PaymentActivity : AppCompatActivity() {
         titleWayToGetFoodTV = findViewById(R.id.titleWayToGetFoodTV)
         val payBtn2: Button = findViewById(R.id.payBtn2)
 
-        var user: FirebaseUser?
+
         showTakeawayOrDeliveryWindow()
 
         var restaurantName = intent.getStringExtra(RES_NAME_PAYMENT)
@@ -81,38 +85,11 @@ class PaymentActivity : AppCompatActivity() {
 
          user = auth.currentUser
         if (user?.email != null) {
-            val docRef = db.collection("users")
-                .document(user.uid)
-            docRef.get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val name = document.data?.get("name")
-                        val address = document.data?.get("address")
-                        val phoneNumber = document.data?.get("phoneNumber")
-                        val city = document.data?.get("city")
-                        val postCode = document.data?.get("postCode")
 
-                        if (name != null) {
-                            nameText.setText(name.toString())
-                        }
-                        if (address != null) {
-                            addressText.setText(address.toString())
-                        }
-                        if (phoneNumber != null) {
-                            phoneNumberET.setText(phoneNumber.toString())
-                        }
-                        if (city != null) {
-                            cityText.setText(city.toString())
-                        }
-                        if (postCode != null) {
-                            postText.setText(postCode.toString())
-                        }
-                    }
-                }
+            displayUserDataIfSavedInFireStore()
 
 
             payBtn2.setOnClickListener {
-
 
                 val user_msg_error: String = ccvText.text.toString()
 
@@ -175,93 +152,8 @@ class PaymentActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    //User information from input to Map
-                    user = auth.currentUser
-                    val userData = hashMapOf(
-                        "postText" to postText.text.toString(),
-                        "name" to nameText.text.toString(),
-                        "address" to addressText.text.toString(),
-                        "phoneNumber" to phoneNumberET.text.toString(),
-                        "cityText" to cityText.text.toString(),
-                        "user" to user?.uid,
-                        "userChoice" to userDeliveryChoice
-                    )
-                    Log.d("!!!", "city : ${cityText.text}")
 
-
-                    val name = hashMapOf(
-                        "name" to restaurantName
-                    )
-
-                    db.collection("Order")
-                        .document(restaurantName)
-                        .collection("userOrders")
-                        .add(name)
-                        .addOnSuccessListener { documentReference ->
-
-                            for (items in DataManager.itemInCartList) {
-                                val order = hashMapOf(
-                                    "name" to items?.name.toString(),
-                                    "amount" to items?.totalCart.toString().toInt(),
-                                    "price" to items?.price.toString().toInt()
-                                )
-
-                                db.collection("Order")
-                                    .document(restaurantName)
-                                    .collection("userOrders")
-                                    .document(documentReference.id)
-                                    .collection("Items")
-                                    .add(order)
-                                    .addOnSuccessListener {
-
-                                        Toast.makeText(this, "Order confirmed", Toast.LENGTH_SHORT)
-                                            .show()
-                                        Log.d("!!!", "Added order successfully")
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(
-                                            this,
-                                            "Failed to add order",
-                                            Toast.LENGTH_SHORT
-                                        )
-                                            .show()
-                                        Log.d("!!!", "Failed to add item")
-                                    }
-                            }
-
-                            db.collection("Order")
-                                .document(restaurantName)
-                                .collection("userOrders")
-                                .document(documentReference.id)
-                                .collection("userData")
-                                .add(userData)
-                                .addOnSuccessListener {
-
-                                    Toast.makeText(this, "Order confirmed", Toast.LENGTH_SHORT)
-                                        .show()
-                                    Log.d("!!!", "Added order successfully")
-
-                                }
-
-                                .addOnFailureListener {
-                                    Log.d("!!!", "failed to upload data")
-                                }
-
-                        }
-
-                    //Om en användare är inloggad men inte har någon sparad information så sparas userData till den specifika användaren i firestore
-//                    if (!savedUserInfo) {
-//                        db.collection("users").document(auth.currentUser!!.uid)
-//                            .collection("userData").add(userData)
-//                            .addOnSuccessListener {
-//                                Toast.makeText(this, "UserData saved", Toast.LENGTH_SHORT).show()
-//                            }
-//
-//
-//                    }
-
-                    //userData
-
+                    saveItemsAndUserDataFireStore()
 
                     val intent = Intent(this, SuccessPaymentActivity::class.java)
                     intent.putExtra(RES_NAME_SUCCESS_PAYMENT, restaurantName)
@@ -303,6 +195,112 @@ class PaymentActivity : AppCompatActivity() {
             titleWayToGetFoodTV.text = getString(R.string.takeaway_textview)
             dialog.dismiss()
         }
+    }
+
+    fun displayUserDataIfSavedInFireStore () {
+        user = auth.currentUser
+
+            val docRef = db.collection("users")
+                .document(user!!.uid)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val name = document.data?.get("name")
+                        val address = document.data?.get("address")
+                        val phoneNumber = document.data?.get("phoneNumber")
+                        val city = document.data?.get("city")
+                        val postCode = document.data?.get("postCode")
+
+                        if (name != null) {
+                            nameText.setText(name.toString())
+                        }
+                        if (address != null) {
+                            addressText.setText(address.toString())
+                        }
+                        if (phoneNumber != null) {
+                            phoneNumberET.setText(phoneNumber.toString())
+                        }
+                        if (city != null) {
+                            cityText.setText(city.toString())
+                        }
+                        if (postCode != null) {
+                            postText.setText(postCode.toString())
+                        }
+                    }
+                }
+        }
+
+
+    fun saveItemsAndUserDataFireStore () {
+        var restaurantName = intent.getStringExtra(RES_NAME_PAYMENT)
+        if (restaurantName == null) {
+            restaurantName = "No restaurant name"
+        }
+
+        user = auth.currentUser
+        val userData = hashMapOf(
+            "postText" to postText.text.toString(),
+            "name" to nameText.text.toString(),
+            "address" to addressText.text.toString(),
+            "phoneNumber" to phoneNumberET.text.toString(),
+            "cityText" to cityText.text.toString(),
+            "user" to user?.uid,
+            "userChoice" to userDeliveryChoice
+        )
+        Log.d("!!!", "city : ${cityText.text}")
+
+        val name = hashMapOf(
+            "name" to restaurantName
+        )
+
+        db.collection("Order")
+            .document(restaurantName)
+            .collection("userOrders")
+            .add(name)
+            .addOnSuccessListener { documentReference ->
+
+                for (items in DataManager.itemInCartList) {
+                    val order = hashMapOf(
+                        "name" to items?.name.toString(),
+                        "amount" to items?.totalCart.toString().toInt(),
+                        "price" to items?.price.toString().toInt()
+                    )
+
+                    db.collection("Order")
+                        .document(restaurantName)
+                        .collection("userOrders")
+                        .document(documentReference.id)
+                        .collection("Items")
+                        .add(order)
+                        .addOnSuccessListener {
+
+                            Log.d("!!!", "Added order successfully")
+                            DataManager.itemInCartList.clear()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                this,
+                                "Failed to add order",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            Log.d("!!!", "Failed to add item")
+                        }
+                }
+
+                db.collection("Order")
+                    .document(restaurantName)
+                    .collection("userOrders")
+                    .document(documentReference.id)
+                    .collection("userData")
+                    .add(userData)
+                    .addOnSuccessListener {
+                        Log.d("!!!", "Added order successfully")
+                    }
+                    .addOnFailureListener {
+                        Log.d("!!!", "failed to upload data")
+                    }
+            }
     }
 
     inner class MinMaxFilter() : InputFilter {

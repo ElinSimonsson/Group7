@@ -8,8 +8,10 @@
 
     <TextView
         android:id="@+id/menuTV"
-        android:layout_width="135dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/left_border"
         android:gravity="center"
@@ -17,12 +19,14 @@
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/orderTV" />
+        app:layout_constraintEnd_toStartOf="@+id/orderTV"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/orderTV"
-        android:layout_width="135dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/left_border"
         android:gravity="center"
@@ -30,14 +34,15 @@
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/logOutBtn" />
+        app:layout_constraintEnd_toStartOf="@+id/logOutBtn"
+        app:layout_constraintStart_toEndOf="@+id/menuTV" />
 
     <TextView
         android:id="@+id/logOutBtn"
-        android:layout_width="135dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/left_border"
         android:gravity="center"
@@ -46,6 +51,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/orderTV"
         app:layout_constraintTop_toBottomOf="@+id/adminContainer" />
 
     <FrameLayout

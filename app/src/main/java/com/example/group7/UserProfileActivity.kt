@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,6 +39,9 @@ class UserProfileActivity : AppCompatActivity() {
         cityEditText = findViewById(R.id.profileCityEditText)
         db = Firebase.firestore
         auth = Firebase.auth
+
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         displayCurrentUserData()
 
@@ -107,5 +111,11 @@ class UserProfileActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

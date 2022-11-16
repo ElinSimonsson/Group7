@@ -22,13 +22,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".userProfilActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".SuccessPaymentActivity"
             android:exported="false">
             <meta-data

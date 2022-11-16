@@ -1,5 +1,6 @@
 package com.example.group7
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -54,6 +55,8 @@ class SuccessPaymentActivity : AppCompatActivity() {
         snapShotListenerDelivery()
         okButton.setOnClickListener {
             deleteDeliveryTimeInFireStore()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             }
     }
 

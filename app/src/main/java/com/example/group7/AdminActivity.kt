@@ -3,6 +3,7 @@ package com.example.group7
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -39,10 +40,12 @@ class AdminActivity : AppCompatActivity() {
             replaceWithOrderFragment()
         }
         logOutBtn.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+            //val intent = Intent(this,MainActivity::class.java)
             auth.signOut()
+            Log.d("!!!", "user: ${auth.currentUser}")
+
             finish()
-            startActivity(intent)
+            //startActivity(intent)
         }
 
     }

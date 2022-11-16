@@ -32,8 +32,8 @@
     <string name="yourOrder_textview">Your order:</string>
     <string name="shoppingCartTotalPrice_textview">%1$d kr</string>
     <string name="total_textview">Total</string>
-    <string name="hintName_textview">Your name</string>
-    <string name="hintPhoneNumber_textview">Your phone number</string>
+    <string name="hintName_textview">Name</string>
+    <string name="hintPhoneNumber_textview">Phone number</string>
     <string name="hintPostCode_textview">Postcode</string>
     <string name="hintAddress_textview">Address</string>
     <string name="hintCity_textview">City</string>
@@ -97,6 +97,7 @@
     <string name="addressRequired_textview">You must enter your address!</string>
     <string name="postCodeRequired_textview">You must enter postcode!</string>
     <string name="nameRequired_textview">You must enter your name!</string>
+    <string name="yourProfile_textview">Your profile</string>
 
     <string name="goToCheckout_button">Go to checkout</string>
     <string name="food_button">Food</string>
@@ -108,6 +109,9 @@
     <string name="saveAddress_button">Save address</string>
     <string name="signUp_button">Sign up</string>
     <string name="signIn_button">Sign in</string>
+    <string name="signOut_button">Sign out</string>
+    <string name="save_button">Save</string>
+    <string name="profile_button">Profile</string>
     <string name="menu_button">Menu</string>
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Confirm the order</string>

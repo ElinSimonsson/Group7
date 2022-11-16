@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -31,8 +32,11 @@ class UserActivity : AppCompatActivity() {
         db = Firebase.firestore
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
-
         val showHideBtn = findViewById<Button>(R.id.hideShowBtn)
+
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         showHideBtn.setOnClickListener {
 
@@ -60,12 +64,8 @@ class UserActivity : AppCompatActivity() {
             signUp()
 
         }
-
-
-
-
-
     }
+
 
     private fun signIn() {
         val email = emailEditText.text.toString()
@@ -108,5 +108,10 @@ class UserActivity : AppCompatActivity() {
 
     }
 
-
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

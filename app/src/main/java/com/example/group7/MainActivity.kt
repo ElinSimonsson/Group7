@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageId: Array<Int>
     lateinit var heading: Array<String>
     lateinit var address: Array<String>
-    lateinit var userBtn: Button
+    lateinit var userBtn: TextView
     lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
 
@@ -34,12 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         auth = Firebase.auth
-        //auth.signOut()
-
-//        val user = auth.currentUser
-//        if (user == null) {
-//            signInAnonymously()
-//        }
 
         imageId = arrayOf(
             R.drawable.roots,
@@ -82,8 +76,84 @@ class MainActivity : AppCompatActivity() {
         getRestaurantData()
 
 
-        userBtn = findViewById<Button>(R.id.userBtn)
+        userBtn = findViewById(R.id.userBtn)
         signInBtn()
+    }
+//
+//    public override fun onStart() {
+//        super.onStart()
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        val currentUser = auth.currentUser
+//        Log.d("!!!", "${currentUser?.isAnonymous}")
+//        //updateUI(currentUser)
+//    }
+
+    override fun onResume() {
+        super.onResume()
+        val user = auth.currentUser
+
+        if (user == null) {
+            signInAnonymously()
+            userBtn.text = getString(R.string.signIn_button)
+
+            userBtn.setOnClickListener {
+                val intent = Intent(this, UserActivity::class.java)
+                startActivity(intent)
+            }
+        }
+         else {
+            if (!user.isAnonymous) {
+                userBtn.text = getString(R.string.profile_button)
+
+                userBtn.setOnClickListener {
+                    val intent = Intent(this, UserProfileActivity::class.java)
+                    startActivity(intent)
+                }
+            } else {
+                userBtn.text = getString(R.string.signIn_button)
+
+                userBtn.setOnClickListener {
+                    val intent = Intent(this, UserActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        if (auth.currentUser?.email == "mcdonalds@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Mcdonalds")
+            startActivity(intentAdmin)
+        }
+        if (auth.currentUser?.email == "asiankitchen@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Asian Kitchen")
+            startActivity(intentAdmin)
+        }
+        if (auth.currentUser?.email == "rootssoil@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Roots & Soil")
+            startActivity(intentAdmin)
+        }
+        if (auth.currentUser?.email == "primociaociao@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Primo Ciao Ciao")
+            startActivity(intentAdmin)
+        }
+        if (auth.currentUser?.email == "bankomat@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "BankOmat")
+            startActivity(intentAdmin)
+        }
+        if (auth.currentUser?.email == "chamsin@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "Chamsin")
+            startActivity(intentAdmin)
+        }
+        if (auth.currentUser?.email == "ilforno@admin.se") {
+            val intentAdmin = Intent(this, AdminActivity::class.java)
+            intentAdmin.putExtra(RES_MAIN, "IL Forno")
+            startActivity(intentAdmin)
+        }
 
     }
 
@@ -100,101 +170,12 @@ class MainActivity : AppCompatActivity() {
 
     fun signInBtn() {
         if (auth.currentUser?.email == null) {
-            userBtn.text = "Sign in"
+            userBtn.text = getString(R.string.signIn_button)
             userBtn.setOnClickListener {
                 val intent = Intent(this, UserActivity::class.java)
                 startActivity(intent)
             }
         }
-    }
-
-
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        Log.d("!!!", "${currentUser?.isAnonymous}")
-        //updateUI(currentUser)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val user = auth.currentUser
-
-        if (user == null) {
-            signInAnonymously()
-            userBtn.text = "Log in"
-
-            userBtn.setOnClickListener {
-                val intent = Intent(this, UserActivity::class.java)
-                startActivity(intent)
-            }
-        }
-         else {
-            if (!user.isAnonymous) {
-                userBtn.text = "Profile"
-
-                userBtn.setOnClickListener {
-                    val intent = Intent(this, UserProfileActivity::class.java)
-                    startActivity(intent)
-                }
-            } else {
-                userBtn.text = "Log in"
-
-                userBtn.setOnClickListener {
-                    val intent = Intent(this, UserActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-        }
-
-        if (auth.currentUser?.email == "mcdonalds@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "Mcdonalds")
-            startActivity(intentAdmin)
-            finish()
-        }
-        if (auth.currentUser?.email == "asiankitchen@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "Asian Kitchen")
-            startActivity(intentAdmin)
-            finish()
-        }
-        if (auth.currentUser?.email == "rootssoil@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "Roots & Soil")
-            startActivity(intentAdmin)
-            finish()
-        }
-        if (auth.currentUser?.email == "primociaociao@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "Primo Ciao Ciao")
-            startActivity(intentAdmin)
-            finish()
-        }
-        if (auth.currentUser?.email == "bankomat@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "BankOmat")
-            startActivity(intentAdmin)
-            finish()
-        }
-        if (auth.currentUser?.email == "chamsin@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "Chamsin")
-            startActivity(intentAdmin)
-            finish()
-        }
-        if (auth.currentUser?.email == "ilforno@admin.se") {
-            val intentAdmin = Intent(this, AdminActivity::class.java)
-            intentAdmin.putExtra(RES_MAIN, "IL Forno")
-            startActivity(intentAdmin)
-            finish()
-        }
-
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-
     }
 
     private fun getRestaurantData() {
@@ -214,8 +195,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("restaurant", newArrayList[position].restaurantHeading)
                 startActivity(intent)
             }
-        }
-        )
+        } )
     }
 
     private operator fun Button.get(i: Int) {
