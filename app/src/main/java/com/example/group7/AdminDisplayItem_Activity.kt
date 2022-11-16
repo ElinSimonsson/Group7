@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Gallery
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Switch
@@ -73,7 +72,7 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
         //sedan hämtar den URL ifrån storage på den bilden och fyller newImage med den strängen. Som sedan skickas till NewImage
         //funktionen om användaren väljer att spara den nya varan.
 
-        var resultLauncher =
+        val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
 
@@ -134,11 +133,11 @@ class AdminDisplayItem_Activity : AppCompatActivity() {
             }
             switch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    switch.text="drink"
+                    switch.text= getString(R.string.drink_switch)
                     type = "drink"
                 }
                 else {
-                    switch.text ="menu"
+                    switch.text = getString(R.string.menu_switch)
                     type = "menu"
                 }
             }

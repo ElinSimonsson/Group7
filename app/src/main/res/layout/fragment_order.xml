@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Översikt över ordrar"
+        android:text="@string/overviewOfOrders_textview"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"

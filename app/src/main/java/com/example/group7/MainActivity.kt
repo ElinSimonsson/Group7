@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var newArrayList: ArrayList<RestaurantsData>
     lateinit var imageId: Array<Int>
     lateinit var heading: Array<String>
-    lateinit var distance: Array<String>
+    lateinit var address: Array<String>
     lateinit var userBtn: Button
     lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
@@ -59,21 +59,27 @@ class MainActivity : AppCompatActivity() {
             "IL Forno"
         )
 
-        distance = arrayOf(
-            "Distans 120m",
-            "Distans 400m",
-            "Distans 520m",
-            "Distans 500m",
-            "Distans 450m",
-            "Distans 1km"
-        )
+        address = arrayOf(
+            "Årstaängsvägen 21B, \n" +
+                    "117 43 Stockholm",
+            "Sjövikstorget 4, \n" +
+                    "117 60 Stockholm",
+            "Sjövikstorget 9, \n" +
+                    "117 58 Stockholm",
+            "Sjövikskajen 6, \n" +
+                    "117 58 Stockholm",
+            "Liljeholmsvägen 10, \n" +
+                    "117 61 Stockholm",
+            "Liljeholmstorget 5, \n" +
+                    "117 63 Stockholm"
+            )
 
         newRecyclerView = findViewById(R.id.restaurantRecyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
 
         newArrayList = arrayListOf()
-        getUserdata()
+        getRestaurantData()
 
 
         userBtn = findViewById<Button>(R.id.userBtn)
@@ -184,9 +190,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun getUserdata() {
+    private fun getRestaurantData() {
         for (i in imageId.indices) {
-            val restaurant = RestaurantsData(imageId[i], heading[i], distance[i])
+            val restaurant = RestaurantsData(imageId[i], heading[i], address[i])
             newArrayList.add(restaurant)
         }
 
@@ -203,9 +209,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         )
-    }
-
-
     }
 
     private operator fun Button.get(i: Int) {

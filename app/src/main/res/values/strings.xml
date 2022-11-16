@@ -65,6 +65,7 @@
     <string name="adminDrinkPrice_textview">%1$d kr</string>
     <string name="uploading_textview">Uploading..</string>
     <string name="orderEstimatedReady_textview">The order is estimated to be ready about</string>
+    <string name="estimatedDeliveryTime_textview">%1$s</string>
     <string name="hintMinutes_editText">Enter minutes</string>
     <string name="customerTitle_textview">Customer</string>
     <string name="customerName_textview">Name: %1$s</string>
@@ -76,7 +77,26 @@
     <string name="customerHomeDelivery_textview">Home delivery</string>
     <string name="estimatedHomeDelivery_textview">Estimated home delivery about</string>
     <string name="newOrderTitle">New order!</string>
-
+    <string name="mainAddress_textview">%1$s</string>
+    <string name="mainRestaurantHeading_textview">%1$s</string>
+    <string name="titleDialog_textview">There are items in your cart!</string>
+    <string name="messageDialog_textview">The shopping cart will be emptied, \ndo you still want to continue?</string>
+    <string name="hintAdminDisplayItemName_editText">Name</string>
+    <string name="hintAdminDisplayItemPrice_editText">Price</string>
+    <string name="menu_switch">Menu</string>
+    <string name="drink_switch">Drink</string>
+    <string name="adminDisplayItemSave_button">Save</string>
+    <string name="delete_button">Delete</string>
+    <string name="overviewOfOrders_textview">Overview of orders</string>
+    <string name="order_textview">Order %1$d</string>
+    <string name="ccvRequired_textview">You must enter CCV/CVV!</string>
+    <string name="yearRequired_textview">You must enter year!</string>
+    <string name="monthRequired_textview">You must enter month!</string>
+    <string name="cardNumberRequired_textview">You must enter your card number!</string>
+    <string name="cityRequired_textview">You must enter city!</string>
+    <string name="addressRequired_textview">You must enter your address!</string>
+    <string name="postCodeRequired_textview">You must enter postcode!</string>
+    <string name="nameRequired_textview">You must enter your name!</string>
 
     <string name="goToCheckout_button">Go to checkout</string>
     <string name="food_button">Food</string>
@@ -92,6 +112,14 @@
     <string name="order_button">Order</string>
     <string name="confirmOrder_button">Confirm the order</string>
     <string name="goToOverviewOfOrders_button">Go to overview of orders</string>
+    <string name="yes_button">Yes</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="show_button">Show</string>
+    <string name="hide_button">Hide</string>
+    <string name="amount_textview">%1$d</string>
+    <string name="orderItem_textview">%1$s</string>
+    <string name="x_textview">x</string>
+    <string name="showOrder_button">Show the order</string>
 
 
 </resources>

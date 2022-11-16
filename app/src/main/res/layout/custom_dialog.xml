@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,7 +23,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:text="Det finns varor i din varukorg!"
+                android:text="@string/titleDialog_textview"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -38,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Varukorgen kommer att tömmas,\n vill du fortsätta ändå?"
+                android:text="@string/messageDialog_textview"
                 android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
@@ -53,7 +52,7 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/red_list_divider"
                 android:gravity="center"
-                android:text="Avbryt"
+                android:text="@string/cancel_button"
                 android:textColor="#D50000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +70,7 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/red_rounded_corners"
                 android:gravity="center"
-                android:text="Ja"
+                android:text="@string/yes_button"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"

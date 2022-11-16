@@ -1,8 +1,7 @@
 package com.example.group7
 
-import android.content.Context
+
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,10 +27,10 @@ class OrderRecycleAdapter(
         var currentPosition = position
 
         val currentDocumentId = listOfDocumentId[position]
-
+        val context = holder.itemView.context
         holder.currentPosition = position
         currentPosition++
-        holder.orderTextView.text = "Order " + currentPosition
+        holder.orderTextView.text = context.getString(R.string.order_textview, currentPosition)
         holder.documentId = currentDocumentId.documentId.toString()
 
     }
@@ -42,8 +41,8 @@ class OrderRecycleAdapter(
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val orderTextView = itemView.findViewById<TextView>(R.id.orderTextView)
-        val seeOrderBtn = itemView.findViewById<Button>(R.id.seeOrderButton)
+        val orderTextView: TextView = itemView.findViewById(R.id.orderTextView)
+        private val seeOrderBtn = itemView.findViewById<Button>(R.id.seeOrderButton)
         var documentId = " "
         var currentPosition = 1
 
